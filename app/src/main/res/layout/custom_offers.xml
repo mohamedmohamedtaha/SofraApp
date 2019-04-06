@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/IM_Show_Image"
+
+        style="@style/StyleForImageViewCustom"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/TV_Show_Ofer"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        tools:text="@string/connect_us"
+        android:textStyle="bold"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/TV_Show_Name_Restaurant"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        tools:text="@string/connect_us"
+        android:textStyle="bold"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_below="@+id/TV_Show_Ofer"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/TV_Show_Porit"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        tools:text="@string/connect_us"
+        android:textStyle="bold"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_below="@+id/TV_Show_Name_Restaurant"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/TV_Show_Price"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        tools:text="@string/connect_us"
+        android:textStyle="bold"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_below="@+id/TV_Show_Porit"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

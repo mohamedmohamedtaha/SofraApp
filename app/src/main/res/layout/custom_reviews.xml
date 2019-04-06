@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/Adapter_Reviews_Name_Review"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_l"
+        tools:text="@string/price"
+        android:layout_height="wrap_content" />
+    <RatingBar
+        android:id="@+id/Adapter_Reviews_RB_Rate_Reviews"
+        style="?android:attr/ratingBarStyleSmall"
+        android:numStars="5"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/Adapter_Reviews_Date_Review"
+        android:layout_below="@id/Adapter_Reviews_RB_Rate_Reviews"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dimens_m"
+        android:layout_marginStart="@dimen/dimens_xxxl"
+        tools:text="@string/price"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/Adapter_Reviews_Detaile_Review"
+        android:layout_below="@id/Adapter_Reviews_Name_Review"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
+        tools:text="@string/price"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/Adapter_Reviews_Detaile_Review"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+</RelativeLayout>

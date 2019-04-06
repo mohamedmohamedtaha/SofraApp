@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/IM_Show_Image"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_hundrand" />
+    <TextView
+        android:id="@+id/TV_Show_Name_Restaurant"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/IM_Show_Image"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/txt_size_l"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_height="wrap_content"
+        tools:text="@string/send"/>
+    <TextView
+        android:id="@+id/TV_Show_Types"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_below="@+id/TV_Show_Name_Restaurant"
+        android:layout_toStartOf="@+id/IM_Show_Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/send"/>
+    <RatingBar
+        android:id="@+id/RB_Rate_Restaurant"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_below="@+id/TV_Show_Types"
+        android:numStars="5"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_toStartOf="@+id/IM_Show_Image"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/TV_Is_Open"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorButtonLogin"
+        tools:text="@string/open_now"/>
+
+    <TextView
+        android:layout_below="@+id/TV_Is_Open"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@+id/TV_Min_Order"
+        android:layout_height="wrap_content"
+        android:text="@string/min_order"/>
+
+    <TextView
+        android:id="@+id/TV_Min_Order"
+        android:layout_below="@+id/TV_Is_Open"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/price"/>
+
+    <TextView
+        android:id="@+id/TV_Price_Delevery"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Min_Order"
+        tools:text="@string/price"/>
+
+    <TextView
+        android:layout_below="@+id/TV_Min_Order"
+        android:layout_marginStart="@dimen/dimens_xxl"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@+id/TV_Price_Delevery"
+        android:layout_height="wrap_content"
+        android:text="@string/price_delevery"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/TV_Price_Delevery"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+
+</RelativeLayout>

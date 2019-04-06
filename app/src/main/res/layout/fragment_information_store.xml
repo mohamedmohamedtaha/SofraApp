@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.InformationStoreFragment">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/InformationStoreFragment_State"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            tools:text="@string/price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/state" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:background="@android:color/darker_gray" />
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/InformationStoreFragment_City"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            tools:text="@string/price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/select_city" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:background="@android:color/darker_gray" />
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/InformationStoreFragment_Hay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            tools:text="@string/price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/select_elhay_only" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:background="@android:color/darker_gray" />
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/InformationStoreFragment_MIN_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            tools:text="@string/price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/min_order" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:background="@android:color/darker_gray" />
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/InformationStoreFragment_Price_Delevery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            tools:text="@string/price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/price_delevery" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:background="@android:color/darker_gray" />
+</TableLayout>

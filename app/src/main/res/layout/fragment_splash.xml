@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    tools:context=".app.ui.fragment.SplashFragment">
+
+
+    <ImageView style="@style/StyleForImageView"
+        android:layout_marginTop="@dimen/dimens_hundrand"/>
+    <TextView
+        android:id="@+id/TV_Slogen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/slogen"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/cairo_bold"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/Order_Food"
+        android:layout_below="@id/TV_Slogen"
+        android:layout_marginTop="@dimen/dimens_6xl"
+        style="@style/StyleButtonBlack"
+        android:background="@color/colorButtonCreate"
+        android:text="@string/order_food" />
+
+    <Button
+        android:id="@+id/Sell_Food"
+        android:layout_below="@id/Order_Food"
+        style="@style/StyleButtonBlack"
+        android:background="@color/colorButtonCreate"
+        android:text="@string/sell_food" />
+    <TextView
+        android:id="@+id/TV_Copy_Right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimens_xl"
+        android:gravity="center"
+        android:text="@string/copy_right"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:fontFamily="@font/cairo_bold"
+        android:textStyle="bold" />
+</RelativeLayout>

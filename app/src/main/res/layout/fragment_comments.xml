@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.ui.fragment.ReviewsFragment">
+
+    <TextView
+        android:id="@+id/ReviewsFragment_TV_Show_Commet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_marginTop="@dimen/dimens_m"
+        android:gravity="center"
+        android:text="@string/reviews"
+        android:textSize="@dimen/txt_size_l" />
+    <Button
+        android:id="@+id/ReviewsFragment_BT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ReviewsFragment_TV_Show_Commet"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorButtonCreate"
+        android:drawableEnd="@drawable/ic_start_dark"
+        android:drawablePadding="@dimen/dimens_m"
+        android:fontFamily="@font/cairo"
+        android:paddingStart="@dimen/dimens_xxxl"
+        android:paddingEnd="@dimen/dimens_xxxl"
+        android:text="@string/add_review"
+        android:textColor="@android:color/white" />
+    <ListView
+        android:id="@+id/ReviewsFragment_LV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ReviewsFragment_BT"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true">
+
+    </ListView>
+    <!-- Empty view is only visible when the list has no items. -->
+    <TextView
+        android:id="@+id/ReviewsFragment_TV_Empty_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_data"
+        android:textAppearance="?android:textAppearanceMedium" />
+    <!-- Loading indicator is only shown before the first load -->
+    <ProgressBar
+        android:id="@+id/ReviewsFragment_Loading_Indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

@@ -1,0 +1,154 @@
+<resources>
+    <string name="app_name">Sofra</string>
+
+    <string name="exit_app">أضغط مرة أخرى للخروج.</string>
+    <string name="copy_right">جميع الحقوق محفوظة لتطبيق سفرة 2018</string>
+    <string name="slogen">التطبيق الأول لبيع وطلب الطعام</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">مرحبابك..</string>
+    <string name="nav_header_subtitle">Name User</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="rememberMy">تذكرني</string>
+    <string name="forget_my_password">نسيت كلمة المرور ؟</string>
+    <string name="forget_my_password_l">نسيت كلمة المرور </string>
+
+    <string name="code_change_my_password">برجاء إرسال الكود المرسل إليكم</string>
+    <string name="enter_email">برجاء إدخال بريدك الإلكتروني</string>
+
+    <string name="send">إرسال</string>
+
+    <string name="login">تسجيل دخول </string>
+    <string name="create_new_user">إنشاء حساب جديد</string>
+    <string name="name">الاسم</string>
+
+    <string name="order_food">طلب طعام </string>
+    <string name="sell_food">بيع طعام </string>
+
+    <string name="no_internet">للأسف , لا يوجد إتصال بالأنترنت </string>
+
+    <string name="check_code">Check code</string>
+    <string name="time_out">Time Out ! Request again to reset password.</string>
+    <string name="remind_time">الوقت المتبقي :</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="filed_request">كل الحقول مطلوبة </string>
+    <string name="select_elhay">اختر الحي </string>
+    <string name="closed">closed </string>
+
+
+    <string name="select_city">المدينة</string>
+    <string name="retry_password">إعادة كلمةالمرور</string>
+    <string name="phone">الموبايل</string>
+    <string name="regester">تسجيل</string>
+    <string name="change_password">تغير كلمة المرور</string>
+    <string name="login_please">تفضل بتسجيل الدخول</string>
+    <string name="code">#######</string>
+    <string name="enter_new_password">ادخل كلمة المرور الجديدة</string>
+    <string name="change">تغيير</string>
+
+    <!-- Activity_main_drawer.xml-->
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="connect_us">تواصل معنا</string>
+    <string name="home">الصفحة الرئيسية </string>
+    <string name="my_orders">طلباتي </string>
+    <string name="new_offers">جديد العروض  </string>
+    <string name="tearms">الشروط والأحكام </string>
+    <string name="alarms">التنبيهات</string>
+    <string name="log_out">تسجيل الخروج</string>
+    <string name="descrep_home">وصف السكن</string>
+    <string name="select_hay">الحي</string>
+    <string name="next">التالي</string>
+
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_data">لا توجد بيانات</string>
+    <string name="content">التفاصيل</string>
+    <string name="suggest">اقتراح</string>
+    <string name="problem">شكوى</string>
+    <string name="estalam">استعلام</string>
+    <string name="content_us_on">تابعنا على :</string>
+    <string name="complaint">complaint</string>
+    <string name="suggestion">suggestion</string>
+    <string name="inquiry">inquiry</string>
+    <string name="open_now">مفتوح الأن</string>
+    <string name="open_ar">مفتوح </string>
+    <string name="open_en">open </string>
+    <string name="close_ar">مغلق </string>
+
+    <string name="min_order">الحد الأدنى للطلب</string>
+    <string name="price_delevery">رسوم التوصيل</string>
+    <string name="price">16ريال</string>
+    <string name="price_only">السعر</string>
+
+    <string name="list_food">قائمة الطعام</string>
+    <string name="comments_food">التعليقات والتقييم</string>
+    <string name="information_store">معلومات المتجر</string>
+    <string name="reviews">يسعدنا مشاركتك بتعليق أو تقييم</string>
+    <string name="add_review">أضف تقييم أو تعليق</string>
+    <string name="review_restaurant">قيم المطعم</string>
+    <string name="add_review_only">أضف تعليق</string>
+    <string name="add">أضف</string>
+    <string name="add_review_here">أضف تعليق هنا</string>
+    <string name="api_request">يجب أن تقوم بتسجيل الدخول أولا</string>
+    <string name="state">الحالة</string>
+    <string name="select_elhay_only">الحي</string>
+    <string name="ryal">ريال</string>
+    <string name="time_request">  مدة تجهيز الطلب : </string>
+    <string name="private_request">طلب خاص</string>
+    <string name="amount">الكمية</string>
+    <string name="add_bag">أضف إلى السلة</string>
+    <string name="edit">تعديل</string>
+    <string name="add_photo">أضف صورة</string>
+    <string name="no_permission_access">لا تملك إذن الوصول إلى الصور</string>
+    <string name="error_image">يجب إختيار صورة شخصية</string>
+    <string name="select_action">اختيار</string>
+    <string name="select_galary">اختيار من الاستوديو</string>
+    <string name="capture_camira">فتح الكاميرا</string>
+    <string name="name_short">الاسم المختصر</string>
+    <string name="data_contact">بيانات التواصل</string>
+    <string name="photo_store">صورة المتجر</string>
+    <string name="whatsapp">الواتس اب</string>
+    <string name="contiue">متابعة</string>
+    <string name="current_order">الطلبات الحالية</string>
+    <string name="previus_order">الطلبات السابقة</string>
+    <string name="number_order">رقم الطلب :</string>
+    <string name="totally">الإجمالي:</string>
+    <string name="delevery">التوصيل :</string>
+    <string name="done_delevery">استلام</string>
+    <string name="not_delevery">رفض</string>
+    <string name="must_login">يجب أن تقوم بتسجل الدخول أولاً</string>
+    <string name="no_order_current">لا توجد طلبات حالية</string>
+    <string name="no_order_prev">لا توجد طلبات سابقة</string>
+    <string name="product_my">منتجاتي</string>
+    <string name="order_provide">الطلبات المقدمة</string>
+    <string name="my_offer">عروضي</string>
+    <string name="tax">العمولة</string>
+    <string name="error">حدث خطأ</string>
+    <string name="add_new_product">أضف منتج جديد</string>
+    <string name="name_product">اسم المنتج</string>
+    <string name="priod_order">فترة تجهيز الطلب</string>
+    <string name="add_picture_product">اضافة صورة للمنتج</string>
+    <string name="descrep_pref">وصف مختصر</string>
+    <string name="add_picture_offer">اضافة صورة للعرض</string>
+    <string name="add_new_offer">أضف عرض جديد</string>
+
+</resources>

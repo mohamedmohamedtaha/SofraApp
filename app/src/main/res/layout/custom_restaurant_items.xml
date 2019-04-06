@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/Adapter_Restaurant_Items_IM_Show_Image"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_hundrand" />
+    <TextView
+        android:id="@+id/Adapter_Restaurant_Items_TV_Show_Name_Restaurant"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Adapter_Restaurant_Items_IM_Show_Image"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/txt_size_l"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_height="wrap_content"
+        tools:text="@string/send"/>
+    <TextView
+        android:id="@+id/Adapter_Restaurant_Items_TV_Show_Types"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_below="@+id/Adapter_Restaurant_Items_TV_Show_Name_Restaurant"
+        android:layout_toStartOf="@+id/Adapter_Restaurant_Items_IM_Show_Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/send"/>
+
+
+    <TextView
+        android:id="@+id/Adapter_Restaurant_Items_TV_Price_Item"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_m"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_below="@+id/Adapter_Restaurant_Items_TV_Price_Only"
+        tools:text="@string/price"/>
+
+    <TextView
+        android:id="@+id/Adapter_Restaurant_Items_TV_Price_Only"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xxxxl"
+        android:fontFamily="@font/cairo_bold"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_m"
+        android:text="@string/price_only"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/TV_Price_Delevery"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:background="@android:color/darker_gray"/>
+
+</RelativeLayout>

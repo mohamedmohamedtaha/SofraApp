@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@drawable/side_nav_bar"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+<RelativeLayout
+    android:layout_width="@dimen/dimens_hundrand"
+    android:layout_height="@dimen/dimens_hundrand"
+    android:background="@drawable/background_image_navigation"
+    >
+    <ImageView
+        android:id="@+id/IM_Image_User"
+        android:layout_width="@dimen/dimens_6xl"
+        android:layout_height="@dimen/dimens_6xl"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        app:srcCompat="@drawable/ic_user" />
+
+</RelativeLayout>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dimens_l"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="end"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_header_title"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:textSize="@dimen/txt_size_m"
+        android:fontFamily="@font/cairo_bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <TextView
+        android:id="@+id/TV_Navigation_Bar_Name_User"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:fontFamily="@font/cairo_bold"
+        android:textColor="@android:color/white"
+        android:text="@string/nav_header_subtitle" />
+    </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/IM_Ic_Settings"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/dimens_6xl"
+        android:layout_height="@dimen/dimens_6xl"
+        android:layout_gravity="end"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        app:srcCompat="@drawable/ic_settings" />
+
+</RelativeLayout>

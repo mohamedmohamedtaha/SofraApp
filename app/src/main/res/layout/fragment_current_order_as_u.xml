@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.ui.fragment.CurrentOrderAsUSerFragment">
+
+
+    <ListView
+        android:id="@+id/CurrentOrderAsUSerFragment_List_View"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="true"
+        android:visibility="gone"
+        >
+    </ListView>
+    <!-- Empty view is only visible when the list has no items. -->
+
+    <RelativeLayout
+        android:id="@+id/CurrentOrderAsUSerFragment_RL_Empty_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/CurrentOrderAsUSerFragment_IV_Empty_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/logo"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_order_current"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/cairo_regular"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:textSize="@dimen/txt_size_xl"
+            android:layout_below="@+id/CurrentOrderAsUSerFragment_IV_Empty_Image"
+            android:textAppearance="?android:textAppearanceMedium" />
+    </RelativeLayout>
+
+    <!-- Loading indicator is only shown before the first load -->
+
+    <ProgressBar
+        android:id="@+id/CurrentOrderAsUSerFragment_PB_Loading_Indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
+
+</RelativeLayout>

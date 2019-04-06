@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.ProductMyFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ProductMyFragment_Recycler_View"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
+        android:visibility="gone"
+        ></android.support.v7.widget.RecyclerView>
+    <!-- Empty view is only visible when the list has no items. -->
+    <RelativeLayout
+        android:id="@+id/ProductMyFragment_RL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/ProductMyFragment_Empty_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/logo" />
+
+        <TextView
+            android:id="@+id/ProductMyFragment_TV_Empty_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ProductMyFragment_Empty_Image"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:fontFamily="@font/cairo_regular"
+            android:gravity="center"
+            android:text="@string/no_data"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_xl" />
+    </RelativeLayout>
+    <!-- Loading indicator is only shown before the first load -->
+    <ProgressBar
+        android:id="@+id/ProductMyFragment_Loading_Indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+    <Button
+        android:id="@+id/ProductMyFragment_BT_Add_New_Product"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimens_xl"
+        android:text="@string/add_new_product"
+        android:drawableEnd="@drawable/ic_add"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/txt_size_xl"
+        android:background="@color/colorButtonRegester"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.ui.fragment.mainCycle.AboutAppFragment">
+
+    <TextView
+        android:id="@+id/TV_Show_Title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/cairo_bold"
+        android:textSize="@dimen/txt_size_xl"
+        android:padding="@dimen/dimens_l"
+        />
+    <ProgressBar
+        android:id="@+id/about_app_progress"
+        style="@style/StyleProgressBar"
+
+        />
+
+</RelativeLayout>

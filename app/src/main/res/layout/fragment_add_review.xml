@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".app.ui.fragment.AddReviewFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:text="@string/review_restaurant"
+        android:textSize="@dimen/txt_size_l" />
+
+    <RatingBar
+        android:id="@+id/AddReviewFragment_RB_Rate_Reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:numStars="5"
+        android:stepSize="1.0" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/add_review_only"
+        android:textSize="@dimen/txt_size_l" />
+
+    <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/AddReviewFragment_ET_Add_Review_Here"
+            style="@style/StyleEditTextNull"
+            android:hint="@string/add_review_here"
+            android:inputType="textMultiLine"
+            android:lines="5"
+
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/AddReviewFragment_BT_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dimens_l"
+        android:background="@color/colorButtonCreate"
+        android:text="@string/add"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

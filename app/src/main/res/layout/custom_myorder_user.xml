@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/Custom_MyOrder_User_IM_Show_Image"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_hundrand"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_l" />
+
+    <TextView
+        android:id="@+id/Custom_MyOrder_User_TV_Show_Name_Restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_MyOrder_User_IM_Show_Image"
+        android:fontFamily="@font/cairo_bold"
+        android:textSize="@dimen/txt_size_l"
+        tools:text="@string/send" />
+
+    <TextView
+        android:id="@+id/Custom_MyOrder_User_TV_Show_Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_MyOrder_User_TV_Show_Name_Restaurant"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_MyOrder_User_IM_Show_Image"
+        android:text="@string/price" />
+
+    <TextView
+        android:id="@+id/Custom_MyOrder_User_TV_Is_Price_Delevery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_MyOrder_User_TV_Show_Price"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_MyOrder_User_IM_Show_Image"
+        android:text="@string/delevery" />
+
+    <TextView
+        android:id="@+id/Custom_MyOrder_User_TV_Is_Price_Totally"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_MyOrder_User_TV_Is_Price_Delevery"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_MyOrder_User_IM_Show_Image"
+        android:text="@string/totally" />
+
+        <TextView
+            android:id="@+id/Custom_MyOrder_User_TV_Number_Order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_6xl"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_toEndOf="@+id/Detail_Restaurant_Fragment_TV_Min_Order"
+            android:text="@string/number_order" />
+
+    <Button
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:id="@+id/Custom_MyOrder_User_BT_Not_Delevery"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_6xl"
+        android:layout_below="@+id/Custom_MyOrder_User_TV_Number_Order"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/not_delevery"
+        android:textColor="@android:color/white"
+        android:paddingEnd="@dimen/dimens_l"
+        android:paddingStart="@dimen/dimens_l"
+        />
+    <Button
+        android:id="@+id/Custom_MyOrder_User_BT_Done_Delevery"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_6xl"
+        android:layout_below="@+id/Custom_MyOrder_User_TV_Number_Order"
+        android:layout_toEndOf="@+id/Custom_MyOrder_User_BT_Not_Delevery"
+        android:background="@color/colorButtonLogin"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:text="@string/done_delevery"
+        android:drawableEnd="@drawable/ic_like"
+        android:textColor="@android:color/white"
+        android:paddingEnd="@dimen/dimens_l"
+        android:paddingStart="@dimen/dimens_l"
+        />
+
+</RelativeLayout>
