@@ -17,6 +17,15 @@
             android:layout_marginEnd="@dimen/dimens_l"
             android:layout_weight="1"
             tools:text="@string/price" />
+        <Switch
+            android:id="@+id/InformationStoreFragment_SW_State"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"/>
+
 
         <TextView
             android:layout_width="0dp"

@@ -2,7 +2,7 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +17,8 @@ import com.example.sofraapp.app.adapter.AdapterReviews;
 import com.example.sofraapp.app.data.model.general.reviews.Data2Reviews;
 import com.example.sofraapp.app.data.model.general.reviews.Reviews;
 import com.example.sofraapp.app.data.rest.APIServices;
-import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.SaveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,7 +57,6 @@ public class ReviewsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,33 +65,28 @@ public class ReviewsFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
         ReviewsFragmentLV.setEmptyView(ReviewsFragmentTVEmptyView);
+        ReviewsFragmentLoadingIndicator.setVisibility(View.VISIBLE);
         apiServices = getRetrofit().create(APIServices.class);
      //   if (saveData.getApi_token() != null ){
         apiServices.getReviews(saveData.getApi_token(), saveData.getId_position(),1).enqueue(new Callback<Reviews>() {
-
             @Override
             public void onResponse(Call<Reviews> call, Response<Reviews> response) {
                 Reviews reviews = response.body();
-                ReviewsFragmentLoadingIndicator.setVisibility(View.VISIBLE);
                 if (reviews.getStatus() == 1 ){
                     List<Data2Reviews> data2Reviews = reviews.getData().getData();
                     adapterReviews = new AdapterReviews(getActivity(),data2Reviews);
                     ReviewsFragmentLV.setAdapter(adapterReviews);
                     ReviewsFragmentLoadingIndicator.setVisibility(View.GONE);
-
                 }else {
                     Toast.makeText(getActivity(), reviews.getMsg(), Toast.LENGTH_SHORT).show();
                     ReviewsFragmentLoadingIndicator.setVisibility(View.GONE);
-
                 }
-
             }
 
             @Override
             public void onFailure(Call<Reviews> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 ReviewsFragmentLoadingIndicator.setVisibility(View.GONE);
-
             }
         });//}else {
             //ReviewsFragmentLoadingIndicator.setVisibility(View.GONE);

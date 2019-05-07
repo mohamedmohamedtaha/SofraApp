@@ -2,8 +2,8 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +50,7 @@ public class PreviousOrderAsUserFragment extends Fragment {
     Unbinder unbinder;
     private SaveData saveData;
     private APIServices apiServices;
-    private ArrayList<Data2MyOrdersAsUser> myOrdersAsUserArrayList = new ArrayList<>();
+    private List<Data2MyOrdersAsUser> myOrdersAsUserArrayList = new ArrayList<>();
     private AdapterMyOrderAndPreviousCustom adapterMyOrderAndPreviousCustom;
 
     public PreviousOrderAsUserFragment() {
@@ -66,14 +67,15 @@ public class PreviousOrderAsUserFragment extends Fragment {
         saveData = getArguments().getParcelable(GET_DATA);
         myOrdersAsUserArrayList.clear();
         PreviousOrderAsUserFragmentListView.setEmptyView(PreviousOrderAsUserFragmentRLEmptyView);
-        if (saveData.getApi_token() != null){
-            apiServices.getMyOrdersAsUser(saveData.getApi_token(), 1).enqueue(new Callback<MyOrdersAsUser>() {
+        apiServices = getRetrofit().create(APIServices.class);
+      //  if (saveData.getApi_token() != null){
+            apiServices.getMyOrdersAsUser("HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB","previous", 1).enqueue(new Callback<MyOrdersAsUser>() {
                 @Override
                 public void onResponse(Call<MyOrdersAsUser> call, Response<MyOrdersAsUser> response) {
                     MyOrdersAsUser myOrdersAsUser = response.body();
+                    myOrdersAsUserArrayList = myOrdersAsUser.getData().getData();
                     PreviousOrderAsUserFragmentPBLoadingIndicator.setVisibility(View.VISIBLE);
                     if (myOrdersAsUser.getStatus() == 1) {
-                        apiServices = getRetrofit().create(APIServices.class);
                         adapterMyOrderAndPreviousCustom = new AdapterMyOrderAndPreviousCustom(getActivity(), myOrdersAsUserArrayList
                                 , new AdapterMyOrderAndPreviousCustom.done() {
                             @Override
@@ -87,7 +89,7 @@ public class PreviousOrderAsUserFragment extends Fragment {
                             public void buttonReject(Data2MyOrdersAsUser position) {
 
                             }
-                        }, true);
+                        }, false);
                         PreviousOrderAsUserFragmentListView.setAdapter(adapterMyOrderAndPreviousCustom);
                         PreviousOrderAsUserFragmentPBLoadingIndicator.setVisibility(View.GONE);
 
@@ -105,9 +107,10 @@ public class PreviousOrderAsUserFragment extends Fragment {
 
 
                 }
-            });}else {
-            Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-        }
+            });
+    //}else {
+      //      Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+        //}
         return view;
     }
 

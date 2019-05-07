@@ -2,10 +2,10 @@ package com.example.sofraapp.app.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.helper.SaveData;
@@ -15,11 +15,9 @@ import com.example.sofraapp.app.ui.fragment.PreviousOrderAsUserFragment;
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 
 public class AdapterMyOrderUser extends FragmentPagerAdapter {
-
     private Context mContext;
     Bundle bundle;
     SaveData saveData;
-
     public AdapterMyOrderUser(Context mContext, FragmentManager fm, SaveData saveData) {
         super(fm);
         this.mContext = mContext;

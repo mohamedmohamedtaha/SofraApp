@@ -13,6 +13,33 @@ public class SaveData implements Parcelable {
     private String cityId;
     private String address;
     private int save_state;
+    private String hayId;
+    private String password;
+    private String retryPassword;
+
+    public String getHayId() {
+        return hayId;
+    }
+
+    public void setHayId(String hayId) {
+        this.hayId = hayId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRetryPassword() {
+        return retryPassword;
+    }
+
+    public void setRetryPassword(String retryPassword) {
+        this.retryPassword = retryPassword;
+    }
 
     public int getId_position() {
         return id_position;
@@ -124,6 +151,10 @@ public class SaveData implements Parcelable {
         address = in.readString();
         save_state = in.readInt();
         id_position = in.readInt();
+        hayId = in.readString();
+        password = in.readString();
+        retryPassword = in.readString();
+
     }
 
     public static final Creator<SaveData> CREATOR = new Creator<SaveData>() {
@@ -155,5 +186,8 @@ public class SaveData implements Parcelable {
         dest.writeString(address);
         dest.writeInt(save_state);
         dest.writeInt(id_position);
+        dest.writeString(hayId);
+        dest.writeString(password);
+        dest.writeString(retryPassword);
     }
 }

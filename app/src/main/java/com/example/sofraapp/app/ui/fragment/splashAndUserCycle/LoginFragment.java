@@ -2,9 +2,9 @@ package com.example.sofraapp.app.ui.fragment.splashAndUserCycle;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.model.cycleClient.login.Login;
+import com.example.sofraapp.app.data.model.cycleClient.loginclient.LoginClient;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 import com.example.sofraapp.app.ui.activity.MainActivity;
+import com.example.sofraapp.app.ui.fragment.cycleRestaurant.RegisterAsRestaurantTwoFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +67,6 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,38 +104,39 @@ public class LoginFragment extends Fragment {
                     return;
                 } else {
                     LoginFragmentProgressBar.setVisibility(View.VISIBLE);
-                    Call<Login> loginCall = APIServices.getLogin(email, password);
-                    loginCall.enqueue(new Callback<Login>() {
+                    Call<LoginClient> loginCall = APIServices.getLogin(email, password);
+                    loginCall.enqueue(new Callback<LoginClient>() {
                         @Override
-                        public void onResponse(Call<Login> call, Response<Login> response) {
+                        public void onResponse(Call<LoginClient> call, Response<LoginClient> response) {
                             try {
-                                Login login = response.body();
-                                if (login.getStatus() == 1) {
-                                    SaveData saveData = new SaveData(login.getData().getUser().getId(), login.getData().getApiToken(),
-                                            login.getData().getUser().getName(), login.getData().getUser().getPhone()
-                                            , login.getData().getUser().getEmail()
-                                            , login.getData().getUser().getRegion().getId()
-                                            , login.getData().getUser().getRegion().getCityId()
-                                            , login.getData().getUser().getAddress(),SAVE_STATE);
+                                LoginClient loginClient = response.body();
+                                if (loginClient.getStatus() == 1) {
+                                    SaveData saveData = new SaveData(loginClient.getData().getClient().getId(), loginClient.getData().getApiToken(),
+                                            loginClient.getData().getClient().getName(), loginClient.getData().getClient().getPhone()
+                                            , loginClient.getData().getClient().getEmail()
+                                            , loginClient.getData().getClient().getRegion().getId()
+                                            , loginClient.getData().getClient().getRegion().getCityId()
+                                            , loginClient.getData().getClient().getAddress(),SAVE_STATE);
                                     if (LoginFragmentCBRemeberMy.isChecked()) {
                                         remeberMy.saveDateUser(email, password, getAPI_key);
                                     }
                                     HelperMethod.startActivity(getActivity(), MainActivity.class, saveData);
-                                    Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), loginClient.getMsg(), Toast.LENGTH_LONG).show();
                                     LoginFragmentProgressBar.setVisibility(View.GONE);
                                 } else {
-                                    Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), loginClient.getMsg(), Toast.LENGTH_LONG).show();
                                     LoginFragmentProgressBar.setVisibility(View.GONE);
                                 }
 
                             } catch (Exception e) {
                                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                                 LoginFragmentProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "2", Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<Login> call, Throwable t) {
+                        public void onFailure(Call<LoginClient> call, Throwable t) {
                             LoginFragmentProgressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -148,10 +149,18 @@ public class LoginFragment extends Fragment {
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.forget_my_password), saveSate);
                 break;
             case R.id.LoginFragment_Cretae_New_User:
-                RegisterAsUserFragment regesterFragment = new RegisterAsUserFragment();
-                HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
+                if (saveSate.getSave_state() == 1){
+                    RegisterAsUserFragment regesterFragment = new RegisterAsUserFragment();
+                    HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.create_new_user), saveSate);
-                break;
+                }else if (saveSate.getSave_state() == 2){
+                    RegisterAsRestaurantTwoFragment registerAsRestaurantTwoFragment = new RegisterAsRestaurantTwoFragment();
+                    HelperMethod.replece(registerAsRestaurantTwoFragment, getActivity().getSupportFragmentManager(),
+                            R.id.Cycle_Home_contener, toolbar, getString(R.string.create_new_user), saveSate);
+                }else {
+                    Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+               break;
         }
     }
 }

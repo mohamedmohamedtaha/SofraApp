@@ -2,19 +2,17 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 import com.example.sofraapp.app.ui.activity.MainActivity;
-import com.example.sofraapp.app.ui.fragment.mainCycle.OffersFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

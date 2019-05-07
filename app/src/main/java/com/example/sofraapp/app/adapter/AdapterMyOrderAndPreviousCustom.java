@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.cycleClient.myordersasuser.Data2MyOrdersAsUser;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,9 +24,9 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
     Data2MyOrdersAsUser myOrdersAsUser;
     private done done;
     private reject reject;
-    private boolean isCurrent;
+    private boolean isCurrent = false;
 
-    public AdapterMyOrderAndPreviousCustom(Context context, ArrayList<Data2MyOrdersAsUser> myOrdersAsUsers, done done, reject reject, boolean isCurrent) {
+    public AdapterMyOrderAndPreviousCustom(Context context, List<Data2MyOrdersAsUser> myOrdersAsUsers, done done, reject reject, boolean isCurrent) {
         super(context, 0, myOrdersAsUsers);
         this.done = done;
         this.reject = reject;
@@ -41,31 +41,34 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
             view = LayoutInflater.from(getContext()).inflate(R.layout.custom_myorder_user, parent, false);
         }
         viewHolder = new ViewHolder(view);
-        myOrdersAsUser = getItem(position);
+         myOrdersAsUser = getItem(position);
         viewHolder.CustomMyOrderUserTVIsPriceDelevery.setText(myOrdersAsUser.getDeliveryCost());
         viewHolder.CustomMyOrderUserTVIsPriceTotally.setText(myOrdersAsUser.getTotal());
-        viewHolder.CustomMyOrderUserTVNumberOrder.setText(myOrdersAsUser.getPaymentMethodId());
         viewHolder.CustomMyOrderUserTVShowNameRestaurant.setText(myOrdersAsUser.getRestaurant().getName());
         viewHolder.CustomMyOrderUserTVShowPrice.setText(myOrdersAsUser.getCost());
         Glide.with(getContext()).load(myOrdersAsUser.getRestaurant().getPhotoUrl()).into(viewHolder.CustomMyOrderUserIMShowImage);
         if (isCurrent) {
             viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.GONE);
-            viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.GONE);
+            viewHolder.CustomMyOrderUserBTDoneDelevery.setVisibility(View.GONE);
             // Get the TextView current LayoutParams
-            LayoutParams lp = (RelativeLayout.LayoutParams) viewHolder.CustomMyOrderUserBTNotDelevery.getLayoutParams();
-             // Set TextView layout margin 25 pixels to all side
+            LayoutParams lp = (RelativeLayout.LayoutParams) viewHolder.CustomMyOrderUserTVNumberOrder.getLayoutParams();
+            // Set TextView layout margin 25 pixels to all side
             // Left Top Right Bottom Margin
-            lp.setMargins(16,70,0,0);
+            lp.setMargins(50, 70, 0, 0);
             // Apply the updated layout parameters to TextView
             viewHolder.CustomMyOrderUserTVNumberOrder.setLayoutParams(lp);
-                } else {
+            viewHolder.CustomMyOrderUserTVNumberOrder.append(myOrdersAsUser.getCost());
+        } else {
             viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.VISIBLE);
-            viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.VISIBLE);
+            viewHolder.CustomMyOrderUserBTDoneDelevery.setVisibility(View.VISIBLE);
+            LayoutParams lp = (RelativeLayout.LayoutParams) viewHolder.CustomMyOrderUserTVNumberOrder.getLayoutParams();
+            lp.setMargins(16, 55, 0, 0);
+            // Apply the updated layout parameters to TextView
+            viewHolder.CustomMyOrderUserTVNumberOrder.setLayoutParams(lp);
+            viewHolder.CustomMyOrderUserTVNumberOrder.append(myOrdersAsUser.getCost());
         }
-
         return view;
     }
-
     public interface done {
         public void buttonDone(Data2MyOrdersAsUser position);
     }

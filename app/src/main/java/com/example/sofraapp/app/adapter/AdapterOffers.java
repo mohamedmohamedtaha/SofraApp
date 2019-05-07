@@ -33,7 +33,6 @@ public class AdapterOffers extends ArrayAdapter<Data2Offers> {
         }
         viewHolder = new ViewHolder(listItemView);
         Data2Offers currentOffer = getItem(position);
-
         if (TextUtils.isEmpty(currentOffer.getPhoto())){
             Glide.with(getContext()).load(R.drawable.home)
                     .centerCrop()
@@ -45,13 +44,10 @@ public class AdapterOffers extends ArrayAdapter<Data2Offers> {
                     .centerCrop()
                     .into(viewHolder.IMShowImage);
         }
-
         viewHolder.TVShowNameRestaurant.setText(currentOffer.getName());
         viewHolder.TVShowOfer.setText(currentOffer.getDescription());
         viewHolder.TVShowPrice.setText(currentOffer.getPrice());
         viewHolder.TVShowPorit.setText(currentOffer.getEndingAt());
-
-
         return listItemView;
     }
 

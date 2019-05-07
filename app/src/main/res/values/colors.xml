@@ -5,11 +5,16 @@
     <color name="colorAccent">#D81B60</color>
 
 
+    <color name="colorBackgroundSwipe">#b80f0a</color>
 
     <color name="colorButtonLogin">#24bf29</color>
     <color name="colorButtonCreate">#FFC107</color>
     <color name="colorButtonRegester">#5c5e63</color>
 
     <color name="colorBackgroundTab">#454e4d</color>
+    <color name="colorGrayLight">#F0F3F3</color>
 
+
+    <color name="recycler_view_item_swipe_right_background">#FF0000</color>
+    <color name="recycler_view_item_swipe_left_background">#00BB00</color>
 </resources>

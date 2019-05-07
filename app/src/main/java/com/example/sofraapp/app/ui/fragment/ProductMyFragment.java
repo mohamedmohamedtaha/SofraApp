@@ -2,9 +2,9 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,8 +90,6 @@ public class ProductMyFragment extends Fragment {
                     ProductMyFragmentRL.setVisibility(View.GONE);
                     myProductArrayList.addAll(myProduct.getData().getData());
                     adapterMyProducts.notifyDataSetChanged();
-
-
                 } else {
                     Toast.makeText(getActivity(), myProduct.getMsg(), Toast.LENGTH_SHORT).show();
                     getProperties();
@@ -115,8 +113,6 @@ public class ProductMyFragment extends Fragment {
         ProductMyFragmentLoadingIndicator.setVisibility(View.GONE);
         ProductMyFragmentRL.setVisibility(View.VISIBLE);
     }
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

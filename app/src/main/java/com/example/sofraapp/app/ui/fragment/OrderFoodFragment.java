@@ -2,9 +2,9 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
 import com.example.sofraapp.app.data.model.general.restaurants.Restaurants;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.Model;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
@@ -37,8 +38,6 @@ import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
  * A simple {@link Fragment} subclass.
  */
 public class OrderFoodFragment extends Fragment {
-
-
     @BindView(R.id.OrderFoodFragment_Recycler_View)
     RecyclerView OrderFoodFragmentRecyclerView;
     @BindView(R.id.IV_Empty_Image)
@@ -53,6 +52,7 @@ public class OrderFoodFragment extends Fragment {
     private AdapterOrderFood adapterOrderFood;
     SaveData saveData;
     public static final String SAVE_ID_POSITION = "id_position";
+    Model model;
 
     public OrderFoodFragment() {
         // Required empty public constructor
@@ -69,7 +69,6 @@ public class OrderFoodFragment extends Fragment {
         restaurantsArrayList.clear();
         apiServices = getRetrofit().create(APIServices.class);
         PBLoadingIndicator.setVisibility(View.VISIBLE);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         OrderFoodFragmentRecyclerView.setLayoutManager(linearLayoutManager);
         adapterOrderFood = new AdapterOrderFood(getActivity(), restaurantsArrayList, new AdapterOrderFood.showDetial() {

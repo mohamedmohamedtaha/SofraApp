@@ -2,8 +2,8 @@ package com.example.sofraapp.app.ui.fragment.cycleRestaurant;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +35,12 @@ import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
+import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterAsRestaurantFragmentOne extends Fragment {
-
-
     @BindView(R.id.RegisterAsRestaurantFragmentOne_Name)
     TextInputEditText RegisterAsRestaurantFragmentOneName;
     @BindView(R.id.RegisterAsRestaurantFragmentOne_SP_Select_City)
@@ -58,6 +57,8 @@ public class RegisterAsRestaurantFragmentOne extends Fragment {
     TextInputEditText RegisterAsRestaurantFragmentOneRetryPassword;
     @BindView(R.id.RegisterAsRestaurantFragmentOne_BT_Next)
     Button RegisterAsRestaurantFragmentOneBTNext;
+    @BindView(R.id.RegisterAsRestaurantFragmentOne_Address)
+    TextInputEditText RegisterAsRestaurantFragmentOneAddress;
     Unbinder unbinder;
     SaveData saveData;
     APIServices apiServices;
@@ -68,6 +69,7 @@ public class RegisterAsRestaurantFragmentOne extends Fragment {
     final ArrayList<Integer> IdsHay = new ArrayList<>();
     Integer positionHay;
     boolean check_network;
+
     public RegisterAsRestaurantFragmentOne() {
         // Required empty public constructor
     }
@@ -125,6 +127,7 @@ public class RegisterAsRestaurantFragmentOne extends Fragment {
         });
         return view;
     }
+
     private void getHay(int getIdCity) {
         apiServices = getRetrofit().create(APIServices.class);
         final Call<Regions> regionsCall = apiServices.getRegions(getIdCity);
@@ -170,6 +173,25 @@ public class RegisterAsRestaurantFragmentOne extends Fragment {
 
     @OnClick(R.id.RegisterAsRestaurantFragmentOne_BT_Next)
     public void onViewClicked() {
-        String name = Reg
+        String name = RegisterAsRestaurantFragmentOneName.getText().toString().trim();
+        String email = RegisterAsRestaurantFragmentOneEmail.getText().toString().trim();
+        String password = RegisterAsRestaurantFragmentOnePassword.getText().toString().trim();
+        String address = RegisterAsRestaurantFragmentOneAddress.getText().toString().trim();
+        String retryPassword = RegisterAsRestaurantFragmentOneRetryPassword.getText().toString().trim();
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || IdsCity.isEmpty() || IdsHay.isEmpty()) {
+            Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
+        }
+        int idCity = IdsCity.get(RegisterAsRestaurantFragmentOneSPSelectCity.getSelectedItemPosition());
+        int idHay = IdsHay.get(RegisterAsRestaurantFragmentOneSPSelectHay.getSelectedItemPosition());
+        RegisterAsRestaurantTwoFragment registerAsRestaurantTwoFragment = new RegisterAsRestaurantTwoFragment();
+        saveData.setName(name);
+        saveData.setCityId(String.valueOf(idCity));
+        saveData.setHayId(String.valueOf(idHay));
+        saveData.setPassword(password);
+        saveData.setEmail(email);
+        saveData.setAddress(address);
+        saveData.setRetryPassword(retryPassword);
+        HelperMethod.replece(registerAsRestaurantTwoFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.create_new_user), saveData);
     }
+
 }

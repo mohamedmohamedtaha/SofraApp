@@ -1,7 +1,6 @@
 package com.example.sofraapp.app.ui.fragment;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,16 +8,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Base64;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import com.google.android.material.textfield.TextInputEditText;
+
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,17 +25,17 @@ import android.widget.Toast;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.cycleRestaurant.addproduct.AddProduct;
 import com.example.sofraapp.app.data.rest.APIServices;
+import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.SaveData;
+import com.yanzhenjie.album.Action;
+import com.yanzhenjie.album.AlbumFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -74,7 +70,8 @@ public class AddProductFragment extends Fragment {
     APIServices apiServices;
     Bitmap bitmap;
     MultipartBody.Part fileToUpload;
-
+    private ArrayList<AlbumFile> ImagesFiles = new ArrayList<>();
+    private int counter = 1;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -117,52 +114,47 @@ public class AddProductFragment extends Fragment {
         }
 
     }
-    private String getRelPathFromURIPath(Uri contentURI, Activity activity){
-        Cursor cursor = activity.getContentResolver().query(contentURI,null,null,null,null);
-        if (cursor == null){
+
+    private String getRelPathFromURIPath(Uri contentURI, Activity activity) {
+        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
             return contentURI.getPath();
-        }else {
+        } else {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(idx);
         }
     }
-
+/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
-        if (requestCode == GALARY) {
+        if (requestCode == GALARY && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri contentURI = data.getData();
-            //    try {
-                 //   bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                    String filePath = getRelPathFromURIPath(contentURI,getActivity());
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                    String filePath = getRelPathFromURIPath(contentURI, getActivity());
                     File file = new File(filePath);
-                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"),file);
-                 fileToUpload = MultipartBody.Part.createFormData("file",file.getName(),mFile);
-
-
-
-
-                //    AddProductFragmentIMAddPhoto.setImageBitmap(bitmap);
-             //   } catch (IOException e) {
-               //     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                //}
+                    RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+                    fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
+                    AddProductFragmentIMAddPhoto.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         } else if (requestCode == CAMIRA) {
             if (data != null) {
                 Bundle extrs = data.getExtras();
-                 bitmap = (Bitmap) extrs.get("data");
+                bitmap = (Bitmap) extrs.get("data");
                 AddProductFragmentIMAddPhoto.setImageBitmap(bitmap);
             }
         }
-
-
     }
-
+*/
     private void showPictureDialog() {
         AlertDialog.Builder pitureDialog = new AlertDialog.Builder(getActivity());
         pitureDialog.setTitle(getString(R.string.select_action));
@@ -196,18 +188,11 @@ public class AddProductFragment extends Fragment {
         }
     }
 
-    private String imageToString() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imgByte = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgByte, Base64.DEFAULT);
-    }
-
     @OnClick({R.id.AddProductFragment_IM_Add_Photo, R.id.AddProductFragment_Bt_Add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.AddProductFragment_IM_Add_Photo:
-                try {
+           case R.id.AddProductFragment_IM_Add_Photo:
+        /*        try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -217,66 +202,67 @@ public class AddProductFragment extends Fragment {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMIRA);
 
                     } else {
-
-                        showPictureDialog();
-                    }
+                        showPictureDialog();}
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+               }*/
+
+                Action<ArrayList<AlbumFile>> action = new Action<ArrayList<AlbumFile>>() {
+                    @Override
+                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
+                        // TODO accept the result.
+                        ImagesFiles.clear();
+                        ImagesFiles.addAll(result);
+                    }
+                };
+                HelperMethod.openAlbum(counter, getActivity(), ImagesFiles, action);
                 break;
             case R.id.AddProductFragment_Bt_Add:
+                //   if (saveData.getApi_token() == null) {
+                //     Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_LONG).show();
+                //  return;
+                //}
                 if (AddProductFragmentIMAddPhoto.getDrawable() == null) {
                     Toast.makeText(getActivity(), getString(R.string.error_image), Toast.LENGTH_LONG).show();
                     return;
                 }
                 String name = AddProductFragmentTietNameProduct.getText().toString().trim();
                 String description = AddProductFragmentTietDescribe.getText().toString().trim();
-                int price = Integer.parseInt(AddProductFragmentTietPriceProduct.getText().toString().trim());
-                int preparing_time = Integer.parseInt(AddProductFragmentTietPriodOrder.getText().toString().trim());
-//                String image = imageToString();
-
+                String price = AddProductFragmentTietPriceProduct.getText().toString().trim();
+                String preparing_time = AddProductFragmentTietPriodOrder.getText().toString().trim();
+                if (name.isEmpty() || description.isEmpty() || price.isEmpty() || preparing_time.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                RequestBody nameBody = HelperMethod.convertToRequestBody(name);
+                RequestBody descriptionBody = HelperMethod.convertToRequestBody(description);
+                RequestBody priceBody = HelperMethod.convertToRequestBody(price);
+                RequestBody preparing_timeBody = HelperMethod.convertToRequestBody(preparing_time);
+                RequestBody getApi_tokenBody = HelperMethod.convertToRequestBody(saveData.getApi_token());
+                if (ImagesFiles.size() <= 0) {
+                    Toast.makeText(getActivity(), getString(R.string.select_photo), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                MultipartBody.Part multiPartImage = HelperMethod.convertFileToMultipart(ImagesFiles.get(0).getPath(), "image");
                 apiServices = getRetrofit().create(APIServices.class);
-                apiServices.getAddProduct(description, price, preparing_time, name,fileToUpload , saveData.getApi_token()).enqueue(new Callback<AddProduct>() {
-                    @Override
-                    public void onResponse(Call<AddProduct> call, Response<AddProduct> response) {
-                        AddProduct addProduct = response.body();
-                        if (addProduct.getStatus() == 1) {
-                            Toast.makeText(getActivity(), addProduct.getMsg(), Toast.LENGTH_SHORT).show();
+                apiServices.getAddProduct(descriptionBody, priceBody, preparing_timeBody, nameBody, multiPartImage, getApi_tokenBody).
+                        enqueue(new Callback<AddProduct>() {
+                            @Override
+                            public void onResponse(Call<AddProduct> call, Response<AddProduct> response) {
+                                AddProduct addProduct = response.body();
+                                if (addProduct.getStatus() == 1) {
+                                    Toast.makeText(getActivity(), addProduct.getMsg(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity(), addProduct.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                        } else {
-                            Toast.makeText(getActivity(), addProduct.getMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<AddProduct> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<AddProduct> call, Throwable t) {
+                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 break;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

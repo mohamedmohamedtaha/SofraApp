@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dimens_l">
 
     <ImageView
         android:id="@+id/Custom_MyOrder_User_IM_Show_Image"
@@ -54,7 +55,7 @@
             android:id="@+id/Custom_MyOrder_User_TV_Number_Order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginStart="@dimen/dimens_xl"
             android:layout_marginTop="@dimen/dimens_6xl"
             android:textColor="@android:color/holo_orange_dark"
             android:layout_toEndOf="@+id/Detail_Restaurant_Fragment_TV_Min_Order"
@@ -63,20 +64,21 @@
     <Button
         android:layout_marginTop="@dimen/dimens_xl"
         android:id="@+id/Custom_MyOrder_User_BT_Not_Delevery"
-        android:layout_width="@dimen/dimens_hundrand"
-        android:layout_height="@dimen/dimens_6xl"
+        android:layout_width="@dimen/dimens_eighty"
+        android:layout_height="@dimen/dimens_xxxxl"
         android:layout_below="@+id/Custom_MyOrder_User_TV_Number_Order"
         android:background="@android:color/holo_red_dark"
         android:text="@string/not_delevery"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:drawableEnd="@drawable/ic_unlike"
         android:textColor="@android:color/white"
-        android:paddingEnd="@dimen/dimens_l"
-        android:paddingStart="@dimen/dimens_l"
+        android:paddingEnd="@dimen/dimens_m"
         />
     <Button
         android:id="@+id/Custom_MyOrder_User_BT_Done_Delevery"
         android:layout_marginTop="@dimen/dimens_xl"
-        android:layout_width="@dimen/dimens_hundrand"
-        android:layout_height="@dimen/dimens_6xl"
+        android:layout_width="@dimen/dimens_eighty"
+        android:layout_height="@dimen/dimens_xxxxl"
         android:layout_below="@+id/Custom_MyOrder_User_TV_Number_Order"
         android:layout_toEndOf="@+id/Custom_MyOrder_User_BT_Not_Delevery"
         android:background="@color/colorButtonLogin"
@@ -84,8 +86,7 @@
         android:text="@string/done_delevery"
         android:drawableEnd="@drawable/ic_like"
         android:textColor="@android:color/white"
-        android:paddingEnd="@dimen/dimens_l"
-        android:paddingStart="@dimen/dimens_l"
+        android:paddingEnd="@dimen/dimens_m"
         />
 
 </RelativeLayout>

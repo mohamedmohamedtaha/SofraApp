@@ -8,43 +8,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".app.ui.fragment.AddProductFragment">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/StyleEditText"
         >
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddProductFragment_Tiet_Name_Product"
             style="@style/StyleEditTextNull"
             android:hint="@string/name_product" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/StyleEditText"
         >
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddProductFragment_Tiet_Describe"
             style="@style/StyleEditTextNull"
             android:hint="@string/descrep_pref"
             android:inputType="textMultiLine"
             android:lines="2"            />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/StyleEditText"
       >
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddProductFragment_Tiet_Price_Product"
             style="@style/StyleEditTextNull"
             android:hint="@string/price_only" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/StyleEditText"
        >
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddProductFragment_Tiet_Priod_order"
             style="@style/StyleEditTextNull"
             android:hint="@string/priod_order" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

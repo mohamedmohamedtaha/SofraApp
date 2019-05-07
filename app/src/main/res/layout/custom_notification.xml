@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dimens_s"
+    android:background="@color/colorGrayLight"
+    android:paddingBottom="@dimen/dimens_m">
+
+    <ImageView
+        android:id="@+id/IM_Show_Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:src="@drawable/ic_notification" />
+
+    <TextView
+        android:id="@+id/TV_Show_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        android:fontFamily="@font/cairo_bold"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        tools:text="@string/connect_us" />
+
+    <TextView
+        android:id="@+id/TV_Show_Day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Show_Name"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_toLeftOf="@+id/IM_Show_Image"
+        android:drawableEnd="@drawable/ic_calender"
+        android:drawablePadding="@dimen/dimens_m"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold"
+        tools:text="@string/connect_us" />
+
+    <TextView
+        android:id="@+id/TV_Show_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Show_Name"
+        android:layout_marginTop="@dimen/dimens_ss"
+        android:layout_marginEnd="@dimen/dimens_m"
+        android:layout_toLeftOf="@+id/TV_Show_Day"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold"
+        tools:text="@string/connect_us" />
+
+    <TextView
+        android:id="@+id/TV_Show_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Show_Name"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:drawableEnd="@drawable/ic_clock"
+        android:drawablePadding="@dimen/dimens_m"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold"
+        tools:text="@string/connect_us" />
+</RelativeLayout>

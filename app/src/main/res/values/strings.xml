@@ -97,7 +97,7 @@
     <string name="min_order">الحد الأدنى للطلب</string>
     <string name="price_delevery">رسوم التوصيل</string>
     <string name="price">16ريال</string>
-    <string name="price_only">السعر</string>
+    <string name="price_only">السعر:</string>
 
     <string name="list_food">قائمة الطعام</string>
     <string name="comments_food">التعليقات والتقييم</string>
@@ -150,5 +150,26 @@
     <string name="descrep_pref">وصف مختصر</string>
     <string name="add_picture_offer">اضافة صورة للعرض</string>
     <string name="add_new_offer">أضف عرض جديد</string>
+    <string name="select_categories">التصنيفات</string>
+    <string name="from">المدة من ...</string>
+    <string name="to">المدة إلى ...</string>
+    <string name="no_notification">لا توجد إشعارات</string>
+    <string name="notification">التنبيهات</string>
+    <string name="no_order_new">لا توجد طلبات جديدة</string>
+    <string name="new_order">الطلبات الجديدة</string>
+    <string name="order_previe">الطلبات المقدمة</string>
+    <string name="customer">العميل:</string>
+    <string name="address">العنوان:</string>
+    <string name="accept">قبول</string>
+    <string name="sure_accept">تأكيد التسليم</string>
+    <string name="order_finished">الطلب مكنمل</string>
+    <string name="select_photo">يجب أن تختار صورة</string>
+    <string name="delete">مسح</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_delete">Delete</string>
+    <string name="munites">دقيقة</string>
+    <string name="one">1</string>
+    <string name="not_allowed">غير مسموح بأقل من واحد</string>
+    <string name="not_allowed_alot">غير مسموح بأكثر من هذا</string>
 
 </resources>

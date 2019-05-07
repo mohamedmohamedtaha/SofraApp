@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/dimens_m"
+    android:layout_marginTop="@dimen/dimens_m">
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/black"/>
+    <ImageView
+        android:id="@+id/Custom_Orders_IM_Show_Image"
+        android:layout_width="@dimen/dimens_hundrand"
+        android:layout_height="@dimen/dimens_hundrand"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_l" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Name_Customer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_IM_Show_Image"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/customer"
+        android:textSize="@dimen/txt_size_s" />
+
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Show_Name_Customer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_TV_Name_Customer"
+        android:fontFamily="@font/cairo_bold"
+        tools:text="@string/customer"
+        android:textSize="@dimen/txt_size_s" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Show_Name_Customer"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_IM_Show_Image"
+        android:text="@string/price_only" />
+
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Show_Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Show_Name_Customer"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_TV_Price"
+        tools:text="@string/price_only" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Is_Price_Delevery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Show_Price"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_TV_Price_Delevery"
+        tools:text="@string/price_delevery" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Price_Delevery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Show_Price"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_IM_Show_Image"
+        android:text="@string/price_delevery" />
+
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Price_Totally"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Is_Price_Delevery"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_IM_Show_Image"
+        android:text="@string/totally" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Is_Price_Totally"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Is_Price_Delevery"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_TV_Price_Totally"
+        tools:text="@string/totally" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Is_Price_Totally"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_IM_Show_Image"
+        android:text="@string/address" />
+
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Is_Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Custom_Orders_TV_Is_Price_Totally"
+        android:layout_marginEnd="@dimen/dimens_sss"
+        android:layout_toStartOf="@+id/Custom_Orders_TV_Address"
+        tools:text="@string/address" />
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        tools:text="@string/number_order"
+        android:textColor="@android:color/holo_orange_dark" />
+
+    <TextView
+        android:id="@+id/Custom_Orders_TV_Number_Order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_s"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:layout_toEndOf="@+id/Custom_Orders_TV_Number"
+        android:text="@string/number_order"
+        android:textColor="@android:color/holo_orange_dark" />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/Custom_Orders_IM_Show_Image"
+        android:layout_marginTop="@dimen/dimens_xl">
+
+        <Button
+            android:id="@+id/Custom_Orders_BT_Reject"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:background="@android:color/background_dark"
+            android:paddingEnd="@dimen/dimens_m"
+            tools:text="@string/not_delevery"
+            android:visibility="gone"
+            android:drawableEnd="@drawable/ic_close"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/Custom_Orders_BT_Accept"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:background="@color/colorButtonLogin"
+            android:drawableEnd="@drawable/ic_like"
+            android:paddingEnd="@dimen/dimens_m"
+            tools:text="@string/accept"
+            android:visibility="gone"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/Custom_MyOrder_User_BT_Phone"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="2"
+            android:background="@android:color/holo_red_dark"
+            android:drawableEnd="@drawable/ic_phone"
+            android:paddingEnd="@dimen/dimens_m"
+            tools:text="@string/done_delevery"
+            android:visibility="gone"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_below="@+id/linear"
+        android:background="@android:color/black"/>
+</RelativeLayout>

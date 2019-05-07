@@ -2,21 +2,19 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.general.restaurantdetails.RestaurantDetails;
-import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
-import com.example.sofraapp.app.data.model.general.restaurants.Restaurants;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.SaveData;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,8 +30,6 @@ import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
  * A simple {@link Fragment} subclass.
  */
 public class InformationStoreFragment extends Fragment {
-
-
     @BindView(R.id.InformationStoreFragment_State)
     TextView InformationStoreFragmentState;
     @BindView(R.id.InformationStoreFragment_City)
@@ -46,11 +42,12 @@ public class InformationStoreFragment extends Fragment {
     TextView InformationStoreFragmentPriceDelevery;
     Unbinder unbinder;
     SaveData saveData;
+    @BindView(R.id.InformationStoreFragment_SW_State)
+    Switch InformationStoreFragmentSWState;
 
     public InformationStoreFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,21 +61,37 @@ public class InformationStoreFragment extends Fragment {
             @Override
             public void onResponse(Call<RestaurantDetails> call, Response<RestaurantDetails> response) {
                 RestaurantDetails restaurants = response.body();
-                if (restaurants.getStatus() == 1){
+                if (restaurants.getStatus() == 1) {
                     InformationStoreFragmentCity.setText(restaurants.getData().getRegion().getCity().getName());
-                    InformationStoreFragmentPriceDelevery.append(restaurants.getData().getDeliveryCost()+ getString(R.string.ryal));
-                    InformationStoreFragmentMINPrice.setText(restaurants.getData().getMinimumCharger()+ getString(R.string.ryal));
+                    InformationStoreFragmentPriceDelevery.append(restaurants.getData().getDeliveryCost() + getString(R.string.ryal));
+                    InformationStoreFragmentMINPrice.setText(restaurants.getData().getMinimumCharger() + getString(R.string.ryal));
                     String available = restaurants.getData().getAvailability();
-                    if (available.equals(getString(R.string.open_en))){
-                        InformationStoreFragmentState.setText(R.string.open_ar);
-                        InformationStoreFragmentState.setTextColor(getResources().getColor(R.color.green_complete));
+                    if (saveData.getSave_state() == 2){
+                        InformationStoreFragmentState.setVisibility(View.GONE);
+                        if (available.equals(getString(R.string.open_en))) {
+                            InformationStoreFragmentSWState.setChecked(true);
+                            InformationStoreFragmentSWState.setText(R.string.open_ar);
+                            InformationStoreFragmentSWState.setTextColor(getResources().getColor(R.color.green_complete));
+                        } else {
+                            InformationStoreFragmentSWState.setChecked(false);
+                            InformationStoreFragmentSWState.setText(R.string.close_ar);
+                            InformationStoreFragmentSWState.setTextColor(getResources().getColor(R.color.red_error));
+                        }
                     }else {
-                        InformationStoreFragmentState.setText(R.string.close_ar);
-                        InformationStoreFragmentState.setTextColor(getResources().getColor(R.color.red_error));
+                        InformationStoreFragmentSWState.setVisibility(View.GONE);
 
+                        if (available.equals(getString(R.string.open_en))) {
+                            InformationStoreFragmentState.setText(R.string.open_ar);
+                            InformationStoreFragmentState.setTextColor(getResources().getColor(R.color.green_complete));
+                        } else {
+                            InformationStoreFragmentState.setText(R.string.close_ar);
+                            InformationStoreFragmentState.setTextColor(getResources().getColor(R.color.red_error));
+
+                        }
                     }
+
                     InformationStoreFragmentHay.setText(restaurants.getData().getRegion().getName());
-                }else {
+                } else {
                     Toast.makeText(getActivity(), restaurants.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -89,6 +102,13 @@ public class InformationStoreFragment extends Fragment {
 
             }
         });
+        InformationStoreFragmentSWState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
+
         return view;
     }
 

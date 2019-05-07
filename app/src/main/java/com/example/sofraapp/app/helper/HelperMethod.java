@@ -4,23 +4,21 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,20 +31,29 @@ import com.yanzhenjie.album.AlbumConfig;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.api.widget.Widget;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 public class HelperMethod {
-   private static CountDownTimer countDownTimers;
+    private static CountDownTimer countDownTimers;
     public static final String API_KEY = "API_KEY";
     public static final String NAME = "name";
     public static final String PHONE = "phone";
     public static final String EMAIL = "email";
     public static final String GET_DATA = "get_data";
+    public static final String GET_MODEL = "get_model";
 
     //This method for handle Fragments
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, TextView toolbar, String title, Bundle bundle) {
@@ -54,7 +61,7 @@ public class HelperMethod {
         fragment.setArguments(bundle);
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
-      //  transaction.commit();
+        //  transaction.commit();
         // for change from commit() because don't happen Error
         //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
         transaction.commitAllowingStateLoss();
@@ -67,23 +74,35 @@ public class HelperMethod {
     }
 
 
-        public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
-            fragment.setArguments(bundle);
-            transaction.replace(id, fragment);
-            transaction.addToBackStack(null);
-            // for change from commit() because don't happen Error
-            //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-            transaction.commitAllowingStateLoss();
-
-            if (toolbar != null) {
-                toolbar.setTitle(title);
-            }
-
-
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(GET_DATA, saveData);
+        fragment.setArguments(bundle);
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        // for change from commit() because don't happen Error
+        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        transaction.commitAllowingStateLoss();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
         }
+    }
+
+    public static void repleceModel(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Model model) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(GET_MODEL, model);
+        fragment.setArguments(bundle);
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        // for change from commit() because don't happen Error
+        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        transaction.commitAllowingStateLoss();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+    }
 
     // This method for check Do the internet is available or not ?
     public static boolean isNetworkConnected(Context context, View view) {
@@ -131,10 +150,11 @@ public class HelperMethod {
         };
         countDownTimers.start();
     }
-    public static void stopCountdownTimer(){
-        if (countDownTimers !=null){
+
+    public static void stopCountdownTimer() {
+        if (countDownTimers != null) {
             countDownTimers.cancel();
-            countDownTimers= null;
+            countDownTimers = null;
         }
     }
 
@@ -205,8 +225,8 @@ public class HelperMethod {
         context.startActivity(webSite);
     }
 
-    public static void getReating(int rate, RatingBar ratingBar){
-        switch (rate){
+    public static void getReating(int rate, RatingBar ratingBar) {
+        switch (rate) {
             case 0:
                 ratingBar.setRating(0);
                 break;
@@ -230,22 +250,10 @@ public class HelperMethod {
         }
     }
 
-    //method for convert picture
-    public static byte[] imageViewToByte(ImageView imageView) {
-        imageView.setDrawingCacheEnabled(true);
-        imageView.buildDrawingCache();
-        Bitmap bitmap = imageView.getDrawingCache();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] bytes = stream.toByteArray();
-        return bytes;
-    }
-
-
     public static void openAlbum(int Counter, Context context, final ArrayList<AlbumFile> ImagesFiles, Action<ArrayList<AlbumFile>> action) {
         Album album = new Album();
         Album.initialize(AlbumConfig.newBuilder(context)
-             //   .setAlbumLoader(new MediaLoader())
+                .setAlbumLoader(new MediaLoader())
                 .setLocale(Locale.ENGLISH).build());
         album.image(context)// Image and video mix options.
                 .multipleChoice()// Multi-Mode, Single-Mode: singleChoice().
@@ -255,7 +263,7 @@ public class HelperMethod {
                 .checkedList(ImagesFiles) // To reverse the list.
                 .widget(
                         Widget.newLightBuilder(context)
-                                .title("")
+                                .title(context.getString(R.string.select_photo))
                                 .statusBarColor(Color.WHITE) // StatusBar color.
                                 .toolBarColor(Color.WHITE) // Toolbar color.
                                 .navigationBarColor(Color.WHITE) // Virtual NavigationBar color of Android5.0+.
@@ -271,6 +279,36 @@ public class HelperMethod {
                     }
                 })
                 .start();
+    }
+
+    public static RequestBody convertToRequestBody(String part) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), part);
+        return requestBody;
+    }
+
+    public static MultipartBody.Part convertFileToMultipart(String pathImageFile, String Key) {
+        File file = new File(pathImageFile);
+        RequestBody reqFileselect = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part Imagebody = MultipartBody.Part.createFormData(Key, file.getName(), reqFileselect);
+        return Imagebody;
+    }
+
+    public static String formatDateFromDateString(String inputDateFormat, String outputDateFormat, String inputDate) throws ParseException {
+        Date mParsedDate;
+        String mOutputDateString;
+        SimpleDateFormat mInputDateFormat = new SimpleDateFormat(inputDateFormat, java.util.Locale.getDefault());
+        SimpleDateFormat mOutputDateFormat = new SimpleDateFormat(outputDateFormat, new Locale("ar"));
+        mParsedDate = mInputDateFormat.parse(inputDate);
+        mOutputDateString = mOutputDateFormat.format(mParsedDate);
+        return mOutputDateString;
+    }
+
+    public static String formatDay(String inputFormat, String inputDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(inputFormat);
+        Date dt1 = dateFormat.parse(inputDate);
+        DateFormat dateFormat1 = new SimpleDateFormat("EEEE", new Locale("ar"));
+        String finalDay = dateFormat1.format(dt1);
+        return finalDay;
     }
 
 }

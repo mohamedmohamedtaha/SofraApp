@@ -32,9 +32,9 @@
         android:text="@string/add_review_only"
         android:textSize="@dimen/txt_size_l" />
 
-    <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+    <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddReviewFragment_ET_Add_Review_Here"
             style="@style/StyleEditTextNull"
             android:hint="@string/add_review_here"
@@ -43,7 +43,7 @@
 
             />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/AddReviewFragment_BT_Add"

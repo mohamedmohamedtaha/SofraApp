@@ -2,26 +2,31 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.daimajia.swipe.util.Attributes;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.adapter.AdapterRestaurantItems;
 import com.example.sofraapp.app.data.model.general.restaurantitems.Data2RestaurantItems;
 import com.example.sofraapp.app.data.model.general.restaurantitems.RestaurantItems;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.Model;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,28 +37,27 @@ import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
+import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFoodFragment extends Fragment {
-
-
-    @BindView(R.id.ListFoodFragment_LV)
-    ListView ListFoodFragmentLV;
-    @BindView(R.id.ListFoodFragment_TV_Empty_View)
-    TextView ListFoodFragmentTVEmptyView;
+public class ListFoodFragment extends Fragment/* implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener*/ {
     @BindView(R.id.ListFoodFragment_Loading_Indicator)
     ProgressBar ListFoodFragmentLoadingIndicator;
+    @BindView(R.id.ListFoodFragment_Recycler_View)
+    RecyclerView ListFoodFragmentRecyclerView;
+    @BindView(R.id.ListFoodFragment_RL)
+    RelativeLayout ListFoodFragmentRL;
     Unbinder unbinder;
     private APIServices apiServices;
     private AdapterRestaurantItems adapterRestaurantItems;
     SaveData saveData;
-
+    Model model;
+    ArrayList<Data2RestaurantItems>data2RestaurantItemsArrayList = new ArrayList<>();
     public ListFoodFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,52 +66,90 @@ public class ListFoodFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_food, container, false);
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
-        ListFoodFragmentLV.setEmptyView(ListFoodFragmentTVEmptyView);
-         apiServices = getRetrofit().create(APIServices.class);
-         apiServices.getRestaurantItems(saveData.getId_position(),1).enqueue(new Callback<RestaurantItems>() {
-             @Override
-             public void onResponse(Call<RestaurantItems> call, Response<RestaurantItems> response) {
-                 List<Data2RestaurantItems> data2RestaurantItemsArrayList = response.body().getData().getData();
-                 RestaurantItems restaurantItems = response.body();
-                 ListFoodFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                 if (restaurantItems.getStatus()== 1){
-                      adapterRestaurantItems = new AdapterRestaurantItems(getActivity(), data2RestaurantItemsArrayList, new AdapterRestaurantItems.showDetial() {
-                          @Override
-                          public void itemShowDetail(Data2RestaurantItems position) {
-                              int detailRestaurant = position.getId();
-                              DetailesOrderFragment detailesOrderFragment = new DetailesOrderFragment();
-                              saveData = new SaveData(saveData.getSave_state(),detailRestaurant);
-                              HelperMethod.replece(detailesOrderFragment,getActivity().getSupportFragmentManager(),R.id.Cycle_Home_contener,null,null,saveData);
-                          }
-                      });
-                     ListFoodFragmentLV.setAdapter(adapterRestaurantItems);
-                     ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+        data2RestaurantItemsArrayList.clear();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        ListFoodFragmentRecyclerView.setLayoutManager(linearLayoutManager);
+        ListFoodFragmentRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        ListFoodFragmentRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        ListFoodFragmentLoadingIndicator.setVisibility(View.VISIBLE);
+        if (saveData.getSave_state() == 2){
+           adapterRestaurantItems = new AdapterRestaurantItems(getActivity(), data2RestaurantItemsArrayList,null, new AdapterRestaurantItems.delete() {
+               @Override
+               public void deleteItem(Data2RestaurantItems position) {
+                   Toast.makeText(getActivity(), " Clicked Deleted ", Toast.LENGTH_SHORT).show();
+               }
+           }, new AdapterRestaurantItems.edit() {
+               @Override
+               public void editItem(Data2RestaurantItems position) {
+                   Toast.makeText(getActivity(), " Clicked Edited ", Toast.LENGTH_SHORT).show();
+               }
+           },saveData);
+            ((AdapterRestaurantItems) adapterRestaurantItems).setMode(Attributes.Mode.Single);
+        }else {
+           adapterRestaurantItems = new AdapterRestaurantItems(getActivity(), data2RestaurantItemsArrayList, new AdapterRestaurantItems.showDetial() {
+               @Override
+               public void itemShowDetail(Data2RestaurantItems position) {
+                   int detailRestaurant = position.getId();
+                   DetailesOrderFragment detailesOrderFragment = new DetailesOrderFragment();
+                   model = new Model(position.getPhotoUrl(),position.getPrice(),position.getName(),
+                           position.getPreparingTime(),position.getDescription(),detailRestaurant);
+                  // saveData = new SaveData(saveData.getSave_state(), detailRestaurant);
+                 //  HelperMethod.replece(detailesOrderFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, null, null, saveData);
+                   HelperMethod.repleceModel(detailesOrderFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, model.getTitle(), model);
+               }
+           },null,null,saveData);
+       }
+       ListFoodFragmentRecyclerView.setAdapter(adapterRestaurantItems);
 
-                 }else {
-                     Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                     ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+        apiServices = getRetrofit().create(APIServices.class);
+        apiServices.getRestaurantItems(saveData.getId_position(), 1).enqueue(new Callback<RestaurantItems>() {
+            @Override
+            public void onResponse(Call<RestaurantItems> call, Response<RestaurantItems> response) {
+                RestaurantItems restaurantItems = response.body();
+                try{
+                    if (restaurantItems.getStatus() == 1) {
+                        ListFoodFragmentRL.setVisibility(View.GONE);
+                        ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+                        ListFoodFragmentRecyclerView.setVisibility(View.VISIBLE);
+                        data2RestaurantItemsArrayList.addAll(restaurantItems.getData().getData());
+                    } else {
+                        Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                        ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+                        ListFoodFragmentRL.setVisibility(View.VISIBLE);
+                        ListFoodFragmentRecyclerView.setVisibility(View.GONE);
+                    }
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+                    ListFoodFragmentRL.setVisibility(View.VISIBLE);
+                    ListFoodFragmentRecyclerView.setVisibility(View.GONE);
+                }
+            }
 
-                 }
-             }
+            @Override
+            public void onFailure(Call<RestaurantItems> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
+                ListFoodFragmentRL.setVisibility(View.VISIBLE);
+                ListFoodFragmentRecyclerView.setVisibility(View.GONE);
+            }
+        });
 
-             @Override
-             public void onFailure(Call<RestaurantItems> call, Throwable t) {
-                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                 ListFoodFragmentLoadingIndicator.setVisibility(View.GONE);
-
-             }
-         });
-         ListFoodFragmentLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                 DetailesOrderFragment detailesOrderFragment = new DetailesOrderFragment();
-                 HelperMethod.replece(detailesOrderFragment,getActivity().getSupportFragmentManager(),R.id.Cycle_Home_contener,null,null,saveData);
-                 Toast.makeText(getActivity(), " position:" +id, Toast.LENGTH_SHORT).show();
-             }
-         });
+        ListFoodFragmentRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.e("RecyclerView","OnScrollStateChanged");
+            }
+        });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override

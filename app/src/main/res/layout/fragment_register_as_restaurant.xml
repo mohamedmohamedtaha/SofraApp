@@ -10,13 +10,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Name"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/name_short" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,29 +54,37 @@
                 style="@style/StyleProgressBar" />
         </RelativeLayout>
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegisterAsRestaurantFragmentOne_Address"
+                style="@style/StyleEditTextNull"
+                android:hint="@string/address" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Email"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/email" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Password"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/password" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Retry_Password"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/retry_password" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/RegisterAsRestaurantFragmentOne_BT_Next"

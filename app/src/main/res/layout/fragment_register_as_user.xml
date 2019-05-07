@@ -14,29 +14,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Name"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/name" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Email"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/email" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Phone"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/phone" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -70,31 +70,31 @@
                     android:popupBackground="@android:color/white" />
             </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Describe_Home"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/descrep_home"
                     android:inputType="textMultiLine"
                     android:lines="2" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Password"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/password" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+            <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsUserFragment_Retry_Password"
                     style="@style/StyleEditTextNull"
                     android:hint="@string/retry_password" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/RegisterAsUserFragment_BT_Register"

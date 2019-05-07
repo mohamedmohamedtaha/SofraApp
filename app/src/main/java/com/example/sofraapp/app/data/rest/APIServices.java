@@ -1,16 +1,20 @@
 package com.example.sofraapp.app.data.rest;
 
 import com.example.sofraapp.app.data.model.cycleClient.addreview.AddReview;
-import com.example.sofraapp.app.data.model.cycleClient.login.Login;
+import com.example.sofraapp.app.data.model.cycleClient.loginclient.LoginClient;
 import com.example.sofraapp.app.data.model.cycleClient.myordersasuser.MyOrdersAsUser;
 import com.example.sofraapp.app.data.model.cycleClient.newpassword.NewPassword;
+import com.example.sofraapp.app.data.model.cycleClient.notifications.Notifications;
 import com.example.sofraapp.app.data.model.cycleClient.profile.EditProfile;
 import com.example.sofraapp.app.data.model.cycleClient.profile.getuserprofile.GetUserProfile;
 import com.example.sofraapp.app.data.model.cycleClient.register.Register;
 import com.example.sofraapp.app.data.model.cycleClient.resetpassword.ResetPassword;
 import com.example.sofraapp.app.data.model.cycleRestaurant.addproduct.AddProduct;
-import com.example.sofraapp.app.data.model.cycleRestaurant.myoffers.MyOffers;
+import com.example.sofraapp.app.data.model.cycleRestaurant.myorders.MyOrders;
 import com.example.sofraapp.app.data.model.cycleRestaurant.myproduct.MyProduct;
+import com.example.sofraapp.app.data.model.cycleRestaurant.offers.myoffers.MyOffers;
+import com.example.sofraapp.app.data.model.cycleRestaurant.offers.newoffer.NewOffer;
+import com.example.sofraapp.app.data.model.general.categories.Categories;
 import com.example.sofraapp.app.data.model.general.cities.Cities;
 import com.example.sofraapp.app.data.model.general.contact.Contact;
 import com.example.sofraapp.app.data.model.general.offers.Offers;
@@ -21,8 +25,8 @@ import com.example.sofraapp.app.data.model.general.restaurants.Restaurants;
 import com.example.sofraapp.app.data.model.general.reviews.Reviews;
 import com.example.sofraapp.app.data.model.general.settings.Settings;
 
-
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -37,7 +41,7 @@ public interface APIServices {
     //   ---------------------  for User  ---------------------------------------
     @POST("client/login")
     @FormUrlEncoded
-    Call<Login> getLogin(@Field("email") String email, @Field("password") String password);
+    Call<LoginClient> getLogin(@Field("email") String email, @Field("password") String password);
 
     @POST("client/profile")
     @FormUrlEncoded
@@ -55,14 +59,35 @@ public interface APIServices {
                                @Field("password") String password, @Field("password_confirmation") String password_confirmation,
                                @Field("phone") String number, @Field("address") String address, @Field("region_id") int region_id);
 
+    @Multipart
     @POST("restaurant/register")
-    @FormUrlEncoded
-    Call<com.example.sofraapp.app.data.model.cycleRestaurant.register.Register> getRegisterAsRestaurant(@Field("name") String name, @Field("email") String email,
-                                                                                                        @Field("password") String password, @Field("password_confirmation") String password_confirmation,
-                                                                                                        @Field("phone") String number, @Field("address") String address, @Field("region_id") int region_id
-            , @Field("whatsapp") String whatsapp, @Field("categories[0]") String categories, @Field("delivery_period") int delivery_period
-            , @Field("delivery_cost") String delivery_cost, @Field("minimum_charger") String minimum_charger, @Field("photo") int photo
-            , @Field("availability") String availability);
+    Call<com.example.sofraapp.app.data.model.cycleRestaurant.cyclelogin.register.Register> getRegisterAsRestaurant(@Part("name") RequestBody name
+            , @Part("email") RequestBody email
+            , @Part("password") RequestBody password
+            , @Part("password_confirmation") RequestBody password_confirmation
+            , @Part("phone") RequestBody phone
+            , @Part("address") RequestBody address
+            , @Part("region_id") RequestBody region_id
+            , @Part("whatsapp") RequestBody whatsapp
+            , @Part("categories[0]") RequestBody categories
+            , @Part("delivery_period") RequestBody delivery_period
+            , @Part("delivery_cost") RequestBody delivery_cost
+            , @Part("minimum_charger") RequestBody minimum_charger
+            , @Part MultipartBody.Part photo
+            , @Part("availability") RequestBody availability);
+
+    @Multipart
+    @POST("restaurant/new-offer")
+    Call<NewOffer> getNewOffer(@Part("description") RequestBody description
+            , @Part("price") RequestBody price
+            , @Part("starting_at") RequestBody starting_at
+            , @Part("name") RequestBody name
+            , @Part MultipartBody.Part photo
+            , @Part("ending_at") RequestBody ending_at
+            , @Part("api_token") RequestBody api_token);
+
+    @GET("categories")
+    Call<Categories> getCategories();
 
     @POST("client/reset-password")
     @FormUrlEncoded
@@ -80,7 +105,7 @@ public interface APIServices {
     Call<Regions> getRegions(@Query("city_id") int city_id);
 
     @GET("client/my-orders")
-    Call<MyOrdersAsUser> getMyOrdersAsUser(@Query("api_token") String api_token, @Query("page") int page);
+    Call<MyOrdersAsUser> getMyOrdersAsUser(@Query("api_token") String api_token, @Query("state") String state, @Query("page") int page);
 
     @GET("offers")
     Call<Offers> getOffers(@Query("page") int page);
@@ -92,6 +117,9 @@ public interface APIServices {
 
     @GET("settings")
     Call<Settings> getSettings();
+
+    @GET("client/notifications")
+    Call<Notifications> getNotifications(@Query("api_token") String api_token);
 
     @GET("restaurants")
     Call<Restaurants> getRestaurants(@Query("page") int page);
@@ -113,20 +141,21 @@ public interface APIServices {
     @GET("restaurant/my-items")
     Call<MyProduct> getMyProducts(@Query("api_token") String api_token, @Query("page") int page);
 
-    /* @POST("restaurant/new-item")
-     @FormUrlEncoded
-     Call<AddProduct> getAddProduct(@Field("description") String description, @Field("price") int price,
-                                    @Field("preparing_time") int preparing_time, @Field("name") String name,
-                                    @Field("photo") String photo, @Field("api_token") String api_token);
- */
     @Multipart
     @POST("restaurant/new-item")
-    Call<AddProduct> getAddProduct(@Part("description") String description, @Part("price") int price,
-                                   @Part("preparing_time") int preparing_time, @Part("name") String name,
-                                   @Part MultipartBody.Part photo, @Part("api_token") String api_token);
+    Call<AddProduct> getAddProduct(@Part("description") RequestBody description,
+                                   @Part("price") RequestBody price,
+                                   @Part("preparing_time") RequestBody preparing_time,
+                                   @Part("name") RequestBody name,
+                                   @Part MultipartBody.Part photo,
+                                   @Part("api_token") RequestBody api_token);
 
     @GET("restaurant/my-offers")
     Call<MyOffers> getMyOffers(@Query("api_token") String api_token, @Query("page") int page);
+
+    @GET("restaurant/my-orders")
+    Call<MyOrders> getMyOrders(@Query("api_token") String api_token, @Query("state") String state, @Query("page") int page);
+
 
 }
 

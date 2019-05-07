@@ -10,12 +10,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Base64;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
+import com.example.sofraapp.app.data.model.cycleClient.profile.EditProfile;
 import com.example.sofraapp.app.data.model.cycleClient.profile.getuserprofile.GetUserProfile;
 import com.example.sofraapp.app.data.model.general.cities.Cities;
 import com.example.sofraapp.app.data.model.general.cities.Data2Cities;
@@ -36,7 +36,6 @@ import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.SaveData;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class EditProfileUserFragment extends Fragment {
     private static final int GALARY = 0;
     private static final int CAMIRA = 1;
     SaveData saveData;
-        private APIServices apiServices;
+    private APIServices apiServices;
     Bitmap bitmap;
     String getResult;
     int IDPosition;
@@ -94,6 +93,7 @@ public class EditProfileUserFragment extends Fragment {
     final ArrayList<Integer> IdsHay = new ArrayList<>();
     Integer positionHay;
     boolean check_network;
+
     public EditProfileUserFragment() {
         // Required empty public constructor
     }
@@ -106,12 +106,11 @@ public class EditProfileUserFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
         apiServices = getRetrofit().create(APIServices.class);
-         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
             return view;
         }
         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
-
         apiServices.getUserProfile(saveData.getApi_token()).enqueue(new Callback<GetUserProfile>() {
             @Override
             public void onResponse(Call<GetUserProfile> call, Response<GetUserProfile> response) {
@@ -119,13 +118,13 @@ public class EditProfileUserFragment extends Fragment {
                 try {
                     if (getUserProfile.getStatus() == 1) {
                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
-                        EditProfileUserFragmentTietDescribeHome.setText(getUserProfile.getData().getUser().getAddress());
-                        EditProfileUserFragmentTietEmail.setText(getUserProfile.getData().getUser().getEmail());
-                        EditProfileUserFragmentTietName.setText(getUserProfile.getData().getUser().getName());
-                        EditProfileUserFragmentTietPhone.setText(getUserProfile.getData().getUser().getPhone());
-                        EditProfileUserFragmentSPCity.setSelection(getUserProfile.getData().getUser().getRegion().getId());
-                        EditProfileUserFragmentSPHay.setSelection(getUserProfile.getData().getUser().getRegion().getCity().getId());
-                    }else {
+                        EditProfileUserFragmentTietDescribeHome.setText(getUserProfile.getData().getClient().getAddress());
+                        EditProfileUserFragmentTietEmail.setText(getUserProfile.getData().getClient().getEmail());
+                        EditProfileUserFragmentTietName.setText(getUserProfile.getData().getClient().getName());
+                        EditProfileUserFragmentTietPhone.setText(getUserProfile.getData().getClient().getPhone());
+                        EditProfileUserFragmentSPCity.setSelection(getUserProfile.getData().getClient().getRegion().getId());
+                        EditProfileUserFragmentSPHay.setSelection(getUserProfile.getData().getClient().getRegion().getCity().getId());
+                    } else {
                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), getUserProfile.getMsg(), Toast.LENGTH_SHORT).show();
                     }
@@ -254,7 +253,7 @@ public class EditProfileUserFragment extends Fragment {
                 break;
             case R.id.EditProfileUserFragment_Bt_Edit:
                 if (check_network == false) {
-                    return ;
+                    return;
                 }
                 if (EditProfileUserFragmentIMAddPhoto.getDrawable() == null) {
                     Toast.makeText(getActivity(), getString(R.string.error_image), Toast.LENGTH_LONG).show();
@@ -271,26 +270,31 @@ public class EditProfileUserFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (IdsHay.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.select_elhay), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int hayId = IdsHay.get(EditProfileUserFragmentSPHay.getSelectedItemPosition());
                 apiServices = getRetrofit().create(APIServices.class);
-              /*  apiServices.getProfileAndEdit(saveData.getApi_token(), name, phone, email, password, retryPassword, describeHome, )
-                        .enqueue(new Callback<Profile>() {
+                apiServices.getProfileAndEdit(saveData.getApi_token(), name, phone, email, password,
+                        retryPassword, describeHome, hayId)
+                        .enqueue(new Callback<EditProfile>() {
                             @Override
-                            public void onResponse(Call<Profile> call, Response<Profile> response) {
-                                Profile profile = response.body();
+                            public void onResponse(Call<EditProfile> call, Response<EditProfile> response) {
+                                EditProfile profile = response.body();
                                 if (profile.getStatus() == 1) {
                                     Toast.makeText(getActivity(), profile.getMsg(), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getActivity(), profile.getMsg(), Toast.LENGTH_SHORT).show();
-
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<Profile> call, Throwable t) {
+                            public void onFailure(Call<EditProfile> call, Throwable t) {
                                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
-                        });*/
+                        });
                 break;
         }
     }
@@ -372,10 +376,4 @@ public class EditProfileUserFragment extends Fragment {
         }
     }
 
-    private String imageToString() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imgByte = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgByte, Base64.DEFAULT);
-    }
 }

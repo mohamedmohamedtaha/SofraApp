@@ -5,24 +5,42 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".app.ui.fragment.ListFoodFragment">
-
-    <ListView
-        android:id="@+id/ListFoodFragment_LV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ListFoodFragment_Recycler_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:drawSelectorOnTop="true"
         android:divider="@null"
-        android:dividerHeight="0dp">
-
-    </ListView>
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
+        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
     <!-- Empty view is only visible when the list has no items. -->
-    <TextView
-        android:id="@+id/ListFoodFragment_TV_Empty_View"
+
+    <RelativeLayout
+        android:id="@+id/ListFoodFragment_RL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_data"
-        android:textAppearance="?android:textAppearanceMedium" />
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/ListFoodFragment_Empty_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/logo" />
+
+        <TextView
+            android:id="@+id/ListFoodFragment_TV_Empty_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ListFoodFragment_Empty_Image"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:fontFamily="@font/cairo_regular"
+            android:gravity="center"
+            android:text="@string/no_notification"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_xl" />
+    </RelativeLayout>
     <!-- Loading indicator is only shown before the first load -->
     <ProgressBar
         android:id="@+id/ListFoodFragment_Loading_Indicator"

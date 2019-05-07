@@ -1,9 +1,8 @@
 package com.example.sofraapp.app.ui.fragment.mainCycle;
 
-
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.data.model.general.contact.Contact;
+import com.example.sofraapp.app.data.rest.APIServices;
+import com.example.sofraapp.app.helper.SaveData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,48 +27,51 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
+import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ContactUsFragment extends Fragment {
-
-
-    @BindView(R.id.ET_Name)
-    TextInputEditText ETName;
-    @BindView(R.id.ET_Email)
-    TextInputEditText ETEmail;
-    @BindView(R.id.ET_Phone)
-    TextInputEditText ETPhone;
-    @BindView(R.id.ET_Content)
-    TextInputEditText ETContent;
-    @BindView(R.id.BT_Send_Message)
-    Button BTSendMessage;
-    @BindView(R.id.IM_Instgram)
-    ImageView IMInstgram;
-    @BindView(R.id.IM_Twitter)
-    ImageView IMTwitter;
-    @BindView(R.id.IM_Face_Book)
-    ImageView IMFaceBook;
+    @BindView(R.id.ContactUsFragment_TIET_Name)
+    TextInputEditText ContactUsFragmentTIETName;
+    @BindView(R.id.ContactUsFragment_TIET_Email)
+    TextInputEditText ContactUsFragmentTIETEmail;
+    @BindView(R.id.ContactUsFragment_TIET_Phone)
+    TextInputEditText ContactUsFragmentTIETPhone;
+    @BindView(R.id.ContactUsFragment_TIET_Content)
+    TextInputEditText ContactUsFragmentTIETContent;
+    @BindView(R.id.ContactUsFragment_RB_Estalam)
+    RadioButton ContactUsFragmentRBEstalam;
+    @BindView(R.id.ContactUsFragment_RB_Suggest)
+    RadioButton ContactUsFragmentRBSuggest;
+    @BindView(R.id.ContactUsFragment_RB_Problem)
+    RadioButton ContactUsFragmentRBProblem;
+    @BindView(R.id.ContactUsFragment_RG_Content)
+    RadioGroup ContactUsFragmentRGContent;
+    @BindView(R.id.ContactUsFragment_BT_Send_Message)
+    Button ContactUsFragmentBTSendMessage;
+    @BindView(R.id.ContactUsFragment_IM_Instgram)
+    ImageView ContactUsFragmentIMInstgram;
+    @BindView(R.id.ContactUsFragment_IM_Twitter)
+    ImageView ContactUsFragmentIMTwitter;
+    @BindView(R.id.ContactUsFragment_IM_Face_Book)
+    ImageView ContactUsFragmentIMFaceBook;
+    @BindView(R.id.ContactUsFragment_Progress_Bar)
+    ProgressBar ContactUsFragmentProgressBar;
     Unbinder unbinder;
-    @BindView(R.id.RB_Problem)
-    RadioButton RBProblem;
-    @BindView(R.id.RB_Suggest)
-    RadioButton RBSuggest;
-    @BindView(R.id.RB_Estalam)
-    RadioButton RBEstalam;
-    @BindView(R.id.RG_Content)
-    RadioGroup RGContent;
-    @BindView(R.id.Content_Us_Progress)
-    ProgressBar ContentUsProgress;
     private APIServices apiServices;
     private int idClick;
     private String saveStateRB = null;
+    SaveData saveData;
+    String name = null;
+    String phone = null;
+    String email = null;
+    String content = null;
 
     public ContactUsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,26 +79,28 @@ public class ContactUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact_us, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-        RGContent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        saveData = getArguments().getParcelable(GET_DATA);
+        if (saveData.getApi_token() != null) {
+            ContactUsFragmentTIETEmail.setText(saveData.getEmail());
+            ContactUsFragmentTIETName.setText(saveData.getName());
+            ContactUsFragmentTIETPhone.setText(saveData.getPhone());
+        }
+        ContactUsFragmentRGContent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                idClick = RGContent.getCheckedRadioButtonId();
+                idClick = ContactUsFragmentRGContent.getCheckedRadioButtonId();
                 switch (idClick) {
-                    case R.id.RB_Suggest:
+                    case R.id.ContactUsFragment_RB_Suggest:
                         saveStateRB = getString(R.string.suggestion);
                         break;
-                    case R.id.RB_Problem:
+                    case R.id.ContactUsFragment_RB_Problem:
                         saveStateRB = getString(R.string.complaint);
-
                         break;
-                    case R.id.RB_Estalam:
+                    case R.id.ContactUsFragment_RB_Estalam:
                         saveStateRB = getString(R.string.inquiry);
-
                         break;
                     default:
-
                 }
             }
         });
@@ -108,53 +113,44 @@ public class ContactUsFragment extends Fragment {
         unbinder.unbind();
     }
 
-
-    @OnClick({R.id.RG_Content, R.id.BT_Send_Message, R.id.IM_Instgram, R.id.IM_Twitter, R.id.IM_Face_Book})
+    @OnClick({R.id.ContactUsFragment_BT_Send_Message, R.id.ContactUsFragment_IM_Instgram, R.id.ContactUsFragment_IM_Twitter, R.id.ContactUsFragment_IM_Face_Book})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.RG_Content:
-                break;
-            case R.id.BT_Send_Message:
-                String name = ETName.getText().toString().trim();
-                String phone = ETPhone.getText().toString().trim();
-                String email = ETEmail.getText().toString().trim();
-                String content = ETContent.getText().toString().trim();
+            case R.id.ContactUsFragment_BT_Send_Message:
+                name = ContactUsFragmentTIETName.getText().toString().trim();
+                phone = ContactUsFragmentTIETPhone.getText().toString().trim();
+                email = ContactUsFragmentTIETEmail.getText().toString().trim();
+                content = ContactUsFragmentTIETContent.getText().toString().trim();
                 if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || content.isEmpty() || saveStateRB == null) {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ContentUsProgress.setVisibility(View.VISIBLE);
+                ContactUsFragmentProgressBar.setVisibility(View.VISIBLE);
                 apiServices = getRetrofit().create(APIServices.class);
-
                 apiServices.getContact(name, email, phone, saveStateRB, content).enqueue(new Callback<Contact>() {
                     @Override
                     public void onResponse(Call<Contact> call, Response<Contact> response) {
                         if (response.body().getStatus() == 1) {
-                            ContentUsProgress.setVisibility(View.GONE);
+                            ContactUsFragmentProgressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            ContentUsProgress.setVisibility(View.GONE);
+                            ContactUsFragmentProgressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-
                         }
-
                     }
 
                     @Override
                     public void onFailure(Call<Contact> call, Throwable t) {
-                        ContentUsProgress.setVisibility(View.GONE);
+                        ContactUsFragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
                     }
                 });
                 break;
-            case R.id.IM_Instgram:
-                Toast.makeText(getActivity(), saveStateRB, Toast.LENGTH_SHORT).show();
-
+            case R.id.ContactUsFragment_IM_Instgram:
                 break;
-            case R.id.IM_Twitter:
+            case R.id.ContactUsFragment_IM_Twitter:
                 break;
-            case R.id.IM_Face_Book:
+            case R.id.ContactUsFragment_IM_Face_Book:
                 break;
         }
     }

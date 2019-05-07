@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.ListNotificationFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ListNotificationFragment_Recycler_View"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
+        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/ListNotificationFragment_RL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/ListNotificationFragment_Empty_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/logo" />
+
+        <TextView
+            android:id="@+id/ListNotificationFragment_TV_Empty_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ListNotificationFragment_Empty_Image"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:fontFamily="@font/cairo_regular"
+            android:gravity="center"
+            android:text="@string/no_notification"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_xl" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/ListNotificationFragment_Loading_Indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

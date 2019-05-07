@@ -2,9 +2,9 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +16,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.adapter.AdapterDetailsFood;
-import com.example.sofraapp.app.adapter.AdapterOrderFood;
-import com.example.sofraapp.app.data.model.general.restaurantdetails.CategoryRrestaurantDetails;
 import com.example.sofraapp.app.data.model.general.restaurantdetails.RestaurantDetails;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.Model;
 import com.example.sofraapp.app.helper.SaveData;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +36,6 @@ import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
  * A simple {@link Fragment} subclass.
  */
 public class DetailRestaurantFragment extends Fragment {
-
-
     @BindView(R.id.Detail_Restaurant_Fragment_IM_Show_Image)
     ImageView DetailRestaurantFragmentIMShowImage;
     @BindView(R.id.Detail_Restaurant_Fragment_TV_Show_Name_Restaurant)
@@ -60,15 +55,14 @@ public class DetailRestaurantFragment extends Fragment {
     @BindView(R.id.Detail_Restaurant_Fragment_ViewPager)
     ViewPager DetailRestaurantFragmentViewPager;
     Unbinder unbinder;
-
     Bundle bundle;
     SaveData saveData;
     private APIServices apiServices;
+    Model model;
 
     public DetailRestaurantFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,34 +70,33 @@ public class DetailRestaurantFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_restaurant, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         saveData = getArguments().getParcelable(GET_DATA);
+
         AdapterDetailsFood adapterDetailsFood = new AdapterDetailsFood(getActivity(), getChildFragmentManager(), saveData);
         DetailRestaurantFragmentViewPager.setAdapter(adapterDetailsFood);
         DetailRestaurantFragmentTabLayout.setupWithViewPager(DetailRestaurantFragmentViewPager);
-
         apiServices = getRetrofit().create(APIServices.class);
         apiServices.getRestaurantDetails(saveData.getId_position()).enqueue(new Callback<RestaurantDetails>() {
             @Override
             public void onResponse(Call<RestaurantDetails> call, Response<RestaurantDetails> response) {
 
                 RestaurantDetails restaurantDetails = response.body();
-                if (restaurantDetails.getStatus() == 1){
+                if (restaurantDetails.getStatus() == 1) {
                     Glide.with(getContext()).load(restaurantDetails.getData().getPhotoUrl()).into(DetailRestaurantFragmentIMShowImage);
                     DetailRestaurantFragmentTVShowNameRestaurant.setText(restaurantDetails.getData().getName());
                     DetailRestaurantFragmentTVMinOrder.setText(restaurantDetails.getData().getMinimumCharger());
                     DetailRestaurantFragmentTVPriceDelevery.setText(restaurantDetails.getData().getDeliveryCost());
-                    HelperMethod.getReating(Integer.parseInt(restaurantDetails.getData().getRate()),DetailRestaurantFragmentRBRateRestaurant);
+                    HelperMethod.getReating(Integer.parseInt(restaurantDetails.getData().getRate()), DetailRestaurantFragmentRBRateRestaurant);
                     String isAvailable = restaurantDetails.getData().getAvailability();
 
-                    if (isAvailable.equals(getString(R.string.closed))){
+                    if (isAvailable.equals(getString(R.string.closed))) {
                         DetailRestaurantFragmentTVIsOpen.setTextColor(getResources().getColor(R.color.holo_red_light));
                         DetailRestaurantFragmentTVIsOpen.setText(isAvailable);
-                    }else {
+                    } else {
                         DetailRestaurantFragmentTVIsOpen.setText(isAvailable);
                     }
 
-                }else {
+                } else {
                     Toast.makeText(getActivity(), restaurantDetails.getMsg(), Toast.LENGTH_SHORT).show();
 
                 }
@@ -119,6 +112,7 @@ public class DetailRestaurantFragment extends Fragment {
 
         return view;
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

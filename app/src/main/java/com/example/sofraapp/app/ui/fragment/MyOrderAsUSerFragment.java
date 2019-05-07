@@ -2,9 +2,9 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +23,15 @@ import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
  * A simple {@link Fragment} subclass.
  */
 public class MyOrderAsUSerFragment extends Fragment {
-
-
     @BindView(R.id.MyOrderAsUSerFragment_TabLayout)
     TabLayout MyOrderAsUSerFragmentTabLayout;
     @BindView(R.id.MyOrderAsUSerFragment_ViewPager)
     ViewPager MyOrderAsUSerFragmentViewPager;
     Unbinder unbinder;
     SaveData saveData;
-
     public MyOrderAsUSerFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,13 +39,10 @@ public class MyOrderAsUSerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_order_as_u, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-
         saveData = getArguments().getParcelable(GET_DATA);
         AdapterMyOrderUser adapterMyOrderUser = new AdapterMyOrderUser(getActivity(), getChildFragmentManager(), saveData);
         MyOrderAsUSerFragmentViewPager.setAdapter(adapterMyOrderUser);
         MyOrderAsUSerFragmentTabLayout.setupWithViewPager(MyOrderAsUSerFragmentViewPager);
-
         return view;
     }
 

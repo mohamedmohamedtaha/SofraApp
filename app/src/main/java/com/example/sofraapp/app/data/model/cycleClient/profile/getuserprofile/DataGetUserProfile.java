@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class DataGetUserProfile {
 
-    @SerializedName("user")
+    @SerializedName("client")
     @Expose
-    private UserGetUserProfile user;
+    private ClientGetUserProfile client;
 
-    public UserGetUserProfile getUser() {
-        return user;
+    public ClientGetUserProfile getClient() {
+        return client;
     }
 
-    public void setUser(UserGetUserProfile user) {
-        this.user = user;
+    public void setClient(ClientGetUserProfile client) {
+        this.client = client;
     }
 
 }

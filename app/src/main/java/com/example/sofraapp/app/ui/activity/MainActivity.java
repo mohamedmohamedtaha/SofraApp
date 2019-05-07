@@ -2,16 +2,17 @@ package com.example.sofraapp.app.ui.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
@@ -19,11 +20,13 @@ import com.example.sofraapp.app.helper.DrawerLocker;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.ui.fragment.ListNotificationFragment;
 import com.example.sofraapp.app.ui.fragment.MyOffersFragment;
 import com.example.sofraapp.app.ui.fragment.MyOrderAsUSerFragment;
 import com.example.sofraapp.app.ui.fragment.OrderFoodFragment;
 import com.example.sofraapp.app.ui.fragment.ProductMyFragment;
 import com.example.sofraapp.app.ui.fragment.cycleRestaurant.EditProfileRestuarantFragment;
+import com.example.sofraapp.app.ui.fragment.cycleRestaurant.orders.OrdersAsRestaurantFragment;
 import com.example.sofraapp.app.ui.fragment.mainCycle.AboutAppFragment;
 import com.example.sofraapp.app.ui.fragment.mainCycle.ContactUsFragment;
 import com.example.sofraapp.app.ui.fragment.mainCycle.OffersFragment;
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         logout = new RememberMy(this);
         setSupportActionBar(toolbar);
+        OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+        HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
+/*
         if (saveData.getSave_state() == 1) {
             OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
             HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity
             HelperMethod.replece(productMyFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
         } else {
             Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
-        }
+        }*/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -68,6 +74,12 @@ public class MainActivity extends AppCompatActivity
         //for perform Action in Ic_Settings
         View headerView = navigationView.getHeaderView(0);
         ImageView imageView = (ImageView) headerView.findViewById(R.id.IM_Ic_Settings);
+        TextView textView_show_name = (TextView)headerView.findViewById(R.id.TV_Navigation_Bar_Name_User);
+        if (saveData.getName() != null){
+            textView_show_name.setText(saveData.getName());
+        }
+
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +169,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.home_page:
+                if(saveData.getSave_state() == 1){
+                    OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+                    HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
+                }else {
+                    OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+                    HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
+                }
                 break;
             case R.id.my_orders:
                 if (saveData.getSave_state() == 1) {
@@ -165,15 +184,15 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     ProductMyFragment productMyFragment = new ProductMyFragment();
                     HelperMethod.replece(productMyFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.product_my), saveData);
-
                 }
                 break;
             case R.id.alarms:
                 if (saveData.getSave_state() == 1) {
-                    OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
-                    HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.order_food), saveData);
+                    ListNotificationFragment listNotificationFragment = new ListNotificationFragment();
+                    HelperMethod.replece(listNotificationFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.notification), saveData);
                 } else {
-
+                    OrdersAsRestaurantFragment ordersAsRestaurantFragment = new OrdersAsRestaurantFragment();
+                    HelperMethod.replece(ordersAsRestaurantFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.order_previe), saveData);
                 }
                 break;
             case R.id.new_offers:

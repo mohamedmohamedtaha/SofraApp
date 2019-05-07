@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,52 +25,60 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:popupBackground="@android:color/white" />
+
         </RelativeLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
 
             style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantTwoFragment_Min_request"
                 style="@style/StyleEditTextNull"
-
                 android:hint="@string/min_order"
+                android:inputType="number" />
 
-                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
 
             style="@style/StyleEditText">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantTwoFragment_Price_Delevery"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/price_delevery"
+                android:inputType="number" />
 
-                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </android.support.design.widget.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/dimens_l"
-            android:layout_marginEnd="@dimen/dimens_xl"
-            android:fontFamily="@font/cairo_bold"
-            android:text="@string/data_contact"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_size_l" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dimens_l"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@string/data_contact"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/txt_size_l" />
+
+            <ProgressBar
+                android:id="@+id/RegisterAsRestaurantTwoFragment_Progress_Bar"
+                style="@style/StyleProgressBar" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimens_l"
@@ -81,34 +88,36 @@
                 android:background="@drawable/shape"
                 android:paddingEnd="@dimen/dimens_l">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsRestaurantTwoFragment_WhatsApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:fontFamily="@font/cairo_regular"
-                    android:hint="@string/whatsapp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:hint="@string/whatsapp"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimens_l"
                 android:layout_marginTop="@dimen/dimens_m"
                 android:layout_marginEnd="@dimen/dimens_l"
+                android:layout_weight="1"
                 android:background="@drawable/shape"
                 android:paddingEnd="@dimen/dimens_l">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterAsRestaurantTwoFragment_Phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:fontFamily="@font/cairo_regular"
-                    android:hint="@string/phone" />
+                    android:hint="@string/phone"
+                    android:inputType="phone" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

@@ -2,7 +2,7 @@ package com.example.sofraapp.app.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,13 +49,11 @@ public class CurrentOrderAsUSerFragment extends Fragment {
     Unbinder unbinder;
     SaveData saveData;
     private APIServices apiServices;
-    private ArrayList<Data2MyOrdersAsUser> myOrdersAsUserArrayList = new ArrayList<>();
+    private List<Data2MyOrdersAsUser> myOrdersAsUserArrayList = new ArrayList<>();
     private AdapterMyOrderAndPreviousCustom adapterMyOrderAndPreviousCustom;
-
     public CurrentOrderAsUSerFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,26 +62,25 @@ public class CurrentOrderAsUSerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_current_order_as_u, container, false);
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
-
         myOrdersAsUserArrayList.clear();
+
         CurrentOrderAsUSerFragment_List_View.setEmptyView(CurrentOrderAsUSerFragmentRLEmptyView);
-        if (saveData.getApi_token() != null){
-           apiServices.getMyOrdersAsUser(saveData.getApi_token(), 1).enqueue(new Callback<MyOrdersAsUser>() {
+      //  if (saveData.getApi_token() != null){
+            CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.VISIBLE);
+            apiServices = getRetrofit().create(APIServices.class);
+            apiServices.getMyOrdersAsUser("HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB", "current",1).enqueue(new Callback<MyOrdersAsUser>() {
             @Override
             public void onResponse(Call<MyOrdersAsUser> call, Response<MyOrdersAsUser> response) {
                 MyOrdersAsUser myOrdersAsUser = response.body();
-                CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.VISIBLE);
+                myOrdersAsUserArrayList = myOrdersAsUser.getData().getData();
                 if (myOrdersAsUser.getStatus() == 1) {
-                   apiServices = getRetrofit().create(APIServices.class);
-                    adapterMyOrderAndPreviousCustom = new AdapterMyOrderAndPreviousCustom(getActivity(), myOrdersAsUserArrayList
-                            , null, null,false);
-                    CurrentOrderAsUSerFragment_List_View.setAdapter(adapterMyOrderAndPreviousCustom);
                     CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.GONE);
-
+                    adapterMyOrderAndPreviousCustom = new AdapterMyOrderAndPreviousCustom(getActivity(), myOrdersAsUserArrayList
+                            , null, null,true);
+                    CurrentOrderAsUSerFragment_List_View.setAdapter(adapterMyOrderAndPreviousCustom);
                 } else {
                     Toast.makeText(getActivity(), myOrdersAsUser.getMsg(), Toast.LENGTH_SHORT).show();
                     CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.GONE);
-
                 }
             }
 
@@ -90,12 +88,11 @@ public class CurrentOrderAsUSerFragment extends Fragment {
             public void onFailure(Call<MyOrdersAsUser> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.GONE);
-
-
             }
-        });}else {
-            Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-        }
+        });
+    //}else {
+      //      Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+       // }
         return view;
     }
 

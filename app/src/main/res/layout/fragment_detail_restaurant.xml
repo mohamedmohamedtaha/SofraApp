@@ -6,7 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".app.ui.fragment.DetailRestaurantFragment">
-<RelativeLayout
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/Detail_Restaurant_Fragment_TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/black" />
+
+    <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageView
@@ -95,19 +106,11 @@
 
 
 </RelativeLayout>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/Detail_Restaurant_Fragment_TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        android:layout_gravity="center"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:tabSelectedTextColor="@android:color/black"/>
-    <android.support.v4.view.ViewPager
+
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/Detail_Restaurant_Fragment_ViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>
