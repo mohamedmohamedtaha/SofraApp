@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".app.ui.fragment.cycleRestaurant.RegisterAsRestaurantTwoFragment">
+    tools:context=".app.ui.fragment.restaurant.restaurantCycle.RegisterAsRestaurantTwoFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,12 +128,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/EditProfileUserFragment_IM_Add_Photo"
+                android:id="@+id/RegisterAsRestaurantTwoFragment_IM_Add_Photo"
                 android:layout_width="@dimen/dimens_hundrand"
                 android:layout_height="@dimen/dimens_hundrand"
                 android:layout_marginTop="@dimen/dimens_l"
                 android:layout_marginEnd="@dimen/dimens_l"
                 android:layout_marginBottom="@dimen/dimens_l"
+                android:background="@android:color/darker_gray"
                 android:src="@drawable/ic_photo" />
 
             <TextView
@@ -147,7 +148,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/RegisterAsRestaurantFragmentOne_BT_Register"
+            android:id="@+id/RegisterAsRestaurantTwoFragment_BT_Register"
             style="@style/StyleButtonWhite"
             android:background="@color/colorButtonLogin"
             android:text="@string/regester" />

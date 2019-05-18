@@ -5,7 +5,4 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 public interface OrdersDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert();
-    @Query("SELECT * FROM orders_table ")
-}
+    }

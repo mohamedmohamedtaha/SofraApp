@@ -1,8 +1,6 @@
 package com.example.sofraapp.app.ui.fragment.mainCycle;
 
 import android.os.Bundle;
-import com.google.android.material.textfield.TextInputEditText;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,10 @@ import android.widget.Toast;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.general.contact.Contact;
 import com.example.sofraapp.app.data.rest.APIServices;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.helper.RememberMy;
+import com.google.android.material.textfield.TextInputEditText;
 
+import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +62,7 @@ public class ContactUsFragment extends Fragment {
     private APIServices apiServices;
     private int idClick;
     private String saveStateRB = null;
-    SaveData saveData;
+    RememberMy remeberMy;
     String name = null;
     String phone = null;
     String email = null;
@@ -79,14 +78,13 @@ public class ContactUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact_us, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
-        if (saveData.getApi_token() != null) {
-            ContactUsFragmentTIETEmail.setText(saveData.getEmail());
-            ContactUsFragmentTIETName.setText(saveData.getName());
-            ContactUsFragmentTIETPhone.setText(saveData.getPhone());
+        remeberMy = new RememberMy(getActivity());
+        if (remeberMy.getAPIKey() != null) {
+            ContactUsFragmentTIETEmail.setText(remeberMy.getEmailUser());
+            ContactUsFragmentTIETName.setText(remeberMy.getNameUser());
+            ContactUsFragmentTIETPhone.setText(remeberMy.getPhoneUser());
         }
         ContactUsFragmentRGContent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 idClick = ContactUsFragmentRGContent.getCheckedRadioButtonId();
@@ -130,12 +128,17 @@ public class ContactUsFragment extends Fragment {
                 apiServices.getContact(name, email, phone, saveStateRB, content).enqueue(new Callback<Contact>() {
                     @Override
                     public void onResponse(Call<Contact> call, Response<Contact> response) {
-                        if (response.body().getStatus() == 1) {
+                        try {
+                            if (response.body().getStatus() == 1) {
+                                ContactUsFragmentProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                ContactUsFragmentProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
                             ContactUsFragmentProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            ContactUsFragmentProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 

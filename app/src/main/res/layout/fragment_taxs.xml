@@ -1,14 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.fragment.TaxsFragment">
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.restaurant.TaxsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/text_tax_one"
+        android:textSize="@dimen/txt_size_m" />
+    <TextView
+        android:id="@+id/TaxsFragment_tax"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xxl"
+        android:layout_marginEnd="@dimen/dimens_one_hundrand_twenty_five"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/ryal"
+        android:textSize="@dimen/txt_size_m" />
+    <ProgressBar
+        android:id="@+id/TaxsFragment_Loading_Indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+    <TableLayout
+        android:layout_below="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+        <TextView
+            android:id="@+id/TaxsFragment_sales_restaurant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:textSize="@dimen/txt_size_m"
+            android:text="@string/ryal" />
 
-</FrameLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:text="@string/sales_restaurant"
+            android:textSize="@dimen/txt_size_m" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/TaxsFragment_taxs_app"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:textSize="@dimen/txt_size_m"
+            android:text="@string/ryal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:text="@string/taxs_app"
+            android:textSize="@dimen/txt_size_m" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/TaxsFragment_pay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:textSize="@dimen/txt_size_m"
+            android:text="@string/ryal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:text="@string/pay"
+            android:textSize="@dimen/txt_size_m" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/TaxsFragment_still"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:textSize="@dimen/txt_size_m"
+            android:text="@string/ryal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_bold"
+            android:paddingTop="@dimen/dimens_m"
+            android:paddingBottom="@dimen/dimens_m"
+            android:text="@string/still"
+            android:textSize="@dimen/txt_size_m" />
+    </TableRow>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:text="@string/elraghy"
+        android:textSize="@dimen/txt_size_m" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:text="@string/elahly"
+        android:textSize="@dimen/txt_size_m" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
+        android:text="@string/sofra"
+        android:textSize="@dimen/txt_size_m" />
+    </TableLayout>
+
+</RelativeLayout>

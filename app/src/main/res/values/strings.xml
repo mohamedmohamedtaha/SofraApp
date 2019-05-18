@@ -91,7 +91,7 @@
     <string name="inquiry">inquiry</string>
     <string name="open_now">مفتوح الأن</string>
     <string name="open_ar">مفتوح </string>
-    <string name="open_en">open </string>
+    <string name="open_en">open</string>
     <string name="close_ar">مغلق </string>
 
     <string name="min_order">الحد الأدنى للطلب</string>
@@ -171,5 +171,13 @@
     <string name="one">1</string>
     <string name="not_allowed">غير مسموح بأقل من واحد</string>
     <string name="not_allowed_alot">غير مسموح بأكثر من هذا</string>
+    <string name="text_tax_one">يرجي تحويل\n من الربح المباع في مدة أقصاها شهرا علماً بأن جميع الطلبات ستكون مسجله على حسابك الشخصي</string>
+    <string name="sales_restaurant">مبيعات المطعم</string>
+    <string name="taxs_app">عمولات التطبيق </string>
+    <string name="pay">ما تم سداده</string>
+    <string name="still">المتبقي</string>
+    <string name="elraghy">الراجحي: 0248514775444</string>
+    <string name="elahly">الأهلى: 0248514775444</string>
+    <string name="sofra">باسم مؤسسة سفرة</string>
 
 </resources>

@@ -55,11 +55,17 @@
             android:id="@+id/Custom_MyOrder_User_TV_Number_Order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimens_xl"
             android:layout_marginTop="@dimen/dimens_6xl"
             android:textColor="@android:color/holo_orange_dark"
-            android:layout_toEndOf="@+id/Detail_Restaurant_Fragment_TV_Min_Order"
-            android:text="@string/number_order" />
+            tools:text="@string/number_order" />
+    <TextView
+        android:id="@+id/Custom_MyOrder_User_TV_mNumber_Order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/Custom_MyOrder_User_TV_Number_Order"
+        android:layout_marginTop="@dimen/dimens_6xl"
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="@string/number_order" />
 
     <Button
         android:layout_marginTop="@dimen/dimens_xl"

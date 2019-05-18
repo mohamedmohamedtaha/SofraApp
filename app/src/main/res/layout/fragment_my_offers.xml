@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.fragment.MyOffersFragment">
+    tools:context=".app.ui.fragment.restaurant.offers.MyOffersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/MyOffersFragment_Recycler_View"
@@ -49,20 +49,24 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-    <Button
-        android:id="@+id/MyOffersFragment_BT_Add_New_Offer"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dimens_l"
-        android:layout_marginEnd="@dimen/dimens_l"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dimens_xl"
-        android:text="@string/add_new_offer"
-        android:paddingEnd="@dimen/dimens_hundrand"
-        android:paddingStart="@dimen/dimens_seventy"
-        android:drawableEnd="@drawable/ic_add"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/txt_size_xl"
         android:background="@color/colorButtonRegester"
-        android:layout_height="wrap_content" />
+        android:layout_marginBottom="@dimen/dimens_xl"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/MyOffersFragment_BT_Add_New_Offer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_offer"
+            android:drawableEnd="@drawable/ic_add"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/txt_size_xl"
+            android:background="@null"      />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

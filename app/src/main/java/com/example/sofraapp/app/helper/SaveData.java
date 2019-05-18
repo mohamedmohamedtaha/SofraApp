@@ -127,8 +127,11 @@ public class SaveData implements Parcelable {
         this.save_state = save_state;
         this.id_position = id_position;
     }
+    public SaveData( int id_position) {
+        this.id_position = id_position;
+    }
 
-    public SaveData(int id, String api_token, String name, String phone, String email, int region_id, String cityId, String address, int save_state) {
+    public SaveData(int id, String api_token, String name, String phone, String email, int region_id, String cityId, String address) {
         this.id = id;
         this.api_token = api_token;
         this.name = name;
@@ -137,7 +140,6 @@ public class SaveData implements Parcelable {
         this.region_id = region_id;
         this.cityId = cityId;
         this.address = address;
-        this.save_state = save_state;
     }
 
     protected SaveData(Parcel in) {

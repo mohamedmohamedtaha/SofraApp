@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".app.ui.fragment.cycleRestaurant.orders.CurrentOrdersAsRestaurantFragment">
+    tools:context=".app.ui.fragment.restaurant.orders.CurrentOrdersAsRestaurantFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/CurrentOrdersAsRestaurantFragment_Recycler_View"
         android:layout_width="match_parent"

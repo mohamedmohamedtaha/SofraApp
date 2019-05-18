@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".app.ui.fragment.ListNotificationFragment">
+    tools:context=".app.ui.fragment.client.userCycle.notifications.ListNotificationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListNotificationFragment_Recycler_View"

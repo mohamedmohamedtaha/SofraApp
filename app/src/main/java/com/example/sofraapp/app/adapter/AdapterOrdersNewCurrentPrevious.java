@@ -1,8 +1,6 @@
 package com.example.sofraapp.app.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +8,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.model.cycleRestaurant.myorders.Data2MyOrders;
+import com.example.sofraapp.app.data.model.restaurant.order.myorders.Data2MyOrders;
+import com.example.sofraapp.app.data.model.restaurant.order.myorders.ItemMyOrders;
+import com.example.sofraapp.app.data.model.restaurant.order.myorders.PivotMyOrders;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,7 +28,8 @@ public class AdapterOrdersNewCurrentPrevious extends RecyclerView.Adapter<Adapte
     private call callListener;
     private accept acceptListener;
     private reject rejectListener;
-    private int testSate ;
+    private int testSate;
+    List<ItemMyOrders> itemMyOrders ;
     public AdapterOrdersNewCurrentPrevious(Context context, ArrayList<Data2MyOrders> data2MyOrdersArrayList, call callListener, accept acceptListener, reject rejectListener, int testSate) {
         this.context = context;
         this.data2MyOrdersArrayList = data2MyOrdersArrayList;
@@ -46,28 +51,31 @@ public class AdapterOrdersNewCurrentPrevious extends RecyclerView.Adapter<Adapte
     public void onBindViewHolder(@NonNull AdapterOrdersNewCurrentPreviousViewHolder holder, int position) {
 
         Data2MyOrders data2MyOrders = data2MyOrdersArrayList.get(position);
-//        Glide.with(context).load(data2MyOrders.getItems().get(position).getPhotoUrl())
-  //              .into(holder.CustomOrdersIMShowImage);
+        itemMyOrders = data2MyOrders.getItems();
+        for (int i = 0; i < itemMyOrders.size(); i++) {
+            Glide.with(context).load(itemMyOrders.get(i).getPhotoUrl())
+                    .into(holder.CustomOrdersIMShowImage);
+            holder.CustomOrdersTVNumber.setText(itemMyOrders.get(i).getPivot().getOrderId());
+        }
         holder.CustomOrdersTVShowNameCustomer.setText(data2MyOrders.getClient().getName());
         holder.CustomOrdersTVIsAddress.setText(data2MyOrders.getAddress());
         holder.CustomOrdersTVIsPriceDelevery.setText(data2MyOrders.getDeliveryCost());
         holder.CustomOrdersTVShowPrice.setText(data2MyOrders.getCost());
         holder.CustomOrdersTVIsPriceTotally.setText(data2MyOrders.getTotal());
-    //    holder.CustomOrdersTVNumberOrder.append(data2MyOrders.getItems().get(position).getPivot().getOrderId());
-        if (testSate == 0){
+        if (testSate == 0) {
             holder.CustomOrdersBTAccept.setVisibility(View.VISIBLE);
             holder.CustomOrdersBTAccept.setText(R.string.accept);
             holder.CustomOrdersBTReject.setVisibility(View.VISIBLE);
             holder.CustomOrdersBTReject.setText(R.string.not_delevery);
             holder.CustomMyOrderUserBTPhone.setVisibility(View.VISIBLE);
             holder.CustomMyOrderUserBTPhone.setText(data2MyOrders.getClient().getPhone());
-        }else if (testSate ==1){
+        } else if (testSate == 1) {
             holder.CustomOrdersBTAccept.setVisibility(View.VISIBLE);
             holder.CustomOrdersBTAccept.setText(R.string.sure_accept);
             holder.CustomOrdersBTReject.setVisibility(View.GONE);
             holder.CustomMyOrderUserBTPhone.setVisibility(View.VISIBLE);
             holder.CustomMyOrderUserBTPhone.setText(data2MyOrders.getClient().getPhone());
-        }else {
+        } else {
             holder.CustomOrdersBTAccept.setVisibility(View.VISIBLE);
             holder.CustomOrdersBTAccept.setText(R.string.order_finished);
             holder.CustomOrdersBTReject.setVisibility(View.GONE);
@@ -97,8 +105,8 @@ public class AdapterOrdersNewCurrentPrevious extends RecyclerView.Adapter<Adapte
         TextView CustomOrdersTVIsPriceTotally;
         @BindView(R.id.Custom_Orders_TV_Is_Address)
         TextView CustomOrdersTVIsAddress;
-        @BindView(R.id.Custom_Orders_TV_Number_Order)
-        TextView CustomOrdersTVNumberOrder;
+        @BindView(R.id.Custom_Orders_TV_Number)
+        TextView CustomOrdersTVNumber;
         @BindView(R.id.Custom_Orders_BT_Reject)
         Button CustomOrdersBTReject;
         @BindView(R.id.Custom_Orders_BT_Accept)
@@ -110,16 +118,49 @@ public class AdapterOrdersNewCurrentPrevious extends RecyclerView.Adapter<Adapte
             super(itemView);
             view = itemView;
             ButterKnife.bind(this, view);
+            CustomOrdersBTAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Data2MyOrders data2MyOrders = data2MyOrdersArrayList.get(position);
+                        if (acceptListener != null) acceptListener.itemAccept(data2MyOrders);
+
+
+                }
+            });
+            CustomMyOrderUserBTPhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Data2MyOrders data2MyOrders = data2MyOrdersArrayList.get(position);
+                    if (callListener != null) callListener.itemCall(data2MyOrders);
+
+
+                }
+            });
+            CustomOrdersBTReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Data2MyOrders data2MyOrders = data2MyOrdersArrayList.get(position);
+                    if (rejectListener != null) rejectListener.itemReject(data2MyOrders);
+
+
+                }
+            });
 
         }
     }
-    public interface call{
+
+    public interface call {
         void itemCall(Data2MyOrders data2MyOrders);
     }
-    public interface accept{
+
+    public interface accept {
         void itemAccept(Data2MyOrders data2MyOrders);
     }
-    public interface reject{
+
+    public interface reject {
         void itemReject(Data2MyOrders data2MyOrders);
     }
 }

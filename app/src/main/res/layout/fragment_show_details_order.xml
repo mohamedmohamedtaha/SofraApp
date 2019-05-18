@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/dimens_l"
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.client.order.ShowDetailsOrderFragment">
+
+    <TextView
+        android:id="@+id/ShowDetailsOrderFragment_Id_Order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:text="@string/hello_blank_fragment" />
+    <TextView
+        android:id="@+id/ShowDetailsOrderFragment_State_Order"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment" />
+    <TextView
+        android:id="@+id/ShowDetailsOrderFragment_Delevery_Cost"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment" />
+
+</LinearLayout>

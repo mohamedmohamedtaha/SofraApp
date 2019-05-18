@@ -27,8 +27,6 @@ import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
  * A simple {@link Fragment} subclass.
  */
 public class AboutAppFragment extends Fragment {
-
-
     @BindView(R.id.TV_Show_Title)
     TextView TVShowTitle;
     Unbinder unbinder;

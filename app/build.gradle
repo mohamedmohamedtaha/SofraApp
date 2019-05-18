@@ -69,7 +69,6 @@ dependencies {
     //for swipe Layout
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
-
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"

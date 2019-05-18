@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.model.cycleClient.myordersasuser.Data2MyOrdersAsUser;
+import com.example.sofraapp.app.data.model.client.order.myordersasuser.Data2MyOrdersAsUser;
 
 import java.util.List;
 
@@ -24,13 +24,14 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
     Data2MyOrdersAsUser myOrdersAsUser;
     private done done;
     private reject reject;
+    private showDetails showDetails;
     private boolean isCurrent = false;
-
-    public AdapterMyOrderAndPreviousCustom(Context context, List<Data2MyOrdersAsUser> myOrdersAsUsers, done done, reject reject, boolean isCurrent) {
+    public AdapterMyOrderAndPreviousCustom(Context context, List<Data2MyOrdersAsUser> myOrdersAsUsers, showDetails showDetails, done done, reject reject, boolean isCurrent) {
         super(context, 0, myOrdersAsUsers);
         this.done = done;
         this.reject = reject;
         this.isCurrent = isCurrent;
+        this.showDetails = showDetails;
     }
 
     @Override
@@ -41,34 +42,49 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
             view = LayoutInflater.from(getContext()).inflate(R.layout.custom_myorder_user, parent, false);
         }
         viewHolder = new ViewHolder(view);
-         myOrdersAsUser = getItem(position);
+        myOrdersAsUser = getItem(position);
         viewHolder.CustomMyOrderUserTVIsPriceDelevery.setText(myOrdersAsUser.getDeliveryCost());
         viewHolder.CustomMyOrderUserTVIsPriceTotally.setText(myOrdersAsUser.getTotal());
         viewHolder.CustomMyOrderUserTVShowNameRestaurant.setText(myOrdersAsUser.getRestaurant().getName());
         viewHolder.CustomMyOrderUserTVShowPrice.setText(myOrdersAsUser.getCost());
         Glide.with(getContext()).load(myOrdersAsUser.getRestaurant().getPhotoUrl()).into(viewHolder.CustomMyOrderUserIMShowImage);
+        // Get the TextView current LayoutParams
+        LayoutParams lp = (LayoutParams) viewHolder.CustomMyOrderUserTVNumberOrder.getLayoutParams();
+        LayoutParams lp2 = (LayoutParams) viewHolder.CustomMyOrderUserTVMNumberOrder.getLayoutParams();
+
         if (isCurrent) {
             viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.GONE);
             viewHolder.CustomMyOrderUserBTDoneDelevery.setVisibility(View.GONE);
-            // Get the TextView current LayoutParams
-            LayoutParams lp = (RelativeLayout.LayoutParams) viewHolder.CustomMyOrderUserTVNumberOrder.getLayoutParams();
             // Set TextView layout margin 25 pixels to all side
             // Left Top Right Bottom Margin
             lp.setMargins(50, 70, 0, 0);
+            lp2.setMargins(100, 70, 0, 0);
+
             // Apply the updated layout parameters to TextView
             viewHolder.CustomMyOrderUserTVNumberOrder.setLayoutParams(lp);
-            viewHolder.CustomMyOrderUserTVNumberOrder.append(myOrdersAsUser.getCost());
+            viewHolder.CustomMyOrderUserTVMNumberOrder.setLayoutParams(lp2);
+
+            viewHolder.CustomMyOrderUserTVNumberOrder.setText(myOrdersAsUser.getId().toString());
         } else {
             viewHolder.CustomMyOrderUserBTNotDelevery.setVisibility(View.VISIBLE);
             viewHolder.CustomMyOrderUserBTDoneDelevery.setVisibility(View.VISIBLE);
-            LayoutParams lp = (RelativeLayout.LayoutParams) viewHolder.CustomMyOrderUserTVNumberOrder.getLayoutParams();
             lp.setMargins(16, 55, 0, 0);
+            lp2.setMargins(56, 55, 0, 0);
             // Apply the updated layout parameters to TextView
+            viewHolder.CustomMyOrderUserTVMNumberOrder.setLayoutParams(lp2);
             viewHolder.CustomMyOrderUserTVNumberOrder.setLayoutParams(lp);
-            viewHolder.CustomMyOrderUserTVNumberOrder.append(myOrdersAsUser.getCost());
+            viewHolder.CustomMyOrderUserTVNumberOrder.setText(myOrdersAsUser.getId().toString());
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Data2MyOrdersAsUser data2MyOrdersAsUser = myOrdersAsUser;
+                if (showDetails != null) showDetails.showDetail(data2MyOrdersAsUser);
+            }
+        });
         return view;
     }
+
     public interface done {
         public void buttonDone(Data2MyOrdersAsUser position);
     }
@@ -77,8 +93,12 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
         public void buttonReject(Data2MyOrdersAsUser position);
     }
 
+    public interface showDetails {
+        public void showDetail(Data2MyOrdersAsUser position);
+    }
 
-    class ViewHolder {
+
+        class ViewHolder {
         @BindView(R.id.Custom_MyOrder_User_IM_Show_Image)
         ImageView CustomMyOrderUserIMShowImage;
         @BindView(R.id.Custom_MyOrder_User_TV_Show_Name_Restaurant)
@@ -95,10 +115,13 @@ public class AdapterMyOrderAndPreviousCustom extends ArrayAdapter<Data2MyOrdersA
         Button CustomMyOrderUserBTNotDelevery;
         @BindView(R.id.Custom_MyOrder_User_BT_Done_Delevery)
         Button CustomMyOrderUserBTDoneDelevery;
+        @BindView(R.id.Custom_MyOrder_User_TV_mNumber_Order)
+        TextView CustomMyOrderUserTVMNumberOrder;
+
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
-            CustomMyOrderUserBTNotDelevery.setOnClickListener(new View.OnClickListener() {
+            CustomMyOrderUserBTDoneDelevery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Data2MyOrdersAsUser data2MyOrdersAsUser = myOrdersAsUser;

@@ -5,17 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".app.ui.fragment.DetailRestaurantFragment">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/Detail_Restaurant_Fragment_TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@android:color/black" />
+    tools:context=".app.ui.fragment.general.restaurant.DetailRestaurantFragment">
 
     <RelativeLayout
     android:layout_width="wrap_content"
@@ -103,10 +93,16 @@
         android:layout_toEndOf="@+id/Detail_Restaurant_Fragment_TV_Price_Delevery"
         android:layout_height="wrap_content"
         android:text="@string/price_delevery"/>
-
-
-</RelativeLayout>
-
+        </RelativeLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/Detail_Restaurant_Fragment_TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/black" />
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/Detail_Restaurant_Fragment_ViewPager"
         android:layout_width="match_parent"

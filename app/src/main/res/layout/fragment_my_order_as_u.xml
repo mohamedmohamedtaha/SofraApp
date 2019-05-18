@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".app.ui.fragment.MyOrderAsUSerFragment">
+    tools:context=".app.ui.fragment.client.order.MyOrderAsUserFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/MyOrderAsUSerFragment_TabLayout"

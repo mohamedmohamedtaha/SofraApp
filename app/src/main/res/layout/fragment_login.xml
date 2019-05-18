@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".app.ui.fragment.splashAndUserCycle.LoginFragment">
+    tools:context=".app.ui.fragment.client.userCycle.LoginFragment">
 
     <TextView
         android:layout_width="wrap_content"

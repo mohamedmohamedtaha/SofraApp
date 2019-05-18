@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.helper.SaveData;
-import com.example.sofraapp.app.ui.fragment.cycleRestaurant.orders.CurrentOrdersAsRestaurantFragment;
-import com.example.sofraapp.app.ui.fragment.cycleRestaurant.orders.NewOrdersAsRestaurantFragment;
-import com.example.sofraapp.app.ui.fragment.cycleRestaurant.orders.PreviousOrdersAsRestaurantFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.orders.CurrentOrdersAsRestaurantFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.orders.NewOrdersAsRestaurantFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.orders.PreviousOrdersAsRestaurantFragment;
 
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 public class AdapterOrdersAsRestaurant extends FragmentPagerAdapter {

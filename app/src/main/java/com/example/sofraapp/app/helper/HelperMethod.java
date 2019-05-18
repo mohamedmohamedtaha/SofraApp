@@ -24,7 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.ui.fragment.splashAndUserCycle.LoginFragment;
+import com.example.sofraapp.app.ui.fragment.client.userCycle.LoginFragment;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
@@ -56,7 +56,7 @@ public class HelperMethod {
     public static final String GET_MODEL = "get_model";
 
     //This method for handle Fragments
-    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, TextView toolbar, String title, Bundle bundle) {
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         fragment.setArguments(bundle);
         transaction.replace(id, fragment);
@@ -67,18 +67,31 @@ public class HelperMethod {
         transaction.commitAllowingStateLoss();
 
         if (toolbar != null) {
-            toolbar.setText(title);
+            toolbar.setTitle(title);
         }
 
 
     }
 
-
-    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title,SaveData saveData) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(GET_DATA, saveData);
-        fragment.setArguments(bundle);
+          Bundle bundle = new Bundle();
+         bundle.putParcelable(GET_DATA, saveData);
+         fragment.setArguments(bundle);
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        // for change from commit() because don't happen Error
+        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        transaction.commitAllowingStateLoss();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+    }
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+      //  Bundle bundle = new Bundle();
+       // bundle.putParcelable(GET_DATA, saveData);
+       // fragment.setArguments(bundle);
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
         // for change from commit() because don't happen Error
@@ -113,16 +126,13 @@ public class HelperMethod {
         } else {
             Snackbar.make(view, context.getString(R.string.no_internet), Snackbar.LENGTH_LONG).show();
             return false;
-
         }
     }
 
     // This method for handle Activity
-    public static void startActivity(Context context, Class<?> toActivity, String getAPI) {
+    public static void startActivity(Context context, Class<?> toActivity) {
         Intent startActivity = new Intent(context, toActivity);
-        startActivity.putExtra(API_KEY, getAPI);
-        startActivity.putExtra(API_KEY, getAPI);
-
+       // startActivity.putExtra(API_KEY, getAPI);
         context.startActivity(startActivity);
     }
 
@@ -145,7 +155,7 @@ public class HelperMethod {
             public void onFinish() {
                 Snackbar.make(view, context.getString(R.string.time_out), Snackbar.LENGTH_LONG).show();
                 LoginFragment loginFragment = new LoginFragment();
-                replece(loginFragment, fragmentManager, R.id.Cycle_Home_contener, toolbar, context.getString(R.string.login), saveData);
+                replece(loginFragment, fragmentManager, R.id.Cycle_Home_contener, toolbar, context.getString(R.string.login));
             }
         };
         countDownTimers.start();

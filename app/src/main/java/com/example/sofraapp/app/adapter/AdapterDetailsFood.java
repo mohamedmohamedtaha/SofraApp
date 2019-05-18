@@ -9,15 +9,15 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.helper.SaveData;
-import com.example.sofraapp.app.ui.fragment.ReviewsFragment;
-import com.example.sofraapp.app.ui.fragment.InformationStoreFragment;
-import com.example.sofraapp.app.ui.fragment.ListFoodFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.ReviewsFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.InformationStoreFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.ListFoodFragment;
 
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
+import static com.example.sofraapp.app.ui.fragment.general.restaurant.OrderFoodFragment.DETAILS_RESTUARANT;
 
 public class AdapterDetailsFood extends FragmentPagerAdapter {
     private Context mContext;
-    Bundle bundle;
     SaveData saveData;
     public AdapterDetailsFood(Context mContext, FragmentManager fm, SaveData saveData) {
         super(fm);
@@ -28,21 +28,21 @@ public class AdapterDetailsFood extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(GET_DATA, saveData);
             ListFoodFragment listFoodFragment = new ListFoodFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(GET_DATA,saveData);
             listFoodFragment.setArguments(bundle);
             return listFoodFragment;
         }else if (position == 1){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(GET_DATA, saveData);
             ReviewsFragment reviewsFragment = new ReviewsFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(GET_DATA,saveData);
             reviewsFragment.setArguments(bundle);
             return reviewsFragment;
         }else {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(GET_DATA, saveData);
             InformationStoreFragment informationStoreFragment =  new InformationStoreFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(GET_DATA,saveData);
             informationStoreFragment.setArguments(bundle);
             return informationStoreFragment;
         }

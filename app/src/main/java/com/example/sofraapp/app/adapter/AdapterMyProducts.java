@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.model.cycleRestaurant.myproduct.Data2MyProduct;
-import com.example.sofraapp.app.data.model.cycleRestaurant.offers.myoffers.Data2MyOffers;
+import com.example.sofraapp.app.data.model.restaurant.fooditem.myitems.Data2MyItems;
+import com.example.sofraapp.app.data.model.restaurant.offers.myoffers.Data2MyOffers;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,11 @@ import butterknife.ButterKnife;
 
 public class AdapterMyProducts extends RecyclerView.Adapter<AdapterMyProducts.MyProductsViewHolder> {
     private Context context;
-    private ArrayList<Data2MyProduct> data2MyProducts = new ArrayList<>();
+    private ArrayList<Data2MyItems> data2MyProducts = new ArrayList<>();
     private Boolean isOffer;
     private ArrayList<Data2MyOffers> data2MyOffers = new ArrayList<>();
 
-    public AdapterMyProducts(Context context, ArrayList<Data2MyProduct> data2MyProducts) {
+    public AdapterMyProducts(Context context, ArrayList<Data2MyItems> data2MyProducts) {
         this.context = context;
         this.data2MyProducts = data2MyProducts;
         this.isOffer = false;

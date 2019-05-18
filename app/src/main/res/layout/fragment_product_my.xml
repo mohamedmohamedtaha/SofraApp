@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".app.ui.fragment.ProductMyFragment">
+    tools:context=".app.ui.fragment.restaurant.foodItem.ProductMyFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ProductMyFragment_Recycler_View"
@@ -50,18 +50,21 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-    <Button
-        android:id="@+id/ProductMyFragment_BT_Add_New_Product"
+      <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dimens_l"
-        android:layout_marginEnd="@dimen/dimens_l"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dimens_xl"
-        android:text="@string/add_new_product"
-        android:drawableEnd="@drawable/ic_add"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/txt_size_xl"
         android:background="@color/colorButtonRegester"
-        android:layout_height="wrap_content" />
-
+        android:layout_marginBottom="@dimen/dimens_xl"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/ProductMyFragment_BT_Add_New_Product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_product"
+            android:drawableEnd="@drawable/ic_add"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/txt_size_xl"
+            android:background="@null"   />
+      </RelativeLayout>
 </RelativeLayout>

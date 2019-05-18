@@ -35,6 +35,8 @@
     <dimen name="dimens_half_hundrand">150dp</dimen>
     <dimen name="dimens_hundrand">100dp</dimen>
     <dimen name="dimens_hundrand_ten">110dp</dimen>
+    <dimen name="dimens_one_hundrand_twenty">120dp</dimen>
+    <dimen name="dimens_one_hundrand_twenty_five">125dp</dimen>
 
     <dimen name="dimens_seventy">70dp</dimen>
     <dimen name="dimens_eighty">80dp</dimen>
