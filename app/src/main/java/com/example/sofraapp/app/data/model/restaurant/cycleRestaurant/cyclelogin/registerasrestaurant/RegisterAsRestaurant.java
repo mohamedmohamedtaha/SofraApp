@@ -14,7 +14,8 @@ public class RegisterAsRestaurant {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataRegisterAsRestaurant data;
+    private Object data = null;
+//    private DataRegisterAsRestaurant data;
 
     public Integer getStatus() {
         return status;
@@ -32,11 +33,11 @@ public class RegisterAsRestaurant {
         this.msg = msg;
     }
 
-    public DataRegisterAsRestaurant getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(DataRegisterAsRestaurant data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

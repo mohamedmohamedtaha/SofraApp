@@ -55,6 +55,17 @@ public class UserLogin {
     @Expose
     private RegionLogin region;
 
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
     public Integer getId() {
         return id;
     }

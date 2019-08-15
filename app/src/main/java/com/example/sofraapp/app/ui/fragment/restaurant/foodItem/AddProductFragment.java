@@ -18,21 +18,21 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.restaurant.fooditem.newitem.NewItem;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
-import com.example.sofraapp.app.helper.SaveData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.AlbumFile;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,7 +44,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 import static com.example.sofraapp.app.helper.OpenCamira.CAMIRA;
 import static com.example.sofraapp.app.helper.OpenCamira.GALARY;
 
@@ -68,8 +67,6 @@ public class AddProductFragment extends Fragment {
     ProgressBar AddProductFragmentProgressBar;
     Unbinder unbinder;
     APIServices apiServices;
-    Bitmap bitmap;
-    MultipartBody.Part fileToUpload;
     private ArrayList<AlbumFile> ImagesFiles = new ArrayList<>();
     private int counter = 1;
 
@@ -219,10 +216,6 @@ public class AddProductFragment extends Fragment {
                 HelperMethod.openAlbum(counter, getActivity(), ImagesFiles, action);
                 break;
             case R.id.AddProductFragment_Bt_Add:
-                //   if (saveData.getApi_token() == null) {
-                //     Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_LONG).show();
-                //  return;
-                //}
                 if (AddProductFragmentIMAddPhoto.getDrawable() == null) {
                     Toast.makeText(getActivity(), getString(R.string.error_image), Toast.LENGTH_LONG).show();
                     return;
@@ -260,7 +253,7 @@ public class AddProductFragment extends Fragment {
                                         AddProductFragmentProgressBar.setVisibility(View.GONE);
                                         Toast.makeText(getActivity(), newItem.getMsg(), Toast.LENGTH_SHORT).show();
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     AddProductFragmentProgressBar.setVisibility(View.GONE);
                                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }

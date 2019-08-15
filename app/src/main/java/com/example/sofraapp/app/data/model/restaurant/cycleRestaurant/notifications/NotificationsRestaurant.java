@@ -1,10 +1,10 @@
 
-package com.example.sofraapp.app.data.model.client.cycleClient.notifications;
+package com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.notifications;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Notifications {
+public class NotificationsRestaurant {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +14,7 @@ public class Notifications {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataNotifications data;
+    private DataNotificationsRestaurant data;
 
     public Integer getStatus() {
         return status;
@@ -32,11 +32,11 @@ public class Notifications {
         this.msg = msg;
     }
 
-    public DataNotifications getData() {
+    public DataNotificationsRestaurant getData() {
         return data;
     }
 
-    public void setData(DataNotifications data) {
+    public void setData(DataNotificationsRestaurant data) {
         this.data = data;
     }
 

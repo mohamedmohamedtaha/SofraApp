@@ -13,8 +13,7 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
-        android:visibility="gone"
-        ></androidx.recyclerview.widget.RecyclerView>
+        android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
     <!-- Empty view is only visible when the list has no items. -->
     <RelativeLayout
         android:id="@+id/ProductMyFragment_RL"
@@ -50,21 +49,25 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-      <RelativeLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorButtonRegester"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginEnd="@dimen/dimens_xl"
         android:layout_marginBottom="@dimen/dimens_xl"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:background="@color/colorButtonRegester"
+        android:gravity="center">
+
         <Button
             android:id="@+id/ProductMyFragment_BT_Add_New_Product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_new_product"
+            android:background="@null"
             android:drawableEnd="@drawable/ic_add"
+            android:text="@string/add_new_product"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/txt_size_xl"
-            android:background="@null"   />
-      </RelativeLayout>
+            android:textSize="@dimen/txt_size_xl" />
+    </RelativeLayout>
 </RelativeLayout>

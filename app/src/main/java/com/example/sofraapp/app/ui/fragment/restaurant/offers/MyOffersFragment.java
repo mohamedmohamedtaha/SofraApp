@@ -21,6 +21,7 @@ import com.example.sofraapp.app.data.model.restaurant.offers.myoffers.Data2MyOff
 import com.example.sofraapp.app.data.model.restaurant.offers.myoffers.MyOffers;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 import com.example.sofraapp.app.ui.fragment.restaurant.offers.AddOfferFragment;
 
@@ -58,6 +59,8 @@ public class MyOffersFragment extends Fragment {
     private AdapterMyProducts adapterMyOffers;
     ArrayList<Data2MyOffers> data2MyOffersArrayList = new ArrayList<>();
     APIServices apiServices;
+    private RememberMy rememberMy;
+    public static final String DIALOG_OFFERS= "dialog_offers";
     public MyOffersFragment() {
         // Required empty public constructor
     }
@@ -68,13 +71,15 @@ public class MyOffersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_offers, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         data2MyOffersArrayList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         MyOffersFragmentRecyclerView.setLayoutManager(linearLayoutManager);
         adapterMyOffers = new AdapterMyProducts(getActivity(), data2MyOffersArrayList,true);
         MyOffersFragmentRecyclerView.setAdapter(adapterMyOffers);
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getMyOffers("OGqjF8iGLccLQqdOJ11gHDTzdwG6980twebZRnN66mOFWh2P0Qwb3UCFHboc",1).enqueue(new Callback<MyOffers>() {
+        //z69wj11jkMZFscNbxgDhIp7YHfxnC7j7plY2EJqWHMModsJ9hMfmo7y0bzLt
+        apiServices.getMyOffers(rememberMy.getAPIKey(),1).enqueue(new Callback<MyOffers>() {
             @Override
             public void onResponse(Call<MyOffers> call, Response<MyOffers> response) {
                 MyOffersFragmentLoadingIndicator.setVisibility(View.VISIBLE);
@@ -116,8 +121,7 @@ public class MyOffersFragment extends Fragment {
 
     @OnClick(R.id.MyOffersFragment_BT_Add_New_Offer)
     public void onViewClicked() {
-        AddOfferFragment addOfferFragment = new AddOfferFragment();
-        HelperMethod.replece(addOfferFragment,getActivity().getSupportFragmentManager(),R.id.Cycle_Home_contener,toolbar,getString(R.string.my_orders));
+        new AddOfferFragment().show(getFragmentManager(),DIALOG_OFFERS);
 
     }
 }

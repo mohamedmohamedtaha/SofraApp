@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
+import static com.example.sofraapp.app.ui.activity.LoginActivity.toolbar_Login;
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
@@ -80,7 +81,7 @@ public class ForgetPasswordStep1Fragment extends Fragment {
                     if (resetPassword1.getStatus() == 1) {
                         ForgetPasswordStep2Fragment forgetPasswordStep2Fragment = new ForgetPasswordStep2Fragment();
                         HelperMethod.replece(forgetPasswordStep2Fragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_Home_contener, toolbar, getString(R.string.forget_my_password_l));
+                                R.id.Cycle_Login_contener, toolbar_Login, getString(R.string.forget_my_password_l));
                         Toast.makeText(getActivity(), resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
                         ForgetPasswordStep1FragmentProgressBar.setVisibility(View.GONE);
                     } else {

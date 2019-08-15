@@ -1,10 +1,10 @@
 
-package com.example.sofraapp.app.data.model.client.cycleClient.notifications;
+package com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.notifications;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data2Notifications {
+public class Data2NotificationsRestaurant {
 
     @SerializedName("id")
     @Expose

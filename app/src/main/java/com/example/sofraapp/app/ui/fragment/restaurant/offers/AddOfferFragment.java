@@ -1,18 +1,20 @@
 package com.example.sofraapp.app.ui.fragment.restaurant.offers;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.textfield.TextInputEditText;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
@@ -20,7 +22,8 @@ import com.example.sofraapp.app.data.model.restaurant.offers.newoffer.NewOffer;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.DateModel;
 import com.example.sofraapp.app.helper.HelperMethod;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.helper.RememberMy;
+import com.google.android.material.textfield.TextInputEditText;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.AlbumFile;
 
@@ -38,12 +41,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddOfferFragment extends Fragment {
+public class AddOfferFragment extends DialogFragment {
     @BindView(R.id.AddOfferFragment_Tiet_Name_Offer)
     TextInputEditText AddOfferFragmentTietNameOffer;
     @BindView(R.id.AddOfferFragment_Tiet_Describe)
@@ -61,8 +63,12 @@ public class AddOfferFragment extends Fragment {
     @BindView(R.id.AddOfferFragment_Progress_Bar)
     ProgressBar AddOfferFragmentProgressBar;
     Unbinder unbinder;
+    private static final String EXTRA_ID_OFFERS = "id";
     APIServices apiServices;
     boolean check_network;
+    RememberMy rememberMy;
+    @BindView(R.id.AddProductFragment_TVTitleCategory)
+    TextView AddProductFragmentTVTitleCategory;
     private DateModel dateModel1;
     private DateModel dateModel2;
     final Calendar getDatenow = Calendar.getInstance();
@@ -71,23 +77,42 @@ public class AddOfferFragment extends Fragment {
     private int startDay;
     private ArrayList<AlbumFile> ImagesFiles = new ArrayList<>();
     private int counter = 1;
+    View view;
+    AlertDialog.Builder builder;
+    AlertDialog dialog;
+    Long id_offer;
 
     public AddOfferFragment() {
         // Required empty public constructor
     }
 
+    public static AddOfferFragment newInstance(long id) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(EXTRA_ID_OFFERS, id);
+        AddOfferFragment addOfferFragment = new AddOfferFragment();
+        addOfferFragment.setArguments(bundle);
+        return addOfferFragment;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_offer, container, false);
+        view = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_offer, null);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         startYear = getDatenow.get(Calendar.YEAR);
         startMonth = getDatenow.get(Calendar.MONTH);
         startDay = getDatenow.get(Calendar.DAY_OF_MONTH);
-        dateModel1 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth), String.valueOf(startDay), null);
-        dateModel2 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth), String.valueOf(startDay), null);
+        dateModel1 = new DateModel(String.valueOf(startDay), String.valueOf(startMonth), String.valueOf(startYear), null);
+        dateModel2 = new DateModel(String.valueOf(startDay), String.valueOf(startMonth), String.valueOf(startYear), null);
+        AddOfferFragmentTietNameOffer.setHint(getString(R.string.name_offer));
 
         AddOfferFragmentFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,13 +126,21 @@ public class AddOfferFragment extends Fragment {
                 HelperMethod.showCalender(getActivity(), getString(R.string.to), AddOfferFragmentTo, dateModel2);
             }
         });
-        return view;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+       /* //For edit Offer
+        if (getArguments() != null && getArguments().getLong(EXTRA_ID_OFFERS) != 0) {
+            id_offer = getArguments().getLong(EXTRA_ID_OFFERS);
+            AddProductFragmentTVTitleCategory.setText(getString(R.string.eidt_offer));
+
+
+        }*/
+
+        builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view).setIcon(R.mipmap.logo);
+        dialog = builder.create();
+        dialog.show();
+
+        return dialog;
     }
 
     @OnClick({R.id.AddOfferFragment_IM_Add_Photo, R.id.AddOfferFragment_Bt_Add})
@@ -130,10 +163,6 @@ public class AddOfferFragment extends Fragment {
                 if (check_network == false) {
                     return;
                 }
-              //  if (saveData.getApi_token() == null) {
-                //    Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
-                  //  return;
-                //}
                 String name = AddOfferFragmentTietNameOffer.getText().toString().trim();
                 String pre_description = AddOfferFragmentTietDescribe.getText().toString().trim();
                 String price = AddOfferFragmentTietPriceOffer.getText().toString().trim();
@@ -148,7 +177,7 @@ public class AddOfferFragment extends Fragment {
                 RequestBody priceBody = HelperMethod.convertToRequestBody(price);
                 RequestBody fromBody = HelperMethod.convertToRequestBody(from);
                 RequestBody toBody = HelperMethod.convertToRequestBody(to);
-                RequestBody getApi_tokenBody = HelperMethod.convertToRequestBody("OGqjF8iGLccLQqdOJ11gHDTzdwG6980twebZRnN66mOFWh2P0Qwb3UCFHboc");
+                RequestBody getApi_tokenBody = HelperMethod.convertToRequestBody(rememberMy.getAPIKey());
                 if (ImagesFiles.size() <= 0) {
                     Toast.makeText(getActivity(), getString(R.string.select_photo), Toast.LENGTH_SHORT).show();
                     return;
@@ -165,6 +194,7 @@ public class AddOfferFragment extends Fragment {
                             if (newOffer.getStatus() == 1) {
                                 Toast.makeText(getActivity(), newOffer.getMsg(), Toast.LENGTH_SHORT).show();
                                 AddOfferFragmentProgressBar.setVisibility(View.GONE);
+                                dialog.dismiss();
 
                             } else {
                                 Toast.makeText(getActivity(), newOffer.getMsg(), Toast.LENGTH_SHORT).show();

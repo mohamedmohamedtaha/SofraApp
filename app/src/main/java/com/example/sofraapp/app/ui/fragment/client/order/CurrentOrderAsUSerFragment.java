@@ -68,10 +68,10 @@ public class CurrentOrderAsUSerFragment extends Fragment {
         rememberMy = new RememberMy(getActivity());
         myOrdersAsUserArrayList.clear();
         CurrentOrderAsUSerFragment_List_View.setEmptyView(CurrentOrderAsUSerFragmentRLEmptyView);
-        //   if (rememberMy.getAPIKey() != null){
+          if (rememberMy.getAPIKey() != null){
         CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.VISIBLE);
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getMyOrdersAsUser("HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB", "current", 1).enqueue(new Callback<MyOrdersAsUser>() {
+        apiServices.getMyOrdersAsUser(rememberMy.getAPIKey(), "current", 1).enqueue(new Callback<MyOrdersAsUser>() {
             @Override
             public void onResponse(Call<MyOrdersAsUser> call, Response<MyOrdersAsUser> response) {
                 MyOrdersAsUser myOrdersAsUser = response.body();
@@ -93,7 +93,7 @@ public class CurrentOrderAsUSerFragment extends Fragment {
                         public void buttonDone(Data2MyOrdersAsUser position) {
                             int data = position.getId();
                             apiServices.ConfirmOrder(/*saveData.getApi_token()*/
-                                    "HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB", data).enqueue(new Callback<ConfirmOrder>() {
+                                    rememberMy.getAPIKey(), data).enqueue(new Callback<ConfirmOrder>() {
                                 @Override
                                 public void onResponse(Call<ConfirmOrder> call, Response<ConfirmOrder> response) {
                                     ConfirmOrder confirmOrder = response.body();
@@ -119,7 +119,7 @@ public class CurrentOrderAsUSerFragment extends Fragment {
                         public void buttonReject(Data2MyOrdersAsUser position) {
                             int order_id = position.getId();
                             apiServices.declineOrder(/*saveData.getApi_token()*/
-                                    "HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB", order_id).enqueue(new Callback<DeclineOrder>() {
+                                    rememberMy.getAPIKey(), order_id).enqueue(new Callback<DeclineOrder>() {
                                 @Override
                                 public void onResponse(Call<DeclineOrder> call, Response<DeclineOrder> response) {
                                     DeclineOrder declineOrder = response.body();
@@ -154,9 +154,9 @@ public class CurrentOrderAsUSerFragment extends Fragment {
                 CurrentOrderAsUSerFragmentPBLoadingIndicator.setVisibility(View.GONE);
             }
         });
-        //}else {
-        //      Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-        // }
+        }else {
+              Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+         }
         return view;
     }
 

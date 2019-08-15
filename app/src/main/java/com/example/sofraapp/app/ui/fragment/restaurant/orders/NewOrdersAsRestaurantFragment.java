@@ -18,6 +18,7 @@ import com.example.sofraapp.app.data.model.restaurant.order.myorders.MyOrders;
 import com.example.sofraapp.app.data.model.restaurant.order.rejectorder.RejectOrder;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
     AdapterOrdersNewCurrentPrevious adapterOrdersNewCurrentPrevious;
     ArrayList<Data2MyOrders> data2MyOrdersArrayList = new ArrayList<>();
     APIServices apiServices;
+    RememberMy rememberMy;
     public NewOrdersAsRestaurantFragment() {
         // Required empty public constructor
     }
@@ -62,6 +64,7 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_orders, container, false);
         unbinder = ButterKnife.bind(this, view);
         apiServices = getRetrofit().create(APIServices.class);
+        rememberMy = new RememberMy(getActivity());
         data2MyOrdersArrayList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         NewOrdersAsRestaurantFragmentRecyclerView.setLayoutManager(linearLayoutManager);
@@ -79,7 +82,7 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
                         String order_id = data2MyOrders.getId().toString();
                         Toast.makeText(getActivity(), order_id, Toast.LENGTH_SHORT).show();
                         NewOrdersAsRestaurantFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                        apiServices.acceptOrder("quW3tUS7GVL5lv1BfAT0Orm4CXBtmRVREu3tCP6B5WebYsVaIQYdeoyg7yay", order_id)
+                        apiServices.acceptOrder(rememberMy.getAPIKey(), order_id)
                                 .enqueue(new Callback<AcceptOrder>() {
                                     @Override
                                     public void onResponse(Call<AcceptOrder> call, Response<AcceptOrder> response) {
@@ -113,7 +116,7 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
                 String order_id = data2MyOrders.getId().toString();
                 Toast.makeText(getActivity(), order_id, Toast.LENGTH_SHORT).show();
                 NewOrdersAsRestaurantFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                apiServices.rejectOrder("quW3tUS7GVL5lv1BfAT0Orm4CXBtmRVREu3tCP6B5WebYsVaIQYdeoyg7yay", order_id)
+                apiServices.rejectOrder(rememberMy.getAPIKey(), order_id)
                         .enqueue(new Callback<RejectOrder>() {
                             @Override
                             public void onResponse(Call<RejectOrder> call, Response<RejectOrder> response) {
@@ -143,9 +146,9 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
             }
         }, 0);
         NewOrdersAsRestaurantFragmentRecyclerView.setAdapter(adapterOrdersNewCurrentPrevious);
-        //  if (saveData.getApi_token() != null){
+          if (rememberMy.getAPIKey() != null){
         NewOrdersAsRestaurantFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-        apiServices.getMyOrders("quW3tUS7GVL5lv1BfAT0Orm4CXBtmRVREu3tCP6B5WebYsVaIQYdeoyg7yay", "pending", 1).enqueue(new Callback<MyOrders>() {
+        apiServices.getMyOrders(rememberMy.getAPIKey(), "pending", 1).enqueue(new Callback<MyOrders>() {
             @Override
             public void onResponse(Call<MyOrders> call, Response<MyOrders> response) {
                 MyOrders data2MyOrders = response.body();
@@ -178,9 +181,9 @@ public class NewOrdersAsRestaurantFragment extends Fragment {
                 NewOrdersAsRestaurantFragmentRecyclerView.setVisibility(View.GONE);
             }
         });
-        //   }else {
-        //     Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
-        // }
+           }else {
+             Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
+         }
 
         return view;
     }

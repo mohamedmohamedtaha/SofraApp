@@ -21,9 +21,7 @@ import com.example.sofraapp.app.adapter.AdapterMyProducts;
 import com.example.sofraapp.app.data.model.restaurant.fooditem.myitems.Data2MyItems;
 import com.example.sofraapp.app.data.model.restaurant.fooditem.myitems.MyItems;
 import com.example.sofraapp.app.data.rest.APIServices;
-import com.example.sofraapp.app.helper.HelperMethod;
-import com.example.sofraapp.app.helper.SaveData;
-import com.example.sofraapp.app.ui.fragment.restaurant.foodItem.AddProductFragment;
+import com.example.sofraapp.app.helper.RememberMy;
 
 import java.util.ArrayList;
 
@@ -36,8 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
-import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +56,9 @@ public class ProductMyFragment extends Fragment {
     APIServices apiServices;
     @BindView(R.id.ProductMyFragment_BT_Add_New_Product)
     Button ProductMyFragmentBTAddNewProduct;
+    public static final String DIALOG_PRODUCT = "dialog_product";
+
+    RememberMy rememberMy;
 
     public ProductMyFragment() {
         // Required empty public constructor
@@ -72,29 +71,36 @@ public class ProductMyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_my, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         myProductArrayList.clear();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         ProductMyFragmentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        adapterMyProducts = new AdapterMyProducts(getActivity(), myProductArrayList);
+        adapterMyProducts = new AdapterMyProducts(getActivity(), myProductArrayList,false);
         ProductMyFragmentRecyclerView.setAdapter(adapterMyProducts);
 
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getMyProducts("EuqQtEiKiG4OfshU49UltxUnvySicD3T1eW4BBjdjIlMqyGJPlYauzTOH0lv", 1).enqueue(new Callback<MyItems>() {
+        apiServices.getMyProducts(rememberMy.getAPIKey(), 1).enqueue(new Callback<MyItems>() {
             @Override
             public void onResponse(Call<MyItems> call, Response<MyItems> response) {
-                ProductMyFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                MyItems myProduct = response.body();
-                if (myProduct.getStatus() == 1) {
-                    ProductMyFragmentRecyclerView.setVisibility(View.VISIBLE);
-                    ProductMyFragmentLoadingIndicator.setVisibility(View.GONE);
-                    ProductMyFragmentRL.setVisibility(View.GONE);
-                    myProductArrayList.addAll(myProduct.getData().getData());
-                    adapterMyProducts.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getActivity(), myProduct.getMsg(), Toast.LENGTH_SHORT).show();
+                try {
+                    ProductMyFragmentLoadingIndicator.setVisibility(View.VISIBLE);
+                    MyItems myProduct = response.body();
+                    if (myProduct.getStatus() == 1) {
+                        ProductMyFragmentRecyclerView.setVisibility(View.VISIBLE);
+                        ProductMyFragmentLoadingIndicator.setVisibility(View.GONE);
+                        ProductMyFragmentRL.setVisibility(View.GONE);
+                        myProductArrayList.addAll(myProduct.getData().getData());
+                        adapterMyProducts.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getActivity(), myProduct.getMsg(), Toast.LENGTH_SHORT).show();
+                        getProperties();
+                    }
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     getProperties();
                 }
+
             }
 
             @Override
@@ -122,7 +128,27 @@ public class ProductMyFragment extends Fragment {
 
     @OnClick(R.id.ProductMyFragment_BT_Add_New_Product)
     public void onViewClicked() {
-        AddProductFragment addProductFragment = new AddProductFragment();
-        HelperMethod.replece(addProductFragment,getActivity().getSupportFragmentManager(),R.id.Cycle_Home_contener,toolbar,getString(R.string.product_my));
-    }
+        new AddAndEditPRoduct().show(getFragmentManager(),DIALOG_PRODUCT);
+         }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

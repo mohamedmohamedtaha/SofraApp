@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.data.model.general.settings.Settings;
+import com.example.sofraapp.app.helper.RememberMy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +34,7 @@ public class AboutAppFragment extends Fragment {
     @BindView(R.id.about_app_progress)
     ProgressBar aboutAppProgress;
     private APIServices apiServices;
+    RememberMy rememberMy;
 
     public AboutAppFragment() {
         // Required empty public constructor
@@ -45,10 +47,11 @@ public class AboutAppFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about_app, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         apiServices = getRetrofit().create(APIServices.class);
         aboutAppProgress.setVisibility(View.VISIBLE);
 
-        apiServices.getSettings().enqueue(new Callback<Settings>() {
+        apiServices.getSettings(rememberMy.getEmailUser(),rememberMy.getPassword()).enqueue(new Callback<Settings>() {
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {
                 Settings settings = response.body();

@@ -94,7 +94,7 @@ public class ForgetPasswordAsRestaurantStep1Fragment extends Fragment {
                     if (resetPassword.getStatus() == 1) {
                         ForgetPasswordStep2Fragment forgetPasswordStep2Fragment = new ForgetPasswordStep2Fragment();
                         HelperMethod.replece(forgetPasswordStep2Fragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_Home_contener, toolbar, getString(R.string.forget_my_password_l));
+                                R.id.Cycle_Login_contener, toolbar, getString(R.string.forget_my_password_l));
                         ForgetPasswordAsRestaurantStep1FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), resetPassword.getMsg(), Toast.LENGTH_SHORT).show();
                     } else {

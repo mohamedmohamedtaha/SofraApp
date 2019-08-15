@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".app.ui.fragment.client.order.NewOrderFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/NewOrderFragment_Tiet_Notes"
+                style="@style/StyleEditTextNull"
+                android:hint="@string/add_notes"
+                android:inputType="textMultiLine"
+                android:lines="5" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:text="@string/address_delevery"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/NewOrderFragment_TV_Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimens_s"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:textColor="@android:color/black"
+            tools:text="@string/address_delevery" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:text="@string/the_pay"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/NewOrderFragment_RG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimens_l"></RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:background="@color/colorGrayLight">
+
+            <TextView
+                android:id="@+id/NewOrderFragment_TV_Total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginTop="@dimen/dimens_s"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                tools:text="@string/totally" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_weight="3"
+                android:text="@string/totally"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:background="@color/colorGrayLight">
+
+            <TextView
+                android:id="@+id/NewOrderFragment_TV_Price_Delevery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginTop="@dimen/dimens_s"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                tools:text="@string/totally" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_weight="3"
+                android:text="@string/price_delevery"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:background="@android:color/darker_gray">
+
+            <TextView
+                android:id="@+id/NewOrderFragment_TV_Price_Total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginTop="@dimen/dimens_s"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                tools:text="@string/totally" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_weight="3"
+                android:text="@string/price_totaly"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/NewOrderFragment_Perform_Pay"
+            style="@style/StyleButtonBlack"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:background="@color/colorButtonCreate"
+            android:text="@string/perform_pay" />
+    </LinearLayout>
+
+</ScrollView>

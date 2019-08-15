@@ -15,6 +15,10 @@ public class RememberMy {
     public static final String SAVE_STATE = "save_state";
     public static final String KEY_NAME = "name";
     public static final String KEY_PHONE = "phone";
+    public static final String KEY_ADDRESSS = "address";
+    public static final String KEY_PROFILE = "profile_path";
+
+
 
     // This is constructor
     public RememberMy(Context context) {
@@ -51,17 +55,37 @@ public class RememberMy {
     }
 
     // This method for save Date User Two
-    public void saveDateUserTwo(String name, String phone,String email,String getAPI_key) {
+    public void saveDateUserTwo(String name, String phone,String email,String Address,String getAPI_key,String profilePath,
+                                String password) {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_PHONE, phone);
         editor.putString(API_KEY, getAPI_key);
         editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_ADDRESSS, Address);
+        editor.putString(KEY_PROFILE,profilePath);
+        editor.putString(KEY_PASSWORD,password);
+
         editor.commit();
+    }
+    //This method for getProfilePath
+    public String getPassword() {
+        String save_password = sharedPreferences.getString(KEY_PASSWORD, null);
+        return save_password;
+    }
+    //This method for getProfilePath
+    public String getProfilePath() {
+        String save_path = sharedPreferences.getString(KEY_PROFILE, null);
+        return save_path;
     }
     // This method for getNameUser
     public String getNameUser() {
         String saveName = sharedPreferences.getString(KEY_NAME, null);
         return saveName;
+    }
+    // This method for getAddress
+    public String getAddress() {
+        String saveAddress = sharedPreferences.getString(KEY_ADDRESSS, null);
+        return saveAddress;
     }
     // This method for getEmail
     public String getEmailUser() {

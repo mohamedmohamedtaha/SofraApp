@@ -2,20 +2,31 @@ package com.example.sofraapp.app.helper;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+@org.parceler.Parcel
+public class SaveData {
+    public int id;
+    public String api_token;
+    public String name;
+    public String phone;
+    public String email;
+    public int region_id;
+    public String cityId;
+    public String address;
+    public int save_state;
+    public String hayId;
+    public String password;
+    public String retryPassword;
+    public String delivery_cost;
+    public int id_position;
 
-public class SaveData implements Parcelable {
-    private int id;
-    private String api_token;
-    private String name;
-    private String phone;
-    private String email;
-    private int region_id;
-    private String cityId;
-    private String address;
-    private int save_state;
-    private String hayId;
-    private String password;
-    private String retryPassword;
+    public String getDelivery_cost() {
+        return delivery_cost;
+    }
+
+    public void setDelivery_cost(String delivery_cost) {
+        this.delivery_cost = delivery_cost;
+    }
+
 
     public String getHayId() {
         return hayId;
@@ -49,7 +60,6 @@ public class SaveData implements Parcelable {
         this.id_position = id_position;
     }
 
-    private int id_position;
 
     public int getId() {
         return id;
@@ -127,6 +137,9 @@ public class SaveData implements Parcelable {
         this.save_state = save_state;
         this.id_position = id_position;
     }
+    public SaveData() {
+
+    }
     public SaveData( int id_position) {
         this.id_position = id_position;
     }
@@ -142,54 +155,4 @@ public class SaveData implements Parcelable {
         this.address = address;
     }
 
-    protected SaveData(Parcel in) {
-        id = in.readInt();
-        api_token = in.readString();
-        name = in.readString();
-        phone = in.readString();
-        email = in.readString();
-        region_id = in.readInt();
-        cityId = in.readString();
-        address = in.readString();
-        save_state = in.readInt();
-        id_position = in.readInt();
-        hayId = in.readString();
-        password = in.readString();
-        retryPassword = in.readString();
-
-    }
-
-    public static final Creator<SaveData> CREATOR = new Creator<SaveData>() {
-        @Override
-        public SaveData createFromParcel(Parcel in) {
-            return new SaveData(in);
-        }
-
-        @Override
-        public SaveData[] newArray(int size) {
-            return new SaveData[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(api_token);
-        dest.writeString(name);
-        dest.writeString(phone);
-        dest.writeString(email);
-        dest.writeInt(region_id);
-        dest.writeString(cityId);
-        dest.writeString(address);
-        dest.writeInt(save_state);
-        dest.writeInt(id_position);
-        dest.writeString(hayId);
-        dest.writeString(password);
-        dest.writeString(retryPassword);
-    }
-}
+   }

@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.general.contact.Contact;
+import com.example.sofraapp.app.data.model.general.settings.Settings;
 import com.example.sofraapp.app.data.rest.APIServices;
+import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -67,6 +69,10 @@ public class ContactUsFragment extends Fragment {
     String phone = null;
     String email = null;
     String content = null;
+    String fasebook;
+    String intgram;
+    String twittet;
+    RememberMy rememberMy;
 
     public ContactUsFragment() {
         // Required empty public constructor
@@ -83,7 +89,33 @@ public class ContactUsFragment extends Fragment {
             ContactUsFragmentTIETEmail.setText(remeberMy.getEmailUser());
             ContactUsFragmentTIETName.setText(remeberMy.getNameUser());
             ContactUsFragmentTIETPhone.setText(remeberMy.getPhoneUser());
+            ContactUsFragmentBTSendMessage.setEnabled(true);
+
+        }else {
+            Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
+            ContactUsFragmentBTSendMessage.setEnabled(false);
+
         }
+        rememberMy = new RememberMy(getActivity());
+        apiServices = getRetrofit().create(APIServices.class);
+        apiServices.getSettings(rememberMy.getEmailUser(),rememberMy.getPassword()).enqueue(new Callback<Settings>() {
+            @Override
+            public void onResponse(Call<Settings> call, Response<Settings> response) {
+                Settings settings = response.body();
+                if (settings.getStatus() == 1) {
+                    fasebook = settings.getData().getFacebook();
+                    twittet = settings.getData().getTwitter();
+                    intgram = settings.getData().getInstagram();
+                } else {
+                    Toast.makeText(getActivity(), settings.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Settings> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         ContactUsFragmentRGContent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -150,10 +182,13 @@ public class ContactUsFragment extends Fragment {
                 });
                 break;
             case R.id.ContactUsFragment_IM_Instgram:
+                HelperMethod.openWebSite(getActivity(),intgram);
                 break;
             case R.id.ContactUsFragment_IM_Twitter:
+                HelperMethod.openWebSite(getActivity(),twittet);
                 break;
             case R.id.ContactUsFragment_IM_Face_Book:
+                HelperMethod.openWebSite(getActivity(),fasebook);
                 break;
         }
     }

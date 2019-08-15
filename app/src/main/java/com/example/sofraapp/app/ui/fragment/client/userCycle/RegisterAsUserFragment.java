@@ -2,6 +2,8 @@ package com.example.sofraapp.app.ui.fragment.client.userCycle;
 
 
 import android.os.Bundle;
+
+import com.example.sofraapp.app.ui.activity.LoginActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -211,9 +213,7 @@ public class RegisterAsUserFragment extends Fragment {
                     } else {
                         Toast.makeText(getActivity(), register.getMsg(), Toast.LENGTH_LONG).show();
                         RegisterAsUserFragmentProgressBar.setVisibility(View.GONE);
-                        LoginFragment loginFragment = new LoginFragment();
-                        HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
+                        HelperMethod.startActivity(getActivity(), LoginActivity.class);
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

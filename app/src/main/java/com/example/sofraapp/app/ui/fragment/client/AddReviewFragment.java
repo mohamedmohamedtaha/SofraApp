@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.DialogFragment;
@@ -20,6 +21,7 @@ import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.client.addreview.AddReview;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.SaveData;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,15 +48,20 @@ public class AddReviewFragment extends DialogFragment {
     Button AddReviewFragmentBTAdd;
     Unbinder unbinder;
     RememberMy rememberMy;
+    private Data2Restaurants data2Restaurants;
     private APIServices apiServices;
-SaveData saveData;
+    Bundle bundle;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_review, null);
         unbinder = ButterKnife.bind(this, view);
         rememberMy = new RememberMy(getActivity());
-        saveData = getArguments().getParcelable(GET_DATA);
+        Bundle bundle = getArguments();
+
+        if (bundle != null){
+            data2Restaurants = new Gson().fromJson(bundle.getString("dev"), Data2Restaurants.class);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         dialog = builder.create();
@@ -71,7 +78,7 @@ SaveData saveData;
 
     @OnClick(R.id.AddReviewFragment_BT_Add)
     public void onViewClicked() {
-      //  if (saveData.getApi_token() != null) {
+        if (rememberMy.getAPIKey() != null) {
         int rate =(int) AddReviewFragmentRBRateReviews.getRating();
         String commit = AddReviewFragmentETAddReviewHere.getText().toString().trim();
         if (commit.isEmpty() || rate <=0 ){
@@ -79,7 +86,7 @@ SaveData saveData;
         }
         else {
             apiServices = getRetrofit().create(APIServices.class);
-            apiServices.getAddReview(rate, commit,saveData.getId_position() , /*rememberMy.getAPIKey()*/"HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB")
+            apiServices.getAddReview(rate, commit,data2Restaurants.getId() , rememberMy.getAPIKey())
                     .enqueue(new Callback<AddReview>() {
                         @Override
                         public void onResponse(Call<AddReview> call, Response<AddReview> response) {
@@ -102,9 +109,9 @@ SaveData saveData;
                         }
                     });
         }
-   // }else {
-     //       Toast.makeText(getActivity(), getString(R.string.api_request), Toast.LENGTH_SHORT).show();
-       //     return;
-        //}
+   }else {
+           Toast.makeText(getActivity(), getString(R.string.api_request), Toast.LENGTH_SHORT).show();
+            return;
+        }
         }
 }

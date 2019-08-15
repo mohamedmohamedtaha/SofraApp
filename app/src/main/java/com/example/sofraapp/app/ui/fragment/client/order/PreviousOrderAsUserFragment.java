@@ -17,6 +17,7 @@ import com.example.sofraapp.app.data.model.client.order.myordersasuser.Data2MyOr
 import com.example.sofraapp.app.data.model.client.order.myordersasuser.MyOrdersAsUser;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class PreviousOrderAsUserFragment extends Fragment {
     private APIServices apiServices;
     private List<Data2MyOrdersAsUser> myOrdersAsUserArrayList = new ArrayList<>();
     private AdapterMyOrderAndPreviousCustom adapterMyOrderAndPreviousCustom;
+    RememberMy rememberMy;
 
     public PreviousOrderAsUserFragment() {
         // Required empty public constructor
@@ -63,11 +65,12 @@ public class PreviousOrderAsUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_previous_order_as_user, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         myOrdersAsUserArrayList.clear();
         PreviousOrderAsUserFragmentListView.setEmptyView(PreviousOrderAsUserFragmentRLEmptyView);
         apiServices = getRetrofit().create(APIServices.class);
-        //  if (saveData.getApi_token() != null){
-        apiServices.getMyOrdersAsUser("HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB", "previous", 1).enqueue(new Callback<MyOrdersAsUser>() {
+        if (rememberMy.getAPIKey() != null){
+        apiServices.getMyOrdersAsUser(rememberMy.getAPIKey(), "completed", 1).enqueue(new Callback<MyOrdersAsUser>() {
             @Override
             public void onResponse(Call<MyOrdersAsUser> call, Response<MyOrdersAsUser> response) {
                 MyOrdersAsUser myOrdersAsUser = response.body();
@@ -99,9 +102,10 @@ public class PreviousOrderAsUserFragment extends Fragment {
                 PreviousOrderAsUserFragmentPBLoadingIndicator.setVisibility(View.GONE);
             }
         });
-        //}else {
-        //      Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-        //}
+        }else {
+              Toast.makeText(getActivity(), getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+        }
+        //"HRbqKFSaq5ZpsOKITYoztpFZNylmzL9elnlAThxZSZ52QWqVBIj8Rdq7RhoB"
         return view;
     }
 

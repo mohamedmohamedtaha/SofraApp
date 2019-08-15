@@ -11,18 +11,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.adapter.AdapterReviews;
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
 import com.example.sofraapp.app.data.model.general.reviews.Data2Reviews;
 import com.example.sofraapp.app.data.model.general.reviews.Reviews;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.RememberMy;
-import com.example.sofraapp.app.helper.SaveData;
 import com.example.sofraapp.app.ui.fragment.client.AddReviewFragment;
+import com.google.gson.Gson;
 
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,8 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
-import static com.example.sofraapp.app.ui.fragment.client.order.CurrentOrderAsUSerFragment.ORDER_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,10 +49,13 @@ public class ReviewsFragment extends Fragment {
     ProgressBar ReviewsFragmentLoadingIndicator;
     Unbinder unbinder;
     RememberMy rememberMy;
+    @BindView(R.id.ReviewsFragment_TV_Show_Commet)
+    TextView ReviewsFragmentTVShowCommet;
     private APIServices apiServices;
-    SaveData saveData;
     private AdapterReviews adapterReviews;
     public static final String DIALOG_PERMISSION = "dialogPermission";
+    Bundle bundle;
+    private Data2Restaurants data2Restaurants;
 
     public ReviewsFragment() {
         // Required empty public constructor
@@ -65,12 +68,24 @@ public class ReviewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
         unbinder = ButterKnife.bind(this, view);
         rememberMy = new RememberMy(getActivity());
-        saveData = getArguments().getParcelable(GET_DATA);
+        Bundle bundle = getArguments();
+
+        if (bundle != null) {
+            data2Restaurants = new Gson().fromJson(bundle.getString("dev"), Data2Restaurants.class);
+        }
+        if (rememberMy.getSaveState() == 2) {
+            ReviewsFragmentBT.setVisibility(View.GONE);
+            ReviewsFragmentTVShowCommet.setVisibility(View.GONE);
+        } else {
+            ReviewsFragmentBT.setVisibility(View.VISIBLE);
+            ReviewsFragmentTVShowCommet.setVisibility(View.VISIBLE);
+
+        }
         ReviewsFragmentLV.setEmptyView(ReviewsFragmentTVEmptyView);
         ReviewsFragmentLoadingIndicator.setVisibility(View.VISIBLE);
         apiServices = getRetrofit().create(APIServices.class);
         if (rememberMy.getAPIKey() != null) {
-            apiServices.getReviews(rememberMy.getAPIKey(),saveData.getId_position(), 1).enqueue(new Callback<Reviews>() {
+            apiServices.getReviews(rememberMy.getAPIKey(), data2Restaurants.getId(), 1).enqueue(new Callback<Reviews>() {
                 @Override
                 public void onResponse(Call<Reviews> call, Response<Reviews> response) {
                     Reviews reviews = response.body();
@@ -110,7 +125,7 @@ public class ReviewsFragment extends Fragment {
         } else {
             AddReviewFragment addReviewFragment = new AddReviewFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putString("dev", new Gson().toJson(data2Restaurants));
             addReviewFragment.setArguments(bundle);
             addReviewFragment.show(getFragmentManager(), DIALOG_PERMISSION);
         }

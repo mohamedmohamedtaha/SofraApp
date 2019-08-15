@@ -17,6 +17,7 @@ import com.example.sofraapp.app.data.model.restaurant.order.myorders.MyOrders;
 import com.example.sofraapp.app.data.model.restaurant.order.rejectorder.RejectOrder;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class CurrentOrdersAsRestaurantFragment extends Fragment {
     APIServices apiServices;
     AdapterOrdersNewCurrentPrevious adapterOrdersNewCurrentPrevious;
     ArrayList<Data2MyOrders> data2MyOrdersArrayList = new ArrayList<>();
+    RememberMy rememberMy;
 
     public CurrentOrdersAsRestaurantFragment() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class CurrentOrdersAsRestaurantFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_current_orders, container, false);
         unbinder = ButterKnife.bind(this, view);
         data2MyOrdersArrayList.clear();
+        RememberMy rememberMy = new RememberMy(getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         CurrentOrdersAsRestaurantFragmentRecyclerView.setLayoutManager(linearLayoutManager);
         adapterOrdersNewCurrentPrevious = new AdapterOrdersNewCurrentPrevious(getActivity(), data2MyOrdersArrayList, new AdapterOrdersNewCurrentPrevious.call() {
@@ -76,7 +79,7 @@ public class CurrentOrdersAsRestaurantFragment extends Fragment {
                         String order_id = data2MyOrders.getId().toString();
                         Toast.makeText(getActivity(), order_id, Toast.LENGTH_SHORT).show();
                         CurrentOrdersAsRestaurantFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                        apiServices.confirmOrder("quW3tUS7GVL5lv1BfAT0Orm4CXBtmRVREu3tCP6B5WebYsVaIQYdeoyg7yay", order_id)
+                        apiServices.confirmOrder(rememberMy.getAPIKey(), order_id)
                                 .enqueue(new Callback<ConfirmOrder>() {
                                     @Override
                                     public void onResponse(Call<ConfirmOrder> call, Response<ConfirmOrder> response) {
@@ -105,9 +108,9 @@ public class CurrentOrdersAsRestaurantFragment extends Fragment {
                     }
                 }, null, 1);
         CurrentOrdersAsRestaurantFragmentRecyclerView.setAdapter(adapterOrdersNewCurrentPrevious);
-        //  if (saveData.getApi_token() != null){
+          if (rememberMy.getAPIKey() != null){
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getMyOrders("quW3tUS7GVL5lv1BfAT0Orm4CXBtmRVREu3tCP6B5WebYsVaIQYdeoyg7yay", "current", 1).enqueue(new Callback<MyOrders>() {
+        apiServices.getMyOrders(rememberMy.getAPIKey(), "current", 1).enqueue(new Callback<MyOrders>() {
             @Override
             public void onResponse(Call<MyOrders> call, Response<MyOrders> response) {
                 CurrentOrdersAsRestaurantFragmentLoadingIndicator.setVisibility(View.VISIBLE);
@@ -141,9 +144,9 @@ public class CurrentOrdersAsRestaurantFragment extends Fragment {
                 CurrentOrdersAsRestaurantFragmentRecyclerView.setVisibility(View.GONE);
             }
         });
-        //   }else {
-        //     Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
-        // }
+           }else {
+             Toast.makeText(getActivity(), getString(R.string.login_please), Toast.LENGTH_SHORT).show();
+         }
 
 
         return view;

@@ -4,8 +4,12 @@ package com.example.sofraapp.app.data.model.general.restaurantitems;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data2RestaurantItems {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "cart_table")
+public class Data2RestaurantItems {
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -36,6 +40,46 @@ public class Data2RestaurantItems {
     @SerializedName("photo_url")
     @Expose
     private String photoUrl;
+    private String Counter;
+    private String Note;
+
+    public Data2RestaurantItems() {
+    }
+
+    public Data2RestaurantItems(Integer id, String createdAt, String updatedAt, String name, String description, String price,
+                                String preparingTime, String photo, String restaurantId, String photoUrl,
+                                String counter, String note) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.preparingTime = preparingTime;
+        this.photo = photo;
+        this.restaurantId = restaurantId;
+        this.photoUrl = photoUrl;
+        Counter = counter;
+        Note = note;
+    }
+
+
+    public String getCounter() {
+        return Counter;
+    }
+
+    public void setCounter(String counter) {
+        Counter = counter;
+    }
+
+    public String getNote() {
+        return Note;
+    }
+
+    public void setNote(String note) {
+        Note = note;
+    }
+
 
     public Integer getId() {
         return id;

@@ -13,6 +13,8 @@ import com.example.sofraapp.app.ui.fragment.restaurant.orders.CurrentOrdersAsRes
 import com.example.sofraapp.app.ui.fragment.restaurant.orders.NewOrdersAsRestaurantFragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.orders.PreviousOrdersAsRestaurantFragment;
 
+import org.parceler.Parcels;
+
 import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 public class AdapterOrdersAsRestaurant extends FragmentPagerAdapter {
     private Context context;
@@ -28,19 +30,19 @@ public class AdapterOrdersAsRestaurant extends FragmentPagerAdapter {
         if (position == 0) {
             NewOrdersAsRestaurantFragment newOrdersAsRestaurantFragment = new NewOrdersAsRestaurantFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putParcelable(GET_DATA, Parcels.wrap(saveData));
             newOrdersAsRestaurantFragment.setArguments(bundle);
             return newOrdersAsRestaurantFragment;
         } else if (position == 1) {
             CurrentOrdersAsRestaurantFragment currentOrdersAsRestaurantFragment = new CurrentOrdersAsRestaurantFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putParcelable(GET_DATA, Parcels.wrap(saveData));
             currentOrdersAsRestaurantFragment.setArguments(bundle);
             return currentOrdersAsRestaurantFragment;
         } else {
             PreviousOrdersAsRestaurantFragment previousOrdersAsRestaurantFragment = new PreviousOrdersAsRestaurantFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putParcelable(GET_DATA, Parcels.wrap(saveData));
             previousOrdersAsRestaurantFragment.setArguments(bundle);
             return previousOrdersAsRestaurantFragment;
         }

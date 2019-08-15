@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,36 +12,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginTop="@dimen/dimens_6xl"
         android:drawableEnd="@drawable/login"
         android:fontFamily="@font/cairo_bold"
+        android:gravity="center"
         android:text="@string/login_please"
         android:textColor="@android:color/black"
         android:textSize="@dimen/txt_size_m" />
 
-    <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText"
-
-        >
+    <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/LoginFragment_Email"
             style="@style/StyleEditTextNull"
             android:hint="@string/email"
-            android:inputType="textEmailAddress"
-
-            />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/StyleEditText"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/recycler_view_item_swipe_right_background">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/LoginFragment_Password"
             style="@style/StyleEditTextNull"
             android:hint="@string/password"
-            android:inputType="textPassword"
-
-            />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,10 +48,7 @@
 
         <ProgressBar
             android:id="@+id/LoginFragment_Progress_Bar"
-            style="@style/StyleProgressBar"
-
-            />
-
+            style="@style/StyleProgressBar" />
 
         <CheckBox
             android:id="@+id/LoginFragment_CB_Remeber_My"
@@ -94,4 +89,3 @@
         android:text="@string/create_new_user" />
 
 </LinearLayout>
-

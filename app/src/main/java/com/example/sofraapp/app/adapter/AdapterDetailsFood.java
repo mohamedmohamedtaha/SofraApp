@@ -8,41 +8,40 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
 import com.example.sofraapp.app.ui.fragment.restaurant.ReviewsFragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.InformationStoreFragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.ListFoodFragment;
-
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
-import static com.example.sofraapp.app.ui.fragment.general.restaurant.OrderFoodFragment.DETAILS_RESTUARANT;
+import com.google.gson.Gson;
 
 public class AdapterDetailsFood extends FragmentPagerAdapter {
     private Context mContext;
-    SaveData saveData;
-    public AdapterDetailsFood(Context mContext, FragmentManager fm, SaveData saveData) {
+    private Data2Restaurants data2Restaurants;
+
+    public AdapterDetailsFood(Context mContext, FragmentManager fm,Data2Restaurants dataRrestaurantDetails) {
         super(fm);
         this.mContext = mContext;
-        this.saveData = saveData;
+        this.data2Restaurants = dataRrestaurantDetails;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0){
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putString("dev",new Gson().toJson(data2Restaurants));
             ListFoodFragment listFoodFragment = new ListFoodFragment();
             listFoodFragment.setArguments(bundle);
             return listFoodFragment;
         }else if (position == 1){
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
+            bundle.putString("dev",new Gson().toJson(data2Restaurants));
             ReviewsFragment reviewsFragment = new ReviewsFragment();
             reviewsFragment.setArguments(bundle);
             return reviewsFragment;
         }else {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(GET_DATA, saveData);
             InformationStoreFragment informationStoreFragment =  new InformationStoreFragment();
+            bundle.putString("dev",new Gson().toJson(data2Restaurants));
             informationStoreFragment.setArguments(bundle);
             return informationStoreFragment;
         }

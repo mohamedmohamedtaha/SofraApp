@@ -1,14 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true"
     tools:context=".app.ui.fragment.client.order.CartOrdersFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/CartOrdersFragment_Recycler_View"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:drawSelectorOnTop="true">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <!-- Empty view is only visible when the list has no items. -->
+        <!--   android:visibility="gone" -->
+        <RelativeLayout
+            android:id="@+id/CartOrdersFragment_RL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/CartOrdersFragment_Empty_Image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/logo" />
+
+            <TextView
+                android:id="@+id/CartOrdersFragment_TV_Empty_View"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CartOrdersFragment_Empty_Image"
+                android:layout_marginTop="@dimen/dimens_xl"
+                android:fontFamily="@font/cairo_regular"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/txt_size_xl" />
+        </RelativeLayout>
+        <!-- Loading indicator is only shown before the first load -->
+        <ProgressBar
+            android:id="@+id/CartOrdersFragment_Loading_Indicator"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/CartOrdersFragment_Linear_Total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/CartOrdersFragment_Totally_Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:fontFamily="@font/cairo_bold"
+                tools:text="@string/totally_sum" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@string/totally_sum" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/CartOrdersFragment_Add_More"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_weight="1"
+                android:background="@color/colorButtonLogin"
+                android:text="@string/add_more"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/CartOrdersFragment_Perform_Order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_weight="1"
+                android:background="@color/colorButtonLogin"
+                android:text="@string/perform_order"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

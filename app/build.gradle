@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.sofraapp"
         minSdkVersion 17
         targetSdkVersion 28
+
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -24,10 +24,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation "androidx.appcompat:appcompat:$supportLibraryVersion"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-    implementation 'com.google.android.material:material:1.0.0-beta01'
+    implementation "androidx.legacy:legacy-support-v4:$supportLibraryVersion"
+
+    //for swipe RecycleView
+    implementation "com.google.android.material:material:$supportLibraryVersion"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
@@ -56,15 +60,13 @@ dependencies {
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
     implementation 'com.google.android.gms:play-services-maps:11.4.2'
 
-    implementation 'com.google.firebase:firebase-messaging:11.4.2'
-    implementation 'com.google.android.gms:play-services-location:11.4.2'
-    implementation 'com.google.android.gms:play-services-places:11.4.2'
+    implementation "com.google.firebase:firebase-messaging:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-location:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-places:$playServicesVersion"
 
     //Multi Select albumItemList || Videos
     implementation 'com.yanzhenjie:album:2.1.1'
 
-    //for swipe RecycleView
-    implementation 'com.google.android.material:material:1.0.0-beta01'
 
     //for swipe Layout
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
@@ -77,4 +79,15 @@ dependencies {
 // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+
+    // For Parceler
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
+
+    //For swipe library
+
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 }
+apply plugin: 'com.google.gms.google-services'

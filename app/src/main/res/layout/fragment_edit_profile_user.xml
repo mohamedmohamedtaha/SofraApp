@@ -106,19 +106,27 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/StyleEditText">
+            style="@style/StyleEditText"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/recycler_view_item_swipe_right_background">
+        >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditProfileUserFragment_Tiet_Password"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/password"
+                android:inputType="textPassword"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/StyleEditText">
+            style="@style/StyleEditText"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/recycler_view_item_swipe_right_background">
+            >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditProfileUserFragment_Tiet_Retry_Password"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/retry_password"
+                android:inputType="textPassword"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <Button

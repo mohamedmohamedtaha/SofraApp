@@ -1,22 +1,21 @@
 
 package com.example.sofraapp.app.data.model.client.order.neworder;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class DataNewOrder {
 
-    @SerializedName("items")
+    @SerializedName("order")
     @Expose
-    private List<String> items = null;
+    private OrderNewOrder order;
 
-    public List<String> getItems() {
-        return items;
+    public OrderNewOrder getOrder() {
+        return order;
     }
 
-    public void setItems(List<String> items) {
-        this.items = items;
+    public void setOrder(OrderNewOrder order) {
+        this.order = order;
     }
 
 }

@@ -172,5 +172,14 @@
             android:layout_marginEnd="@dimen/dimens_l"
             android:background="@android:color/darker_gray" />
     </TableLayout>
+    <Button
+        android:id="@+id/InformationStoreFragment_BT_Save"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimens_6xl"
+        style="@style/StyleButtonWhite"
+        android:background="@color/colorButtonLogin"
+        android:text="@string/save"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

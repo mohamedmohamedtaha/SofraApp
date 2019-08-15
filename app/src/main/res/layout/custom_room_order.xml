@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/ImageView_Path"
+        android:layout_width="@dimen/dimens_seventy"
+        android:layout_height="@dimen/dimens_seventy"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l" />
+
+    <TextView
+        android:id="@+id/TV_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_toStartOf="@+id/ImageView_Path"
+        android:fontFamily="@font/cairo_bold"
+        android:textColor="@android:color/black"
+        tools:text="@string/retry_password" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Title"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_toStartOf="@+id/ImageView_Path"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/quantity"
+        android:textColor="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Title"
+        android:layout_marginStart="@dimen/dimens_m"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:layout_marginEnd="@dimen/dimens_m"
+        android:layout_toStartOf="@+id/quantity"
+        android:layout_toEndOf="@+id/price"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BT_Sum"
+            android:layout_width="@dimen/dimens_m"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_weight="1"
+            android:background="@color/colorButtonLogin"
+            android:text="+"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/TV_Count"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_weight="2"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:textSize="@dimen/txt_size_l" />
+
+        <Button
+            android:id="@+id/BT_Plus"
+            android:layout_width="@dimen/dimens_m"
+            android:layout_height="@dimen/dimens_xxl"
+            android:layout_weight="1"
+            android:background="@color/colorButtonLogin"
+            android:text="-"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/price_only"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/TV_Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/price"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_sss"
+        android:fontFamily="@font/cairo_bold"
+        android:textColor="@android:color/black"
+        tools:text="@string/price" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TV_Price"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:background="@android:color/darker_gray">
+
+        <TextView
+            android:id="@+id/TV_Total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:fontFamily="@font/cairo_bold"
+            android:textColor="@android:color/black"
+            tools:text="@string/price_only" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_sss"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/totally"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

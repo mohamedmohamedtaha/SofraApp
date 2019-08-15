@@ -6,8 +6,52 @@
     android:background="@android:color/white"
     tools:context=".app.ui.fragment.general.restaurant.OrderFoodFragment">
 
+    <LinearLayout
+        android:id="@+id/OrderFoodFragment_Ll_Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_gray"
+        android:gravity="center"
+        android:minHeight="@dimen/dimens_xxxxl"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimens_s">
+
+        <ImageView
+            android:id="@+id/OrderFoodFragment_Iv_Search"
+            android:layout_width="@dimen/dimens_xxxl"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimens_ss"
+            android:background="@drawable/places_ic_search" />
+
+        <EditText
+            android:id="@+id/OrderFoodFragment_Et_Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_s"
+            android:layout_marginStart="@dimen/dimens_s"
+            android:layout_weight="1"
+            android:hint="@string/search"
+            android:background="@null" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimens_s"
+            android:layout_marginTop="@dimen/dimens_s"
+            android:background="#848484" />
+
+        <Spinner
+            android:id="@+id/OrderFoodFragment_Sp_City"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_s"
+            android:layout_marginStart="@dimen/dimens_s"
+            android:layout_weight="1" />
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/OrderFoodFragment_Recycler_View"
+        android:layout_below="@+id/OrderFoodFragment_Ll_Container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"

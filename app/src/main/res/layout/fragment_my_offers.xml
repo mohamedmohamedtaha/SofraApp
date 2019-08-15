@@ -52,6 +52,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
         android:background="@color/colorButtonRegester"
         android:layout_marginBottom="@dimen/dimens_xl"
         android:gravity="center"

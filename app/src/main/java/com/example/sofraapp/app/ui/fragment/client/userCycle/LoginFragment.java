@@ -2,6 +2,7 @@ package com.example.sofraapp.app.ui.fragment.client.userCycle;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sofraapp.R;
+import com.example.sofraapp.app.data.contract.LoginContract;
 import com.example.sofraapp.app.data.model.client.cycleClient.loginclient.LoginClient;
 import com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.cyclelogin.login.Login;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.ui.activity.MainActivity;
+import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.ForgetPasswordAsRestaurantStep1Fragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.RegisterAsRestaurantFragmentOne;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.fragment.app.Fragment;
+
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,12 +37,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
+import static com.example.sofraapp.app.ui.activity.LoginActivity.toolbar_Login;
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
     @BindView(R.id.LoginFragment_Email)
     TextInputEditText LoginFragmentEmail;
     @BindView(R.id.LoginFragment_Password)
@@ -51,11 +58,13 @@ public class LoginFragment extends Fragment {
     TextView LoginFragmentTVForgetPassword;
     @BindView(R.id.LoginFragment_Cretae_New_User)
     Button LoginFragmentCretaeNewUser;
+    @BindString(R.string.filed_request)String required;
     Unbinder unbinder;
     private static APIServices APIServices;
     RememberMy remeberMy;
     String email;
     String password;
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -89,8 +98,10 @@ public class LoginFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.LoginFragment_BT_Login:
+
                 email = LoginFragmentEmail.getText().toString().trim();
                 password = LoginFragmentPassword.getText().toString().trim();
+                
                 APIServices = getRetrofit().create(APIServices.class);
                 if (email.isEmpty() || password.isEmpty()) {
                     LoginFragmentEmail.setError(getString(R.string.filed_request));
@@ -108,7 +119,13 @@ public class LoginFragment extends Fragment {
                                         remeberMy.saveDateUserTwo(loginClient.getData().getClient().getName(),
                                                 loginClient.getData().getClient().getPhone(),
                                                 loginClient.getData().getClient().getEmail(),
-                                                loginClient.getData().getApiToken());
+                                                loginClient.getData().getClient().getAddress(),
+                                                loginClient.getData().getApiToken(),loginClient.getData().getClient().getProfilePath(),password);
+
+                                        String token = FirebaseInstanceId.getInstance().getToken();
+                                        HelperMethod.getRegisterToken(getActivity(), token, loginClient.getData().getApiToken(),
+                                                "android", 1);
+                                        Log.i("API Key : ",loginClient.getData().getApiToken() );
 
                                         if (LoginFragmentCBRemeberMy.isChecked()) {
                                             remeberMy.saveDateUser(email, password, loginClient.getData().getApiToken());
@@ -145,7 +162,14 @@ public class LoginFragment extends Fragment {
                                         remeberMy.saveDateUserTwo(loginRestaurant.getData().getUser().getName(),
                                                 loginRestaurant.getData().getUser().getPhone(),
                                                 loginRestaurant.getData().getUser().getEmail(),
-                                                loginRestaurant.getData().getApiToken());
+                                                loginRestaurant.getData().getUser().getActivated(),
+                                                loginRestaurant.getData().getApiToken(),
+                                                loginRestaurant.getData().getUser().getPhotoUrl(),password);
+                                        Log.i("API Key : ",loginRestaurant.getData().getApiToken() );
+
+                                        String token = FirebaseInstanceId.getInstance().getToken();
+                                        HelperMethod.getRegisterToken(getActivity(), token, loginRestaurant.getData().getApiToken(),
+                                                "android", 2);
                                         if (LoginFragmentCBRemeberMy.isChecked()) {
                                             remeberMy.saveDateUser(email, password, loginRestaurant.getData().getApiToken());
                                         }
@@ -176,9 +200,11 @@ public class LoginFragment extends Fragment {
                 if (remeberMy.getSaveState() == 1) {
                     ForgetPasswordStep1Fragment forgetPasswordStep1Fragment = new ForgetPasswordStep1Fragment();
                     HelperMethod.replece(forgetPasswordStep1Fragment, getActivity().getSupportFragmentManager(),
-                            R.id.Cycle_Home_contener, toolbar, getString(R.string.forget_my_password));
-                } else if (remeberMy.getSaveState() == 2){
-
+                            R.id.Cycle_Login_contener, toolbar_Login, getString(R.string.forget_my_password));
+                } else if (remeberMy.getSaveState() == 2) {
+                    ForgetPasswordAsRestaurantStep1Fragment forgetPasswordAsRestaurantStep1Fragment = new ForgetPasswordAsRestaurantStep1Fragment();
+                    HelperMethod.replece(forgetPasswordAsRestaurantStep1Fragment, getActivity().getSupportFragmentManager(),
+                            R.id.Cycle_Login_contener, toolbar_Login, getString(R.string.forget_my_password));
                 }else {
                     Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
 
@@ -188,15 +214,47 @@ public class LoginFragment extends Fragment {
                 if (remeberMy.getSaveState() == 1) {
                     RegisterAsUserFragment regesterFragment = new RegisterAsUserFragment();
                     HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
-                            R.id.Cycle_Home_contener, toolbar, getString(R.string.create_new_user));
+                            R.id.Cycle_Login_contener, toolbar_Login, getString(R.string.create_new_user));
                 } else if (remeberMy.getSaveState() == 2) {
                     RegisterAsRestaurantFragmentOne registerAsRestaurantFragmentOne = new RegisterAsRestaurantFragmentOne();
                     HelperMethod.replece(registerAsRestaurantFragmentOne, getActivity().getSupportFragmentManager(),
-                            R.id.Cycle_Home_contener, toolbar, getString(R.string.create_new_user));
+                            R.id.Cycle_Login_contener, toolbar_Login, getString(R.string.create_new_user));
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        LoginFragmentProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        LoginFragmentProgressBar.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+
+    }
+
+    @Override
+    public void isEmpty() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void allFieldRequered() {
+
     }
 }

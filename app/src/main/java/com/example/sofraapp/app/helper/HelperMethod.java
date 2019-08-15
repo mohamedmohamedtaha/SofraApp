@@ -1,5 +1,6 @@
 package com.example.sofraapp.app.helper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -11,17 +12,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import androidx.annotation.NonNull;
+
+import com.example.sofraapp.app.data.model.client.cycleClient.notifications.registertoken.RegisterToken;
+import com.example.sofraapp.app.data.model.client.cycleClient.notifications.removetoken.RemoveToken;
+import com.example.sofraapp.app.data.rest.APIServices;
+import com.example.sofraapp.app.ui.activity.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.ui.fragment.client.userCycle.LoginFragment;
@@ -30,6 +38,8 @@ import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.api.widget.Widget;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -43,7 +53,11 @@ import java.util.Locale;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 public class HelperMethod {
@@ -54,6 +68,7 @@ public class HelperMethod {
     public static final String EMAIL = "email";
     public static final String GET_DATA = "get_data";
     public static final String GET_MODEL = "get_model";
+    static APIServices apiServices;
 
     //This method for handle Fragments
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
@@ -72,11 +87,22 @@ public class HelperMethod {
 
 
     }
+    //This method for handle Fragments
+    public static void add(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(id, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+
+    }
 
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title,SaveData saveData) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
           Bundle bundle = new Bundle();
-         bundle.putParcelable(GET_DATA, saveData);
+         bundle.putParcelable(GET_DATA, Parcels.wrap(saveData));
          fragment.setArguments(bundle);
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
@@ -132,6 +158,7 @@ public class HelperMethod {
     // This method for handle Activity
     public static void startActivity(Context context, Class<?> toActivity) {
         Intent startActivity = new Intent(context, toActivity);
+        startActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
        // startActivity.putExtra(API_KEY, getAPI);
         context.startActivity(startActivity);
     }
@@ -139,7 +166,7 @@ public class HelperMethod {
     // This method for handle Activity
     public static void startActivity(Context context, Class<?> toActivity, SaveData saveData) {
         Intent startActivity = new Intent(context, toActivity);
-        startActivity.putExtra(GET_DATA, saveData);
+        startActivity.putExtra(GET_DATA, Parcels.wrap(saveData));
         context.startActivity(startActivity);
     }
 
@@ -154,8 +181,7 @@ public class HelperMethod {
             @Override
             public void onFinish() {
                 Snackbar.make(view, context.getString(R.string.time_out), Snackbar.LENGTH_LONG).show();
-                LoginFragment loginFragment = new LoginFragment();
-                replece(loginFragment, fragmentManager, R.id.Cycle_Home_contener, toolbar, context.getString(R.string.login));
+                HelperMethod.startActivity(context, LoginActivity.class);
             }
         };
         countDownTimers.start();
@@ -319,6 +345,133 @@ public class HelperMethod {
         DateFormat dateFormat1 = new SimpleDateFormat("EEEE", new Locale("ar"));
         String finalDay = dateFormat1.format(dt1);
         return finalDay;
+    }
+    public static void getRemoveToken(final Context context, String token,String type, String api_token,int state) {
+        apiServices = getRetrofit().create(APIServices.class);
+        switch (state){
+            case 1:
+                apiServices.getRemoveToken(token,type,api_token).enqueue(new Callback<RemoveToken>() {
+                    @Override
+                    public void onResponse(Call<RemoveToken> call, Response<RemoveToken> response) {
+                        RemoveToken removeToken = response.body();
+                        try {
+                            if (removeToken.getStatus() == 1) {
+                              //  Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<RemoveToken> call, Throwable t) {
+                        Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                break;
+            case 2:
+                apiServices.getRemoveTokenRestaurant(token, api_token).enqueue(new Callback<RemoveToken>() {
+                    @Override
+                    public void onResponse(Call<RemoveToken> call, Response<RemoveToken> response) {
+                        RemoveToken removeToken = response.body();
+                        try {
+                            if (removeToken.getStatus() == 1) {
+                      //          Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<RemoveToken> call, Throwable t) {
+                        Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                break;
+                default:
+                    //
+        }
+
+    }
+
+    public static void getRegisterToken(final Context context, String token, String api_token, String platform,int state) {
+        apiServices = getRetrofit().create(APIServices.class);
+      switch (state){
+          case 1:
+              apiServices.getRegisterToken(token,platform, api_token).enqueue(new Callback<RegisterToken>() {
+                  @Override
+                  public void onResponse(Call<RegisterToken> call, Response<RegisterToken> response) {
+                      RegisterToken registerToken = response.body();
+                      try {
+                          if (registerToken.getStatus() == 1) {
+                           //   Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                          } else {
+                              Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                          }
+
+                      } catch (Exception e) {
+                          Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                      }
+
+                  }
+
+                  @Override
+                  public void onFailure(Call<RegisterToken> call, Throwable t) {
+                      Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                  }
+              });
+              break;
+          case 2:
+              apiServices.getRegisterTokenRestaurant(token, platform,api_token).enqueue(new Callback<RegisterToken>() {
+                  @Override
+                  public void onResponse(Call<RegisterToken> call, Response<RegisterToken> response) {
+                      RegisterToken registerToken = response.body();
+                      try {
+                          if (registerToken.getStatus() == 1) {
+                            //  Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                          } else {
+                              Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                          }
+
+                      } catch (Exception e) {
+                          Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                      }
+
+                  }
+
+                  @Override
+                  public void onFailure(Call<RegisterToken> call, Throwable t) {
+                      Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                  }
+              });
+              break;
+              default:
+                  //
+      }
+    }
+    // For hide Kebord
+    public static void hideKeyboard(Activity activity, View v) {
+        try {
+            if (v != null) {
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+
+        }
     }
 
 }

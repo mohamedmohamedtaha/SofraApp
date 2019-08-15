@@ -11,12 +11,15 @@ import com.example.sofraapp.R;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
 import com.example.sofraapp.app.ui.activity.MainActivity;
+import com.example.sofraapp.app.ui.fragment.client.userCycle.LoginFragment;
 
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +64,7 @@ public class SplashFragment extends Fragment {
                 break;
             case R.id.Sell_Food:
                 rememberMy.setSaveState(2);
-                HelperMethod.startActivity(getActivity(), MainActivity.class);
+                    HelperMethod.startActivity(getActivity(), MainActivity.class);
                 break;
         }
     }

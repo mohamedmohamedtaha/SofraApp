@@ -19,7 +19,7 @@
             android:layout_marginEnd="@dimen/dimens_l"
             android:background="@drawable/background_spinner">
 
-            <Spinner
+            <com.example.sofraapp.app.helper.library.multispinner.MultiSelectionSpinner
                 android:id="@+id/RegisterAsRestaurantTwoFragment_SP_Spicefed"
                 style="@style/SpinnerForFragment"
                 android:layout_centerVertical="true"
@@ -27,8 +27,26 @@
                 android:popupBackground="@android:color/white" />
 
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:background="@drawable/background_spinner">
 
-        <com.google.android.material.textfield.TextInputLayout
+            <Spinner
+                android:id="@+id/RegisterAsRestaurantTwoFragment_SP_State"
+                style="@style/SpinnerForFragment"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:popupBackground="@android:color/white" />
+
+            <ProgressBar
+                android:id="@+id/RegisterAsRestaurantFragmentTwo_Progress_Bar"
+                style="@style/StyleProgressBar" />
+        </RelativeLayout>
+                <com.google.android.material.textfield.TextInputLayout
 
             style="@style/StyleEditText">
 
@@ -48,6 +66,18 @@
                 android:id="@+id/RegisterAsRestaurantTwoFragment_Price_Delevery"
                 style="@style/StyleEditTextNull"
                 android:hint="@string/price_delevery"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            style="@style/StyleEditText">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegisterAsRestaurantTwoFragment_Delivery_Period"
+                style="@style/StyleEditTextNull"
+                android:hint="@string/delivery_Period"
                 android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>

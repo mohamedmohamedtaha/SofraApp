@@ -13,14 +13,20 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.adapter.AdapterDetailsFood;
+import com.example.sofraapp.app.data.model.general.restaurantdetails.DataRrestaurantDetails;
 import com.example.sofraapp.app.data.model.general.restaurantdetails.RestaurantDetails;
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.SaveData;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -56,7 +62,7 @@ public class DetailRestaurantFragment extends Fragment {
     ViewPager DetailRestaurantFragmentViewPager;
     Unbinder unbinder;
     private APIServices apiServices;
-    SaveData saveData;
+    private Data2Restaurants data2Restaurants;
 
     public DetailRestaurantFragment() {
         // Required empty public constructor
@@ -68,12 +74,17 @@ public class DetailRestaurantFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_restaurant, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData =getArguments().getParcelable(GET_DATA);
-        AdapterDetailsFood adapterDetailsFood = new AdapterDetailsFood(getActivity(), getChildFragmentManager(), saveData);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            data2Restaurants = new Gson().fromJson(bundle.getString("dev"),Data2Restaurants.class);
+        }
+
+        AdapterDetailsFood adapterDetailsFood = new AdapterDetailsFood(getActivity(), getChildFragmentManager(),data2Restaurants);
         DetailRestaurantFragmentViewPager.setAdapter(adapterDetailsFood);
         DetailRestaurantFragmentTabLayout.setupWithViewPager(DetailRestaurantFragmentViewPager);
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getRestaurantDetails(saveData.getId_position()).enqueue(new Callback<RestaurantDetails>() {
+
+        apiServices.getRestaurantDetails(data2Restaurants.getId()).enqueue(new Callback<RestaurantDetails>() {
             @Override
             public void onResponse(Call<RestaurantDetails> call, Response<RestaurantDetails> response) {
                 RestaurantDetails restaurantDetails = response.body();
@@ -83,6 +94,7 @@ public class DetailRestaurantFragment extends Fragment {
                         DetailRestaurantFragmentTVShowNameRestaurant.setText(restaurantDetails.getData().getName());
                         DetailRestaurantFragmentTVMinOrder.setText(restaurantDetails.getData().getMinimumCharger());
                         DetailRestaurantFragmentTVPriceDelevery.setText(restaurantDetails.getData().getDeliveryCost());
+                      //  dataRrestaurantDetails.setDeliveryCost(restaurantDetails.getData().getDeliveryCost());
                         HelperMethod.getReating(Integer.parseInt(restaurantDetails.getData().getRate()), DetailRestaurantFragmentRBRateRestaurant);
                         String isAvailable = restaurantDetails.getData().getAvailability();
                         if (isAvailable.equals(getString(R.string.closed))) {
@@ -113,4 +125,5 @@ public class DetailRestaurantFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }

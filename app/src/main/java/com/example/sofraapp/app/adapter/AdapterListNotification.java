@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.sofraapp.R;
-import com.example.sofraapp.app.data.model.client.cycleClient.notifications.Data2Notifications;
+import com.example.sofraapp.app.data.model.client.cycleClient.notifications.listofnotifications.Data2Notifications;
 import com.example.sofraapp.app.helper.HelperMethod;
 
 import java.text.ParseException;

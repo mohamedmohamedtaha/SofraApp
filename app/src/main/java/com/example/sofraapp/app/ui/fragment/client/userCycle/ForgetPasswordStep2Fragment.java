@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 
 import com.example.sofraapp.app.helper.RememberMy;
+import com.example.sofraapp.app.ui.activity.LoginActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -105,8 +106,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
                         HelperMethod.stopCountdownTimer();
                         ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
-                        LoginFragment loginFragment = new LoginFragment();
-                        HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
+                        HelperMethod.startActivity(getActivity(), LoginActivity.class);
                     } else {
                         ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
@@ -118,7 +118,8 @@ public class ForgetPasswordStep2Fragment extends Fragment {
                     ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                 }
             });
-        }else if (rememberMy.getSaveState() == 2){
+        }else if
+        (rememberMy.getSaveState() == 2){
             APIServices.getNewPasswordRestaurant(code, newPassword, retryNewPassword).
                     enqueue(new Callback<com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.forgetpassword.newpassword.NewPassword>() {
                 @Override
@@ -128,8 +129,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
                         HelperMethod.stopCountdownTimer();
                         ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
-                        LoginFragment loginFragment = new LoginFragment();
-                        HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
+                        HelperMethod.startActivity(getActivity(), LoginActivity.class);
                     } else {
                         ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();

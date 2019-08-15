@@ -10,13 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
-import com.example.sofraapp.app.helper.RememberMy;
-import com.google.android.material.textfield.TextInputEditText;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +20,15 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.client.cycleClient.profile.editprofile.EditProfile;
+import com.example.sofraapp.app.data.model.client.cycleClient.profile.getuserprofile.DataGetUserProfile;
 import com.example.sofraapp.app.data.model.client.cycleClient.profile.getuserprofile.GetUserProfile;
 import com.example.sofraapp.app.data.model.general.cities.Cities;
 import com.example.sofraapp.app.data.model.general.cities.Data2Cities;
@@ -36,7 +36,8 @@ import com.example.sofraapp.app.data.model.general.regions.Data2Regions;
 import com.example.sofraapp.app.data.model.general.regions.Regions;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.helper.RememberMy;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +52,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
@@ -84,15 +84,14 @@ public class EditProfileUserFragment extends Fragment {
     ProgressBar EditProfileUserFragmentProgressBar;
     Unbinder unbinder;
     // private static final int PICK_FROM_GALLERY = 2;
+    private DataGetUserProfile getUserProfile;
     private static final int GALARY = 0;
     private static final int CAMIRA = 1;
     private APIServices apiServices;
+    private ArrayList<Integer> IdsHay = new ArrayList<>();
     Bitmap bitmap;
     String getResult;
-    int IDPosition;
-    ArrayList<String> strings = new ArrayList<>();
-    final ArrayList<Integer> IdsCity = new ArrayList<>();
-    final ArrayList<Integer> IdsHay = new ArrayList<>();
+    Integer IDPosition;
     Integer positionHay;
     boolean check_network;
     RememberMy rememberMy;
@@ -117,19 +116,22 @@ public class EditProfileUserFragment extends Fragment {
         apiServices.getUserProfile(rememberMy.getAPIKey()).enqueue(new Callback<GetUserProfile>() {
             @Override
             public void onResponse(Call<GetUserProfile> call, Response<GetUserProfile> response) {
-                GetUserProfile getUserProfile = response.body();
+                GetUserProfile getUser = response.body();
+                getUserProfile = getUser.getData();
                 try {
-                    if (getUserProfile.getStatus() == 1) {
+                    if (getUser.getStatus() == 1) {
                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
-                        EditProfileUserFragmentTietDescribeHome.setText(getUserProfile.getData().getClient().getAddress());
-                        EditProfileUserFragmentTietEmail.setText(getUserProfile.getData().getClient().getEmail());
-                        EditProfileUserFragmentTietName.setText(getUserProfile.getData().getClient().getName());
-                        EditProfileUserFragmentTietPhone.setText(getUserProfile.getData().getClient().getPhone());
-                        EditProfileUserFragmentSPCity.setSelection(getUserProfile.getData().getClient().getRegion().getId());
-                        EditProfileUserFragmentSPHay.setSelection(getUserProfile.getData().getClient().getRegion().getCity().getId());
+                        EditProfileUserFragmentTietDescribeHome.setText(getUserProfile.getClient().getAddress());
+                        EditProfileUserFragmentTietEmail.setText(getUserProfile.getClient().getEmail());
+                        EditProfileUserFragmentTietName.setText(getUserProfile.getClient().getName());
+                        EditProfileUserFragmentTietPhone.setText(getUserProfile.getClient().getPhone());
+                        getCity();
+                        Glide.with(getActivity()).load(getUserProfile.getClient().getProfilePath())
+                                .placeholder(R.drawable.alarms)
+                                .into(EditProfileUserFragmentIMAddPhoto);
                     } else {
                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), getUserProfile.getMsg(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getUser.getMsg(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
@@ -145,13 +147,20 @@ public class EditProfileUserFragment extends Fragment {
         });
 
 
+        return view;
+    }
+
+    private void getCity() {
         final Call<Cities> citiesCall = apiServices.getCities();
+        ArrayList<String> strings = new ArrayList<>();
+        final ArrayList<Integer> IdsCity = new ArrayList<>();
         citiesCall.enqueue(new Callback<Cities>() {
             @Override
             public void onResponse(Call<Cities> call, Response<Cities> response) {
                 Cities cities = response.body();
                 if (cities.getStatus() == 1) {
                     try {
+                        int pio = 0;
                         strings.add(getString(R.string.select_city));
                         IdsCity.add(0);
                         List<Data2Cities> citiesList = cities.getData().getData();
@@ -160,8 +169,13 @@ public class EditProfileUserFragment extends Fragment {
                             strings.add(getResult);
                             IDPosition = citiesList.get(i).getId();
                             IdsCity.add(IDPosition);
+                            if (getUserProfile.getClient().getRegion().getCity().getId().equals(citiesList.get(i).getId())) {
+                                pio = i + 1;
+
+                            }
                         }
                         HelperMethod.showGovernorates(strings, getActivity(), EditProfileUserFragmentSPCity);
+                        EditProfileUserFragmentSPCity.setSelection(pio);
                         EditProfileUserFragmentSPCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -189,7 +203,6 @@ public class EditProfileUserFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     private void getHay(int getIdCity) {
@@ -198,11 +211,13 @@ public class EditProfileUserFragment extends Fragment {
         regionsCall.enqueue(new Callback<Regions>() {
             @Override
             public void onResponse(Call<Regions> call, Response<Regions> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
                 Regions regions = response.body();
                 if (regions.getStatus() == 1) {
                     try {
+                        String getResult;
+                        ArrayList<String> strings = new ArrayList<>();
+                        int pio = 0;
+                        IdsHay = new ArrayList<>();
                         strings.add(getString(R.string.select_hay));
                         IdsHay.add(0);
                         List<Data2Regions> data2RegionsList = regions.getData().getData();
@@ -211,8 +226,22 @@ public class EditProfileUserFragment extends Fragment {
                             strings.add(getResult);
                             positionHay = data2RegionsList.get(i).getId();
                             IdsHay.add(positionHay);
+                            if (getUserProfile.getClient().getRegion().getId().equals(data2RegionsList.get(i).getId())) {
+                                pio = i + 1;
+                            }
                         }
                         HelperMethod.showGovernorates(strings, getActivity(), EditProfileUserFragmentSPHay);
+                        EditProfileUserFragmentSPHay.setSelection(pio);
+                        EditProfileUserFragmentSPHay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -258,8 +287,8 @@ public class EditProfileUserFragment extends Fragment {
                 if (check_network == false) {
                     return;
                 }
-            //    if (EditProfileUserFragmentIMAddPhoto.getDrawable() == null) {
-              //      Toast.makeText(getActivity(), getString(R.string.error_image), Toast.LENGTH_LONG).show();
+                //    if (EditProfileUserFragmentIMAddPhoto.getDrawable() == null) {
+                //      Toast.makeText(getActivity(), getString(R.string.error_image), Toast.LENGTH_LONG).show();
                 //    return;
                 //}
                 String name = EditProfileUserFragmentTietName.getText().toString().trim();
@@ -273,11 +302,12 @@ public class EditProfileUserFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (IdsHay.isEmpty()) {
+
+                int hayId = IdsHay.get(EditProfileUserFragmentSPHay.getSelectedItemPosition());
+                if (hayId <= 0) {
                     Toast.makeText(getActivity(), getString(R.string.select_elhay), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                int hayId = IdsHay.get(EditProfileUserFragmentSPHay.getSelectedItemPosition());
                 apiServices = getRetrofit().create(APIServices.class);
                 EditProfileUserFragmentProgressBar.setVisibility(View.VISIBLE);
                 EditProfileUserFragmentBtEdit.setVisibility(View.INVISIBLE);
@@ -293,14 +323,14 @@ public class EditProfileUserFragment extends Fragment {
                                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
                                         EditProfileUserFragmentBtEdit.setVisibility(View.VISIBLE);
                                         LoginFragment loginFragment = new LoginFragment();
-                                        HelperMethod.replece(loginFragment,getActivity().getSupportFragmentManager(),R.id.Cycle_Home_contener,
-                                                toolbar,getString(R.string.login));
+                                        HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener,
+                                                toolbar, getString(R.string.login));
                                     } else {
                                         Toast.makeText(getActivity(), profile.getMsg(), Toast.LENGTH_SHORT).show();
                                         EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
                                         EditProfileUserFragmentBtEdit.setVisibility(View.VISIBLE);
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                     EditProfileUserFragmentProgressBar.setVisibility(View.GONE);
                                     EditProfileUserFragmentBtEdit.setVisibility(View.VISIBLE);

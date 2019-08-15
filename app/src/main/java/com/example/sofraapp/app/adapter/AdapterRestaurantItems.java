@@ -1,70 +1,67 @@
 package com.example.sofraapp.app.adapter;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.model.general.restaurantitems.Data2RestaurantItems;
-import com.example.sofraapp.app.helper.Model;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
+import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.RememberMy;
+import com.example.sofraapp.app.ui.fragment.client.order.DetailesOrderFragment;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
+
 public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaurantItems.AdapterRestaurantItemsViewHolder> {
+
 
     private ArrayList<Data2RestaurantItems> data2RestaurantItemsArrayList = new ArrayList<>();
     private Context context;
-    private showDetial mListener;
-    private delete deleteListener;
-    private edit editListener;
-    private SaveData saveData;
-    private Model model;
+    private RememberMy saveData;
+    View view;
+    private Data2Restaurants data2Restaurants;
+    Data2RestaurantItems currentRstaurantItem;
 
-
-    public AdapterRestaurantItems(Context context, ArrayList<Data2RestaurantItems> restaurantItems, showDetial mListener,
-                                  delete deleteListener, edit editListener,SaveData saveData) {
+    public AdapterRestaurantItems(Context context, ArrayList<Data2RestaurantItems> restaurantItems, Data2Restaurants data2Restaurants) {
         this.context = context;
         this.data2RestaurantItemsArrayList = restaurantItems;
-        this.mListener = mListener;
-        this.deleteListener = deleteListener;
-        this.editListener = editListener;
-        this.saveData = saveData;
+        saveData = new RememberMy(context);
+        this.data2Restaurants = data2Restaurants;
     }
 
     @NonNull
     @Override
     public AdapterRestaurantItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_restaurant_items, viewGroup, false);
+        view = LayoutInflater.from(context).inflate(R.layout.custom_restaurant_items, viewGroup, false);
         final AdapterRestaurantItemsViewHolder adapterRestaurantItemsViewHolder = new AdapterRestaurantItemsViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = adapterRestaurantItemsViewHolder.getAdapterPosition();
-                Data2RestaurantItems data2Posts = data2RestaurantItemsArrayList.get(position);
-                if (mListener != null) mListener.itemShowDetail(data2Posts);
-            }
-        });
         return adapterRestaurantItemsViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final AdapterRestaurantItemsViewHolder holder, int position) {
-        Data2RestaurantItems currentRstaurantItem = data2RestaurantItemsArrayList.get(position);
+        setSwipe(holder, position);
+         currentRstaurantItem = data2RestaurantItemsArrayList.get(position);
         Glide.with(context)
                 .load(currentRstaurantItem.getPhotoUrl())
                 .into(holder.AdapterRestaurantItemsIMShowImage);
@@ -73,13 +70,21 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
         holder.AdapterRestaurantItemsTVShowTypes.setText(currentRstaurantItem.getDescription());
 
 
+    }
 
-     /*   if (saveData.getSave_state() == 2){
+    private void setSwipe(AdapterRestaurantItemsViewHolder holder, int position) {
+        if (saveData.getSaveState() == 2) {
+            holder.editBt.setVisibility(View.VISIBLE);
+            holder.deleteBt.setVisibility(View.VISIBLE);
             holder.swipe.setShowMode(SwipeLayout.ShowMode.PullOut);
-            holder.swipe.addDrag(SwipeLayout.DragEdge.Left,holder.swipe.findViewById(R.id.cardView_background));
+            holder.swipe.addDrag(SwipeLayout.DragEdge.Right, holder.swipe.findViewById(R.id.cardView_background));
             holder.swipe.addSwipeListener(new SwipeLayout.SwipeListener() {
+                int pos;
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
+                    pos = position;
+
+                   // Toast.makeText(context, "pos" + pos, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -90,10 +95,12 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
                 @Override
                 public void onStartClose(SwipeLayout layout) {
 
+
                 }
 
                 @Override
                 public void onClose(SwipeLayout layout) {
+
 
                 }
 
@@ -107,9 +114,41 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
 
                 }
             });
-        }*/
+
+            holder.editBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            holder.deleteBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        } else {
+            holder.editBt.setVisibility(View.GONE);
+            holder.deleteBt.setVisibility(View.GONE);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = holder.getAdapterPosition();
+                    Data2RestaurantItems data2Posts = data2RestaurantItemsArrayList.get(position);
+                    DetailesOrderFragment detailesOrderFragment = new DetailesOrderFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("food", new Gson().toJson(data2Posts));
+                    bundle.putString("dev", new Gson().toJson(data2Restaurants));
+                    detailesOrderFragment.setArguments(bundle);
+                    HelperMethod.replece(detailesOrderFragment, ((AppCompatActivity) context).getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar,
+                            data2Posts.getName());
+                }
+            });
 
 
+        }
     }
 
     @Override
@@ -124,6 +163,7 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipe;
     }
+
     public class AdapterRestaurantItemsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.Adapter_Restaurant_Items_IM_Show_Image)
         ImageView AdapterRestaurantItemsIMShowImage;
@@ -139,19 +179,21 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
         public CardView cardViewBackground;
         @BindView(R.id.cardView_foreground)
         public CardView cardViewForeground;
+
+        @BindView(R.id.swipe)
+        SwipeLayout swipe;
         @BindView(R.id.delete_Bt)
         Button deleteBt;
         @BindView(R.id.edit_Bt)
         Button editBt;
-        @BindView(R.id.swipe)
-        SwipeLayout swipe;
+
         private View view;
 
         public AdapterRestaurantItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
             ButterKnife.bind(this, view);
-            deleteBt.setOnClickListener(new View.OnClickListener() {
+       /*     deleteBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
@@ -166,7 +208,7 @@ public class AdapterRestaurantItems extends RecyclerSwipeAdapter<AdapterRestaura
                     Data2RestaurantItems data2Posts = data2RestaurantItemsArrayList.get(position);
                     if (editListener != null) editListener.editItem(data2Posts);
                 }
-            });
+            });*/
 
         }
     }

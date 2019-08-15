@@ -179,5 +179,32 @@
     <string name="elraghy">الراجحي: 0248514775444</string>
     <string name="elahly">الأهلى: 0248514775444</string>
     <string name="sofra">باسم مؤسسة سفرة</string>
+    <string name="quantity">الكمية</string>
+    <string name="cart">سلة الطلبات</string>
+    <string name="perform_order">تنفيذ الطلب</string>
+    <string name="add_more">إضافةالمزيد</string>
+    <string name="totally_sum">المجموع الكلي :</string>
+    <string name="detail_order">تفاصيل الطلب</string>
+    <string name="add_notes">إضافة ملاحظات</string>
+    <string name="address_delevery">عنوان التوصيل</string>
+    <string name="the_pay">الدفع</string>
+    <string name="cash">نقدا عند الاستلام</string>
+    <string name="payment">شبكة عند الاستلام</string>
+    <string name="price_totaly">المبلغ الإجمالي</string>
+    <string name="perform_pay">إتمام الشراء</string>
+    <string name="search">بحث</string>
+    <string name="shold_select">يجب اختيار المدينة ثم تحديد اسم المطعم</string>
+    <string name="alartStep1">العنصر في السلة من مطعم مختلف \n هل تريد مسح العنصر في السلة </string>
+    <string name="alartStep2">\n أم تريد استكمال العنصر الموجود في السلة  </string>
+    <string name="yes">نعم</string>
+    <string name="complete_order">إنهاء</string>
+    <string name="dismiss">dismis</string>
+    <string name="not_matched">كلمات المرور غير متطابقة</string>
+    <string name="select_one">يجب أختيار صنف واحد على الأقل من التصنيفات</string>
+    <string name="delivery_Period">فترة التوصيل</string>
+    <string name="save">حفظ</string>
+    <string name="name_offer">اسم العرض</string>
+    <string name="eidt_offer">تعديل العرض</string>
+    <string name="edit_product">تعديل المنتج</string>
 
 </resources>

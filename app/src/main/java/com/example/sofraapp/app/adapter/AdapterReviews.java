@@ -27,19 +27,26 @@ public class AdapterReviews extends ArrayAdapter<Data2Reviews> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View listItemView = convertView;
-        ViewHolder viewHolder ;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.custom_reviews, parent, false);
-        }
-        viewHolder = new ViewHolder(listItemView);
-
         Data2Reviews reviews = getItem(position);
+
+        ViewHolder viewHolder ;
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.custom_reviews, parent, false);
+            viewHolder = new ViewHolder(convertView);
+
+            //Cache the viewHolder object inside the fresh view
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
+        }
+
         viewHolder.AdapterReviewsNameReview.setText(reviews.getClient().getName());
         viewHolder.AdapterReviewsDateReview.setText(reviews.getUpdatedAt());
         viewHolder.AdapterReviewsDetaileReview.setText(reviews.getComment());
-        HelperMethod.getReating(Integer.parseInt(reviews.getRate()),viewHolder.AdapterReviewsRBRateReviews);
-        return listItemView;
+        HelperMethod.getReating(Integer.parseInt(reviews.getRate()), viewHolder.AdapterReviewsRBRateReviews);
+
+        return convertView;
     }
 
     static

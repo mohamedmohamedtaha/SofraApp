@@ -1,5 +1,6 @@
 package com.example.sofraapp.app.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -9,11 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.bumptech.glide.Glide;
 import com.example.sofraapp.R;
+import com.example.sofraapp.app.data.model.general.restaurantitems.Data2RestaurantItems;
+import com.example.sofraapp.app.data.model.general.restaurants.Data2Restaurants;
+import com.example.sofraapp.app.data.room.RoomDao;
+import com.example.sofraapp.app.data.room.RoomManger;
 import com.example.sofraapp.app.helper.DrawerLocker;
 import com.example.sofraapp.app.helper.HelperMethod;
+import com.example.sofraapp.app.helper.Model;
 import com.example.sofraapp.app.helper.RememberMy;
-import com.example.sofraapp.app.helper.SaveData;
+import com.example.sofraapp.app.ui.fragment.client.order.CartOrdersFragment;
 import com.example.sofraapp.app.ui.fragment.client.order.MyOrderAsUserFragment;
 import com.example.sofraapp.app.ui.fragment.client.userCycle.EditProfileUserFragment;
 import com.example.sofraapp.app.ui.fragment.client.userCycle.LoginFragment;
@@ -27,15 +42,18 @@ import com.example.sofraapp.app.ui.fragment.restaurant.foodItem.ProductMyFragmen
 import com.example.sofraapp.app.ui.fragment.restaurant.offers.MyOffersFragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.orders.OrdersAsRestaurantFragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.EditProfileRestuarantFragment;
+import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.RegisterAsRestaurantFragmentOne;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
 
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
+import static com.example.sofraapp.app.helper.HelperMethod.GET_MODEL;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
@@ -44,21 +62,57 @@ public class MainActivity extends AppCompatActivity
     RememberMy logout;
     private Boolean exitApp = false;
     ActionBarDrawerToggle toggle;
+    Model model;
+    private Fragment fragmentCurrent;
+    private Data2Restaurants data2Restaurants;
+    private List<Data2RestaurantItems> foodItems = new ArrayList<>();
+
+    private RoomDao roomDao;
+    private RoomManger roomManger;
+    private OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+    private OrdersAsRestaurantFragment ordersAsRestaurantFragment = new OrdersAsRestaurantFragment();
+    private ProductMyFragment productMyFragment = new ProductMyFragment();
+    private MyOrderAsUserFragment myOrderAsUSerFragment = new MyOrderAsUserFragment();
+    private LoginFragment loginFragment = new LoginFragment();
+    private ListNotificationFragment listNotificationFragment = new ListNotificationFragment();
+    private MyOffersFragment myOffersFragment = new MyOffersFragment();
+    private TaxsFragment taxsFragment = new TaxsFragment();
+    private AboutAppFragment aboutAppFragment = new AboutAppFragment();
+    private ContactUsFragment contactUsFragment = new ContactUsFragment();
+    private OffersFragment offersFragment = new OffersFragment();
+    private EditProfileUserFragment editProfileUserFragment = new EditProfileUserFragment();
+    private RegisterAsRestaurantFragmentOne editProfileRestuarantFragment = new RegisterAsRestaurantFragmentOne();
+
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         logout = new RememberMy(this);
+        model = getIntent().getParcelableExtra(GET_MODEL);
         setSupportActionBar(toolbar);
+        roomManger = RoomManger.getInstance(this);
+        roomDao = roomManger.roomDao();
+
+        //for redraw MenuItem again
+        invalidateOptionsMenu();
+
         if (logout.getSaveState() == 1) {
-            OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+            fragmentCurrent = orderFoodFragment;
             HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
         } else if (logout.getSaveState() == 2) {
-            ProductMyFragment productMyFragment = new ProductMyFragment();
-            HelperMethod.replece(productMyFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
-        } else {
+            if (logout.getAPIKey() != null){
+                fragmentCurrent = orderFoodFragment;
+                HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
+
+                // fragmentCurrent = productMyFragment;
+             //   HelperMethod.replece(productMyFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
+            }else {
+                HelperMethod.startActivity(getApplicationContext(),LoginActivity.class);
+                   }
+            } else {
             Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -72,28 +126,34 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         ImageView imageView = (ImageView) headerView.findViewById(R.id.IM_Ic_Settings);
         TextView textView_show_name = (TextView) headerView.findViewById(R.id.TV_Navigation_Bar_Name_User);
+        ImageView IM_Image_User = (ImageView)headerView.findViewById(R.id.IM_Image_User);
+
         if (logout.getNameUser() != null) {
             textView_show_name.setText(logout.getNameUser());
+            Glide.with(getApplicationContext())
+                    .load(logout.getProfilePath()).placeholder(R.drawable.no_image)
+                    .into(IM_Image_User);
         } else {
             textView_show_name.setText("");
+            Glide.with(getApplicationContext())
+                    .load(R.drawable.no_image)
+                    .into(IM_Image_User);
         }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (logout.getNameUser() != null) {
+                if (logout.getNameUser() != null ) {
                     if (logout.getSaveState() == 1) {
-                        EditProfileUserFragment editProfileUserFragment = new EditProfileUserFragment();
+                        fragmentCurrent = editProfileUserFragment;
                         HelperMethod.replece(editProfileUserFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.edit));
                         drawer.closeDrawer(GravityCompat.START);
                     } else {
-                        EditProfileRestuarantFragment editProfileRestuarantFragment = new EditProfileRestuarantFragment();
+                        fragmentCurrent = editProfileRestuarantFragment;
                         HelperMethod.replece(editProfileRestuarantFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.edit));
                         drawer.closeDrawer(GravityCompat.START);
                     }
                 } else {
-                    LoginFragment loginFragment = new LoginFragment();
-                    HelperMethod.replece(loginFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
-                    drawer.closeDrawer(GravityCompat.START);
+                    HelperMethod.startActivity(getApplicationContext(),LoginActivity.class);
                 }
             }
         });
@@ -125,7 +185,10 @@ public class MainActivity extends AppCompatActivity
         setDraweEnabled(true);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (fragments == 1) {
+        }else if (!fragmentCurrent.equals(orderFoodFragment)) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            HelperMethod.startActivity(getApplicationContext(), MainActivity.class);
+        }else if (fragments == 1) {
             if (exitApp) {
                 HelperMethod.closeApp(getApplicationContext());
                 return;
@@ -147,7 +210,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (logout.getSaveState() == 2){
+            menu.findItem(R.id.action_card).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -158,8 +230,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_card) {
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    CartOrdersFragment cartOrdersFragment = new CartOrdersFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("card", new Gson().toJson(roomDao.getAllItem()));
+                    bundle.putString("dev", new Gson().toJson(data2Restaurants));
+                    cartOrdersFragment.setArguments(bundle);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HelperMethod.replece(cartOrdersFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.cart));
+
+                        }
+                    });
+
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -172,44 +262,44 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.home_page:
-                OrderFoodFragment orderFoodFragment = new OrderFoodFragment();
+                fragmentCurrent = orderFoodFragment;
                 HelperMethod.replece(orderFoodFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
                 break;
             case R.id.my_orders:
                 if (logout.getSaveState() == 1) {
-                    MyOrderAsUserFragment myOrderAsUSerFragment = new MyOrderAsUserFragment();
+                    fragmentCurrent = myOrderAsUSerFragment;
                     HelperMethod.replece(myOrderAsUSerFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.my_orders));
                 } else {
-                    ProductMyFragment productMyFragment = new ProductMyFragment();
+                    fragmentCurrent = productMyFragment;
                     HelperMethod.replece(productMyFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.product_my));
                 }
                 break;
             case R.id.alarms:
                 if (logout.getSaveState() == 1) {
-                    ListNotificationFragment listNotificationFragment = new ListNotificationFragment();
+                    fragmentCurrent = listNotificationFragment;
                     HelperMethod.replece(listNotificationFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.notification));
                 } else {
-                    OrdersAsRestaurantFragment ordersAsRestaurantFragment = new OrdersAsRestaurantFragment();
+                    fragmentCurrent = ordersAsRestaurantFragment;
                     HelperMethod.replece(ordersAsRestaurantFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.order_previe));
                 }
                 break;
             case R.id.new_offers:
                 if (logout.getSaveState() == 1) {
-                    OffersFragment offersFragment = new OffersFragment();
+                    fragmentCurrent = offersFragment;
                     HelperMethod.replece(offersFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.new_offers));
                 } else {
-                    MyOffersFragment myOffersFragment = new MyOffersFragment();
+                    fragmentCurrent = myOffersFragment;
                     HelperMethod.replece(myOffersFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.my_offer));
 
                 }
                 break;
             case R.id.tax:
-                TaxsFragment taxsFragment = new TaxsFragment();
+                fragmentCurrent = taxsFragment;
                 HelperMethod.replece(taxsFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.tax));
 
                 break;
             case R.id.about_app:
-                AboutAppFragment aboutAppFragment = new AboutAppFragment();
+                fragmentCurrent = aboutAppFragment;
                 HelperMethod.replece(aboutAppFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.about_app));
                 break;
             case R.id.tearms:
@@ -217,20 +307,27 @@ public class MainActivity extends AppCompatActivity
             case R.id.share_app:
                 break;
             case R.id.connect_us:
-                ContactUsFragment contactUsFragment = new ContactUsFragment();
+                fragmentCurrent = contactUsFragment;
                 HelperMethod.replece(contactUsFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.connect_us));
                 break;
             default:
                 // R.id.log_out
                 if (logout.getAPIKey() != null) {
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    if (logout.getSaveState() == 1) {
+                        HelperMethod.getRemoveToken(this, token, "android", logout.getAPIKey(),
+                                1);
+                    } else {
+                        HelperMethod.getRemoveToken(this, token, "",logout.getAPIKey(),
+                                 2);
+                    }
+
                     logout.removeDateUser(this);
-                    LoginFragment loginFragment = new LoginFragment();
-                    HelperMethod.replece(loginFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
+                    HelperMethod.startActivity(MainActivity.this, SplashActivity.class);
                 } else {
-                    LoginFragment loginFragment = new LoginFragment();
-                    HelperMethod.replece(loginFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.login));
-                    drawer.closeDrawer(GravityCompat.START);
-                }
+                    HelperMethod.startActivity(getApplicationContext(),LoginActivity.class);
+
+                         }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

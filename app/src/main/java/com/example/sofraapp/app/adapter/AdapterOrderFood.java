@@ -89,19 +89,7 @@ public class AdapterOrderFood extends RecyclerView.Adapter<AdapterOrderFood.Orde
         }else {
             orderFood.TVIsOpen.setText(isAvailable);
         }
-        List<CategoryRestaurants> categoryRestaurants = restaurantsArrayList.get(position).getCategories();
-             /*   for(int i = 0; i<categoryRestaurants.size();i++){
-                    if (TextUtils.isEmpty(categoryRestaurants.get(position).getName())){
-                        orderFood.TVShowTypes.setText(R.string.no_data);
-
-                    }else {
-                        orderFood.TVShowTypes.setText(categoryRestaurants.get(position).getName());
-
-                    }
-
-                }*/
-
-    }
+       }
 
     @Override
     public int getItemCount() {
@@ -138,22 +126,3 @@ public class AdapterOrderFood extends RecyclerView.Adapter<AdapterOrderFood.Orde
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 
-package com.example.sofraapp.app.data.model.client.cycleClient.notifications;
+package com.example.sofraapp.app.data.model.client.cycleClient.notifications.listofnotifications;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

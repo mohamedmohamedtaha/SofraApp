@@ -115,6 +115,31 @@
     </style>
 
 
+    <!-- Customize your Image in Title Fragment. -->
+    <style name="ImageViewTitle">
+        <item name="android:layout_width">@dimen/dimens_6xl</item>
+        <item name="android:layout_height">@dimen/dimens_6xl</item>
+        <item name="android:src">@mipmap/logo</item>
+        <item name="android:layout_marginEnd">@dimen/dimens_s</item>
+        <item name="android:layout_marginBottom">@dimen/dimens_m</item>
+        <item name="android:layout_marginTop">@dimen/dimens_s</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+
+    </style>
+
+    <!-- Customize your Title Text in Title Fragment. -->
+    <style name="TextViewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/txt_size_m</item>
+        <item name="android:layout_marginEnd">@dimen/dimens_m</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_toLeftOf">@id/AddProductFragment_image_title</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 
 </resources>
 

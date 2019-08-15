@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:orientation="vertical"
     tools:context=".app.ui.fragment.restaurant.foodItem.AddProductFragment">
-    <ProgressBar
-        android:id="@+id/AddProductFragment_Progress_Bar"
-        style="@style/StyleProgressBar" />
-<LinearLayout
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_title">
+
+            <ImageView
+                android:id="@+id/AddProductFragment_image_title"
+                style="@style/ImageViewTitle" />
+
+            <TextView
+                android:id="@+id/AddProductFragment_TVTitleCategory"
+                style="@style/TextViewTitle"
+                android:text="@string/add_new_product" />
+        </RelativeLayout>
+
+=<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_below="@+id/relative"
     android:orientation="vertical">
     <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
 
@@ -81,4 +98,8 @@
         android:background="@color/colorButtonLogin"
         android:text="@string/add" />
 </LinearLayout>
+    <ProgressBar
+        android:id="@+id/AddProductFragment_Progress_Bar"
+        style="@style/StyleProgressBar" />
 </RelativeLayout>
+</ScrollView>

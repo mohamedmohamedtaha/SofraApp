@@ -13,11 +13,10 @@ import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.adapter.AdapterListNotification;
-import com.example.sofraapp.app.data.model.client.cycleClient.notifications.Data2Notifications;
-import com.example.sofraapp.app.data.model.client.cycleClient.notifications.Notifications;
+import com.example.sofraapp.app.data.model.client.cycleClient.notifications.listofnotifications.Data2Notifications;
+import com.example.sofraapp.app.data.model.client.cycleClient.notifications.listofnotifications.Notifications;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.RememberMy;
-import com.example.sofraapp.app.helper.SaveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-import static com.example.sofraapp.app.helper.HelperMethod.GET_DATA;
 
 /**
  * A simple {@link Fragment} subclass.

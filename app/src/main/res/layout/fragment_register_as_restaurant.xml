@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -70,20 +71,30 @@
                 android:hint="@string/email" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleEditText"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/recycler_view_item_swipe_right_background">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Password"
                 style="@style/StyleEditTextNull"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout style="@style/StyleEditText">
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleEditText"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/recycler_view_item_swipe_right_background">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterAsRestaurantFragmentOne_Retry_Password"
                 style="@style/StyleEditTextNull"
-                android:hint="@string/retry_password" />
+                android:hint="@string/retry_password"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
