@@ -6,16 +6,14 @@ public interface LoginContract {
 
     interface ViewLogin {
         void showProgress();
+        void goToMain();
 
         void hideProgress();
-
-        void showError(String message);
 
         void isEmpty();
 
         void showMessage(String message);
 
-        void allFieldRequered();
 
 
     }

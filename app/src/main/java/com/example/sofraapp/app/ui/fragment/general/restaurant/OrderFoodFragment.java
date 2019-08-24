@@ -23,6 +23,7 @@ import com.example.sofraapp.app.data.model.general.restaurants.Restaurants;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.OnEndless;
+import com.example.sofraapp.app.helper.library.dagger.daggerApp.MyApp;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,7 +43,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
@@ -63,7 +66,8 @@ public class OrderFoodFragment extends Fragment {
     Spinner OrderFoodFragmentSpCity;
     @BindView(R.id.OrderFoodFragment_Ll_Container)
     LinearLayout OrderFoodFragmentLlContainer;
-    private APIServices apiServices;
+    @Inject
+     APIServices apiServices;
     private ArrayList<Data2Restaurants> restaurantsArrayList = new ArrayList<>();
     private AdapterOrderFood adapterOrderFood;
     public static final String DETAILS_RESTUARANT = "details_restaurant";
@@ -85,7 +89,8 @@ public class OrderFoodFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_food, container, false);
         unbinder = ButterKnife.bind(this, view);
         //restaurantsArrayList.clear();
-        apiServices = getRetrofit().create(APIServices.class);
+        MyApp.getInstance().getLApiComponent().inject(this);
+        //apiServices = getRetrofit().create(APIServices.class);
         //PBLoadingIndicator.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         OrderFoodFragmentRecyclerView.setHasFixedSize(true);

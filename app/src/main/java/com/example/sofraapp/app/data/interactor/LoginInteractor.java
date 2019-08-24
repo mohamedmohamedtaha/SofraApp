@@ -8,27 +8,33 @@ import com.example.sofraapp.app.data.contract.LoginContract;
 import com.example.sofraapp.app.data.model.client.cycleClient.loginclient.LoginClient;
 import com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.cyclelogin.login.Login;
 import com.example.sofraapp.app.data.rest.APIServices;
+import com.example.sofraapp.app.helper.library.dagger.scope.ApiScope;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
-import com.example.sofraapp.app.ui.activity.MainActivity;
+import com.example.sofraapp.app.helper.library.dagger.daggerApp.MyApp;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
-
+@ApiScope
 public class LoginInteractor implements LoginContract.PresenterLogin {
     private LoginContract.ViewLogin viewLogin;
     private RememberMy rememberMy;
     private Context context;
-    private APIServices APIServices;
+    @Inject
+     APIServices APIServices;
 
     public LoginInteractor(Context context) {
         this.context = context;
         rememberMy = new RememberMy(context);
-        APIServices = getRetrofit().create(APIServices.class);
+       // ((MyApp)context.getApplicationContext()).getLApiComponent().inject(this);
+       // MyApp.getLApiComponent().inject(this);
+        MyApp.getInstance().getLApiComponent().inject(this);
+
+
     }
 
     @Override
@@ -47,7 +53,7 @@ public class LoginInteractor implements LoginContract.PresenterLogin {
             , CheckBox LoginFragmentCBRemeberMy) {
 
         if (email.isEmpty() || password.isEmpty()) {
-            viewLogin.allFieldRequered();
+            viewLogin.isEmpty();
             return;
         } else {
             if (rememberMy.getSaveState() == 1) {
@@ -72,7 +78,7 @@ public class LoginInteractor implements LoginContract.PresenterLogin {
                                 if (LoginFragmentCBRemeberMy.isChecked()) {
                                     rememberMy.saveDateUser(email, password, loginClient.getData().getApiToken());
                                 }
-                                HelperMethod.startActivity(context, MainActivity.class);
+                                viewLogin.goToMain();
                                 viewLogin.showMessage(loginClient.getMsg());
                                 viewLogin.hideProgress();
                             } else {
@@ -115,7 +121,7 @@ public class LoginInteractor implements LoginContract.PresenterLogin {
                                 if (LoginFragmentCBRemeberMy.isChecked()) {
                                     rememberMy.saveDateUser(email, password, loginRestaurant.getData().getApiToken());
                                 }
-                                HelperMethod.startActivity(context, MainActivity.class);
+                                viewLogin.goToMain();
                                 viewLogin.hideProgress();
                                 viewLogin.showMessage(loginRestaurant.getMsg());
                             } else {

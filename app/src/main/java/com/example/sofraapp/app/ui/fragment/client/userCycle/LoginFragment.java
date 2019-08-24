@@ -2,7 +2,6 @@ package com.example.sofraapp.app.ui.fragment.client.userCycle;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,31 +13,26 @@ import android.widget.Toast;
 
 import com.example.sofraapp.R;
 import com.example.sofraapp.app.data.contract.LoginContract;
-import com.example.sofraapp.app.data.model.client.cycleClient.loginclient.LoginClient;
-import com.example.sofraapp.app.data.model.restaurant.cycleRestaurant.cyclelogin.login.Login;
 import com.example.sofraapp.app.data.rest.APIServices;
 import com.example.sofraapp.app.helper.HelperMethod;
 import com.example.sofraapp.app.helper.RememberMy;
+import com.example.sofraapp.app.helper.library.dagger.daggerApp.MyApp;
 import com.example.sofraapp.app.ui.activity.MainActivity;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.ForgetPasswordAsRestaurantStep1Fragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.RegisterAsRestaurantFragmentOne;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.fragment.app.Fragment;
+
+import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.sofraapp.app.data.rest.RetrofitClient.getRetrofit;
 import static com.example.sofraapp.app.ui.activity.LoginActivity.toolbar_Login;
-import static com.example.sofraapp.app.ui.activity.MainActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,15 +53,24 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
     @BindView(R.id.LoginFragment_Cretae_New_User)
     Button LoginFragmentCretaeNewUser;
     @BindString(R.string.filed_request)String required;
+
     Unbinder unbinder;
     private static APIServices APIServices;
     RememberMy remeberMy;
     String email;
     String password;
+    @Inject
+    LoginContract.PresenterLogin presenterLogin ;
 
 
     public LoginFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenterLogin.setView(this);
     }
 
     @Override
@@ -78,16 +81,19 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
         unbinder = ButterKnife.bind(this, view);
         //for check if the user in login or not
         remeberMy = new RememberMy(getActivity());
+        MyApp.getInstance().getLoginComponent().inject(this);
+
+        //((MyApp)getActivity().getApplication()).getLoginComponent().inject(this);
         if (remeberMy.isRemember()) {
             HelperMethod.startActivity(getActivity(), MainActivity.class);
         }
         return view;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        presenterLogin.onDestroy();
     }
 
     @OnClick({R.id.LoginFragment_CB_Remeber_My, R.id.LoginFragment_BT_Login, R.id.LoginFragment_TV_Forget_Password, R.id.LoginFragment_Cretae_New_User})
@@ -101,100 +107,7 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
 
                 email = LoginFragmentEmail.getText().toString().trim();
                 password = LoginFragmentPassword.getText().toString().trim();
-                
-                APIServices = getRetrofit().create(APIServices.class);
-                if (email.isEmpty() || password.isEmpty()) {
-                    LoginFragmentEmail.setError(getString(R.string.filed_request));
-                    return;
-                } else {
-                    if (remeberMy.getSaveState() == 1) {
-                        LoginFragmentProgressBar.setVisibility(View.VISIBLE);
-                        Call<LoginClient> loginCall = APIServices.getLogin(email, password);
-                        loginCall.enqueue(new Callback<LoginClient>() {
-                            @Override
-                            public void onResponse(Call<LoginClient> call, Response<LoginClient> response) {
-                                try {
-                                    LoginClient loginClient = response.body();
-                                    if (loginClient.getStatus() == 1) {
-                                        remeberMy.saveDateUserTwo(loginClient.getData().getClient().getName(),
-                                                loginClient.getData().getClient().getPhone(),
-                                                loginClient.getData().getClient().getEmail(),
-                                                loginClient.getData().getClient().getAddress(),
-                                                loginClient.getData().getApiToken(),loginClient.getData().getClient().getProfilePath(),password);
-
-                                        String token = FirebaseInstanceId.getInstance().getToken();
-                                        HelperMethod.getRegisterToken(getActivity(), token, loginClient.getData().getApiToken(),
-                                                "android", 1);
-                                        Log.i("API Key : ",loginClient.getData().getApiToken() );
-
-                                        if (LoginFragmentCBRemeberMy.isChecked()) {
-                                            remeberMy.saveDateUser(email, password, loginClient.getData().getApiToken());
-                                        }
-                                        HelperMethod.startActivity(getActivity(), MainActivity.class);
-                                        Toast.makeText(getActivity(), loginClient.getMsg(), Toast.LENGTH_LONG).show();
-                                        LoginFragmentProgressBar.setVisibility(View.GONE);
-                                    } else {
-                                        Toast.makeText(getActivity(), loginClient.getMsg(), Toast.LENGTH_LONG).show();
-                                        LoginFragmentProgressBar.setVisibility(View.GONE);
-                                    }
-
-                                } catch (Exception e) {
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                    LoginFragmentProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<LoginClient> call, Throwable t) {
-                                LoginFragmentProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        LoginFragmentProgressBar.setVisibility(View.VISIBLE);
-                        Call<Login> loginCall = APIServices.getLoginRestaurant(email, password);
-                        loginCall.enqueue(new Callback<Login>() {
-                            @Override
-                            public void onResponse(Call<Login> call, Response<Login> response) {
-                                try {
-                                    Login loginRestaurant = response.body();
-                                    if (loginRestaurant.getStatus() == 1) {
-                                        remeberMy.saveDateUserTwo(loginRestaurant.getData().getUser().getName(),
-                                                loginRestaurant.getData().getUser().getPhone(),
-                                                loginRestaurant.getData().getUser().getEmail(),
-                                                loginRestaurant.getData().getUser().getActivated(),
-                                                loginRestaurant.getData().getApiToken(),
-                                                loginRestaurant.getData().getUser().getPhotoUrl(),password);
-                                        Log.i("API Key : ",loginRestaurant.getData().getApiToken() );
-
-                                        String token = FirebaseInstanceId.getInstance().getToken();
-                                        HelperMethod.getRegisterToken(getActivity(), token, loginRestaurant.getData().getApiToken(),
-                                                "android", 2);
-                                        if (LoginFragmentCBRemeberMy.isChecked()) {
-                                            remeberMy.saveDateUser(email, password, loginRestaurant.getData().getApiToken());
-                                        }
-                                        HelperMethod.startActivity(getActivity(), MainActivity.class);
-                                        Toast.makeText(getActivity(), loginRestaurant.getMsg(), Toast.LENGTH_LONG).show();
-                                        LoginFragmentProgressBar.setVisibility(View.GONE);
-                                    } else {
-                                        Toast.makeText(getActivity(), loginRestaurant.getMsg(), Toast.LENGTH_LONG).show();
-                                        LoginFragmentProgressBar.setVisibility(View.GONE);
-                                    }
-
-                                } catch (Exception e) {
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                    LoginFragmentProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Login> call, Throwable t) {
-                                LoginFragmentProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                }
+                presenterLogin.setLogin(email,password,LoginFragmentCBRemeberMy);
                 break;
             case R.id.LoginFragment_TV_Forget_Password:
                 if (remeberMy.getSaveState() == 1) {
@@ -232,29 +145,26 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
     }
 
     @Override
+    public void goToMain() {
+        HelperMethod.startActivity(getActivity(), MainActivity.class);
+
+    }
+
+    @Override
     public void hideProgress() {
         LoginFragmentProgressBar.setVisibility(View.GONE);
 
     }
 
     @Override
-    public void showError(String message) {
-
-
-    }
-
-    @Override
     public void isEmpty() {
-
+        Toast.makeText(getActivity(), required, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
     }
 
-    @Override
-    public void allFieldRequered() {
-
-    }
 }
