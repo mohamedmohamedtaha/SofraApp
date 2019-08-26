@@ -1,6 +1,10 @@
 package com.example.sofraapp.app.helper.library.dagger.daggerApp;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import androidx.annotation.Nullable;
 
 import com.example.sofraapp.app.helper.library.dagger.scope.ForApplication;
 
@@ -11,7 +15,7 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-    private  Context context;
+    private static Context context;
 
     public AppModule(Context context) {
         this.context = context;
@@ -23,7 +27,7 @@ public class AppModule {
      */
     @Provides
     @Singleton
-    public Context provideApplicationContext(){
+    public Context provideApplicationContext() {
         return context;
     }
 }

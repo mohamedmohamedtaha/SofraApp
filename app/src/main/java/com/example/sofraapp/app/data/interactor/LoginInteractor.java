@@ -33,8 +33,6 @@ public class LoginInteractor implements LoginContract.PresenterLogin {
        // ((MyApp)context.getApplicationContext()).getLApiComponent().inject(this);
        // MyApp.getLApiComponent().inject(this);
         MyApp.getInstance().getLApiComponent().inject(this);
-
-
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.example.sofraapp.app.ui.fragment.client.userCycle;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.example.sofraapp.app.helper.library.dagger.daggerApp.MyApp;
 import com.example.sofraapp.app.ui.activity.MainActivity;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.ForgetPasswordAsRestaurantStep1Fragment;
 import com.example.sofraapp.app.ui.fragment.restaurant.restaurantCycle.RegisterAsRestaurantFragmentOne;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.fragment.app.Fragment;
@@ -55,12 +59,13 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
     @BindString(R.string.filed_request)String required;
 
     Unbinder unbinder;
-    private static APIServices APIServices;
     RememberMy remeberMy;
     String email;
     String password;
     @Inject
     LoginContract.PresenterLogin presenterLogin ;
+    @Inject
+    ConnectivityManager connectivityManager;
 
 
     public LoginFragment() {
@@ -96,9 +101,20 @@ public class LoginFragment extends Fragment implements LoginContract.ViewLogin {
         presenterLogin.onDestroy();
     }
 
+    // This method for check Do the internet is available or not ?
+     boolean isNetworkConnected(Context context, View view) {
+        NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected()) {
+            return true;
+        } else {
+            Snackbar.make(view, context.getString(R.string.no_internet), Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
     @OnClick({R.id.LoginFragment_CB_Remeber_My, R.id.LoginFragment_BT_Login, R.id.LoginFragment_TV_Forget_Password, R.id.LoginFragment_Cretae_New_User})
     public void onViewClicked(View view) {
-        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        boolean check_network = isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
             return;
         }

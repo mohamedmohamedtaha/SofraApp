@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     Model model;
     private Fragment fragmentCurrent;
+    private int currentMenuItem;
     private Data2Restaurants data2Restaurants;
     private List<Data2RestaurantItems> foodItems = new ArrayList<>();
 
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         roomManger = RoomManger.getInstance(this);
         roomDao = roomManger.roomDao();
+        currentMenuItem = R.id.home_page;
 
         //for redraw MenuItem again
         invalidateOptionsMenu();
@@ -181,8 +183,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        int fragments = getSupportFragmentManager().getBackStackEntryCount();
-        setDraweEnabled(true);
+       int fragments = getSupportFragmentManager().getBackStackEntryCount();
+      //  setDraweEnabled(true);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else if (!fragmentCurrent.equals(orderFoodFragment)) {
@@ -258,8 +260,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragmentSelected = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == currentMenuItem){
+            drawer.closeDrawer(GravityCompat.START);
+            return false;
+
+        }
         switch (id) {
             case R.id.home_page:
                 fragmentCurrent = orderFoodFragment;
